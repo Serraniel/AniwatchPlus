@@ -15,6 +15,15 @@
           "utils/aniwatchCore.js"
         ],
         "run_at": "document_start"
+      },
+      {
+        "matches": [
+          "*://aniwatch.me/requests"
+        ],
+        "js": [
+          "enhancements/animeRequests.js"
+        ],
+        "run_at": "document_end"
       }
     ]
   }
