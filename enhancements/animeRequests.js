@@ -16,7 +16,6 @@ function initScripts() {
 
 function runScripts() {
     scripts.forEach(script => script());
-    console.log("DDS")
 }
 
 function changeFollowedStarColor() {
