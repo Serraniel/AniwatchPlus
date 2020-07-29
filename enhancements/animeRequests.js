@@ -5,7 +5,7 @@ registerScript(node => {
         changeBorderColor(node);
         removeUnknownUsers(node);
     }
-});
+}, "/requests");
 
 function changeFollowedStarColor(node) {
     const starIcon = 'star';
