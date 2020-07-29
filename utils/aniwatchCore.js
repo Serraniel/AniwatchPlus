@@ -1,11 +1,15 @@
 let __scripts = [];
 
-function registerScript(func) {
-    __scripts.push(func);
+function registerScript(func, pattern = '.*') {
+    __scripts.push({ "function": func, "pattern": pattern });
 }
 
 function runScripts(node) {
-    __scripts.forEach(script => script(node));
+    __scripts.forEach(script => {
+        if (window.location.pathname.match(script.pattern)) {
+            script.function(node);
+        }
+    });
 }
 
 let observer = new MutationObserver(mutations => {
