@@ -46,12 +46,28 @@ function removeUnknownUsers(node) {
     const targetTagName = 'MD-LIST-ITEM'; // tagName is upper case
 
     let updateFunc = item => {
+        // find user profile link -> own request
+        let profileLink = item.querySelectorAll('a[href*="/profile/"]:not([href="/profile/false"])');
+
+        // find divs
         let upperDiv = node.querySelector('[layout-align="start center"][flex]')
         let lowerDiv = upperDiv.parentElement.nextElementSibling;
 
+        // remember Data
         let anime = lowerDiv.innerText;
+        let profileData = upperDiv.innerHTML;
+
+        // exchange data
         upperDiv.innerHTML = `<b>${anime}</b>`;
-        lowerDiv.innerHTML = '&nbsp;';
+
+        // add user note if own request
+        if (profileLink.length > 0) {
+            lowerDiv.innerHTML = profileData;
+        }
+        // remove if foreign request.
+        else {
+            lowerDiv.innerHTML = '&nbsp;';
+        }
     }
 
     if (node.tagName === targetTagName) {
