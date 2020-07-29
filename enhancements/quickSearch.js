@@ -1,4 +1,4 @@
-registerScript(node => {
+runAfterLoad(() => {
     initSearch();
 }, ".*");
 
