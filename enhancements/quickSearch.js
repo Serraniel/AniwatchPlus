@@ -17,6 +17,7 @@ function initSearch() {
 
     entry.appendChild(quickSearchElement);
 
+    // Aniwatch CSS requires the search input to be in some kind of known menu container
     let dummyNode = document.createElement('a');
     dummyNode.appendChild(quickSearchElement);
     entry.appendChild(dummyNode);
