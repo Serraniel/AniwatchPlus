@@ -23,7 +23,7 @@
               "js": [
                   "enhancements/quickSearch.js",
                   "enhancements/animeRequests.js",
-				  "enhancements/notifications.js"
+                  "enhancements/notifications.js"
               ],
               "run_at": "document_end"
           }
