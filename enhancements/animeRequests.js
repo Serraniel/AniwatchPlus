@@ -3,6 +3,7 @@ registerScript(node => {
     if (isHtmlElement(node)) {
         changeFollowedStarColor(node);
         changeOwnBorderColor(node);
+        removeUnknownUsers(node);
     }
 });
 
@@ -28,6 +29,31 @@ function changeOwnBorderColor(node) {
     }
 
     // are we target tag?
+    if (node.tagName === targetTagName) {
+        updateFunc(node);
+    } else {
+        // find items -> all 
+        let requestItems = node.querySelectorAll('md-list-item');
+
+        // change border color if profile link is not 'false'
+        requestItems.forEach(item => {
+            updateFunc(item);
+        });
+    }
+}
+
+function removeUnknownUsers(node) {
+    const targetTagName = 'MD-LIST-ITEM'; // tagName is upper case
+
+    let updateFunc = item => {
+        let upperDiv = node.querySelector('[layout-align="start center"][flex]')
+        let lowerDiv = upperDiv.parentElement.nextElementSibling;
+
+        let anime = lowerDiv.innerText;
+        upperDiv.innerHTML = `<b>${anime}</b>`;
+        lowerDiv.innerHTML = '&nbsp;';
+    }
+
     if (node.tagName === targetTagName) {
         updateFunc(node);
     } else {
