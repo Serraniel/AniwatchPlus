@@ -1,21 +1,16 @@
 const starIcon = "star";
-const scripts = [
-    changeFollowedStarColor,
-    changeOwnBorderColor,
-]
 
-executeAfterPreload(initScripts);
-
-function initScripts() {
+registerScript(() => {
     // run the scripts
-    runScripts();
+    handleListAfterLoad();
 
     // because of late loading in the request list we have to run the codes each time the list changes
-    document.querySelector("md-list").addEventListener("DOMNodeInserted", event => runScripts(event), false);
-}
+    //document.querySelector("md-list").addEventListener("DOMNodeInserted", event => handleListAfterLoad(event), false);
+});
 
-function runScripts() {
-    scripts.forEach(script => script());
+function handleListAfterLoad() {
+    changeFollowedStarColor();
+    changeOwnBorderColor();
 }
 
 function changeFollowedStarColor() {

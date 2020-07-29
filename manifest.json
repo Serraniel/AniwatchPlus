@@ -18,7 +18,7 @@
       },
       {
         "matches": [
-          "*://aniwatch.me/requests"
+          "*://aniwatch.me/*"
         ],
         "js": [
           "enhancements/animeRequests.js"
