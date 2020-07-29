@@ -1,4 +1,5 @@
 const quickSearchID = 'ea-quickSearch';
+const quickSearchLink = 'ea-quickSearchLink';
 
 runAfterLoad(() => {
     initSearch();
@@ -22,9 +23,10 @@ function initSearch() {
     entry.appendChild(quickSearchElement);
 
     // Aniwatch CSS requires the search input to be in some kind of known menu container
-    let dummyNode = document.createElement('a');
-    dummyNode.appendChild(quickSearchElement);
-    entry.appendChild(dummyNode);
+    let linkElement = document.createElement('a');
+    linkElement.appendChild(quickSearchElement);
+    linkElement.id = quickSearchLink;
+    entry.appendChild(linkElement);
 
     let menu = document.getElementById('materialize-menu-dropdown');
     menu.insertAdjacentElement('beforeend', entry);
@@ -39,7 +41,9 @@ function handleQuickSearch(event) {
         url.pathname = '/search';
         url.searchParams.append('q', document.getElementById(quickSearchID).value);
 
-        window.location.href = url.href;
+        let linkElement = document.getElementById(quickSearchLink);
+        linkElement.href = `${url.pathname}${url.search}`;
+        linkElement.click();
     }
 }
 
