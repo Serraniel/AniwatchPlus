@@ -17,15 +17,26 @@ function changeFollowedStarColor(node) {
 }
 
 function changeOwnBorderColor(node) {
-    // find items -> all 
-    let requestItems = node.querySelectorAll("md-list-item");
+    const targetTagName = "MD-LIST-ITEM"; // tagName is upper case
 
-    // change border color if profile link is not "false"
-    requestItems.forEach(item => {
+    let updateFunc = item => {
         let profileLink = item.querySelectorAll("a[href*='/profile/']:not([href='/profile/false'])");
 
         if (profileLink.length > 0) {
             item.style.borderColor = aniBlue
         }
-    });
+    }
+
+    // are we target tag?
+    if (node.tagName === targetTagName) {
+        updateFunc(node);
+    } else {
+        // find items -> all 
+        let requestItems = node.querySelectorAll("md-list-item");
+
+        // change border color if profile link is not "false"
+        requestItems.forEach(item => {
+            updateFunc(item);
+        });
+    }
 }
