@@ -3,8 +3,6 @@ runAfterLoad(() => {
 }, ".*");
 
 function initSearch() {
-    let menu = document.getElementById('materialize-menu-dropdown');
-
     let entry = document.createElement('li');
     entry.setAttribute('ng-repeat', 'item in navbar');
     entry.setAttribute('ng-class', '{\'anime-indicator\': item[\'@attributes\'].title==\'Anime\'}');
@@ -19,6 +17,11 @@ function initSearch() {
 
     entry.appendChild(quickSearchElement);
 
+    let dummyNode = document.createElement('a');
+    dummyNode.appendChild(quickSearchElement);
+    entry.appendChild(dummyNode);
+
+    let menu = document.getElementById('materialize-menu-dropdown');
     menu.insertAdjacentElement('beforeend', entry);
 }
 
