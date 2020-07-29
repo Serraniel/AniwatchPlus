@@ -21,6 +21,7 @@
                   "*://aniwatch.me/*"
               ],
               "js": [
+                  "enhancements/quickSearch.js",
                   "enhancements/animeRequests.js"
               ],
               "run_at": "document_end"
