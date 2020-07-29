@@ -1,1 +1,1 @@
-const aniBlue = "#348fff";
+const aniBlue = '#348fff';
