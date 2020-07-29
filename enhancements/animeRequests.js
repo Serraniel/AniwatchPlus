@@ -1,5 +1,3 @@
-const starIcon = "star";
-
 registerScript(node => {
     // run the scripts
     if (isHtmlElement(node)) {
@@ -9,8 +7,10 @@ registerScript(node => {
 });
 
 function changeFollowedStarColor(node) {
+    const starIcon = "star";
+
     // find stars
-    let followedItems = Array.from(node.querySelectorAll("i")).filter(i => i.innerText == starIcon);
+    let followedItems = Array.from(node.querySelectorAll("i")).filter(i => i.innerText.trim() === starIcon);
 
     // change color
     followedItems.forEach(item => item.style.color = aniBlue);
