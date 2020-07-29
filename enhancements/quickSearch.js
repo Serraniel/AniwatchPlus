@@ -37,13 +37,19 @@ function initSearch() {
 
 function handleQuickSearch(event) {
     if (event.key === 'Enter') {
+        let quickSearchElement = document.getElementById(quickSearchID);
+        let linkElement = document.getElementById(quickSearchLink);
+
         let url = new URL(window.location.origin)
         url.pathname = '/search';
-        url.searchParams.append('q', document.getElementById(quickSearchID).value);
+        url.searchParams.append('q', quickSearchElement.value);
 
-        let linkElement = document.getElementById(quickSearchLink);
         linkElement.href = `${url.pathname}${url.search}`;
         linkElement.click();
+
+        // clean up afterwards
+        linkElement.href = '';
+        quickSearchElement.value = '';
     }
 }
 
