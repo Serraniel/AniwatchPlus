@@ -1,29 +1,24 @@
 const starIcon = "star";
 
-registerScript(() => {
+registerScript(node => {
     // run the scripts
-    handleListAfterLoad();
-
-    // because of late loading in the request list we have to run the codes each time the list changes
-    //document.querySelector("md-list").addEventListener("DOMNodeInserted", event => handleListAfterLoad(event), false);
+    if (isHtmlElement(node)) {
+        changeFollowedStarColor(node);
+        changeOwnBorderColor(node);
+    }
 });
 
-function handleListAfterLoad() {
-    changeFollowedStarColor();
-    changeOwnBorderColor();
-}
-
-function changeFollowedStarColor() {
+function changeFollowedStarColor(node) {
     // find stars
-    let followedItems = Array.from(document.querySelectorAll("i")).filter(i => i.innerText == starIcon);
+    let followedItems = Array.from(node.querySelectorAll("i")).filter(i => i.innerText == starIcon);
 
     // change color
     followedItems.forEach(item => item.style.color = aniBlue);
 }
 
-function changeOwnBorderColor() {
+function changeOwnBorderColor(node) {
     // find items -> all 
-    let requestItems = document.querySelectorAll("md-list-item");
+    let requestItems = node.querySelectorAll("md-list-item");
 
     // change border color if profile link is not "false"
     requestItems.forEach(item => {
