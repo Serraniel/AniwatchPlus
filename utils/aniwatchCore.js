@@ -1,10 +1,23 @@
-function executeAfterPreload(func){
-    let preLoader = document.getElementById('preloader');
-    
-    let loop = setInterval(() => {
-        if(preLoader.style.display==="none"){
-            clearInterval(loop);
-            func();
-        }
-    }, 100);
+let __scripts = [];
+
+function registerScript(func) {
+    __scripts.push(func);
 }
+
+function runScripts(node) {
+    __scripts.forEach(script => script(node));
+}
+
+let observer = new MutationObserver(mutations => {
+    mutations.forEach(mutation => {
+        for (let i = 0; i < mutation.addedNodes.length; i++) {
+            runScripts(mutation.addedNodes[i]);
+        }
+    });
+});
+
+observer.observe(document.documentElement || document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true
+});

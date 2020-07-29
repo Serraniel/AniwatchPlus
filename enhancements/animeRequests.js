@@ -1,41 +1,42 @@
-const starIcon = "star";
-const scripts = [
-    changeFollowedStarColor,
-    changeOwnBorderColor,
-]
-
-executeAfterPreload(initScripts);
-
-function initScripts() {
+registerScript(node => {
     // run the scripts
-    runScripts();
+    if (isHtmlElement(node)) {
+        changeFollowedStarColor(node);
+        changeOwnBorderColor(node);
+    }
+});
 
-    // because of late loading in the request list we have to run the codes each time the list changes
-    document.querySelector("md-list").addEventListener("DOMNodeInserted", event => runScripts(event), false);
-}
+function changeFollowedStarColor(node) {
+    const starIcon = "star";
 
-function runScripts() {
-    scripts.forEach(script => script());
-}
-
-function changeFollowedStarColor() {
     // find stars
-    let followedItems = Array.from(document.querySelectorAll("i")).filter(i => i.innerText == starIcon);
+    let followedItems = Array.from(node.querySelectorAll("i")).filter(i => i.innerText.trim() === starIcon);
 
     // change color
     followedItems.forEach(item => item.style.color = aniBlue);
 }
 
-function changeOwnBorderColor() {
-    // find items -> all 
-    let requestItems = document.querySelectorAll("md-list-item");
+function changeOwnBorderColor(node) {
+    const targetTagName = "MD-LIST-ITEM"; // tagName is upper case
 
-    // change border color if profile link is not "false"
-    requestItems.forEach(item => {
+    let updateFunc = item => {
         let profileLink = item.querySelectorAll("a[href*='/profile/']:not([href='/profile/false'])");
 
         if (profileLink.length > 0) {
             item.style.borderColor = aniBlue
         }
-    });
+    }
+
+    // are we target tag?
+    if (node.tagName === targetTagName) {
+        updateFunc(node);
+    } else {
+        // find items -> all 
+        let requestItems = node.querySelectorAll("md-list-item");
+
+        // change border color if profile link is not "false"
+        requestItems.forEach(item => {
+            updateFunc(item);
+        });
+    }
 }
