@@ -22,7 +22,8 @@
               ],
               "js": [
                   "enhancements/quickSearch.js",
-                  "enhancements/animeRequests.js"
+                  "enhancements/animeRequests.js",
+                  "enhancements/languageDisplay.js"
               ],
               "run_at": "document_end"
           }
