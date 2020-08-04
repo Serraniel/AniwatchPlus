@@ -33,6 +33,9 @@ function initSearch() {
 
     // register focus hotkey
     document.addEventListener('keypress', event => handleSearchForShiftF(event));
+
+    // additionally, the last dropdown ul has a "right: 0px" style, which has to be fixed with auto, otherwhise it will pop up in the wrong position
+    Array.from(menu.querySelectorAll('ul.dropdown')).slice(-1)[0].style.right = 'auto';
 }
 
 function handleQuickSearch(event) {
@@ -44,6 +47,7 @@ function handleQuickSearch(event) {
         url.pathname = '/search';
         url.searchParams.append('q', quickSearchElement.value);
 
+        // clicking the link; we are not setting window.location because this will trigger a complete reload of the site
         linkElement.href = `${url.pathname}${url.search}`;
         linkElement.click();
 
