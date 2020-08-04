@@ -2,7 +2,7 @@ registerScript(node => {
     // run the scripts
     if (isHtmlElement(node)) {
         changeFollowedStarColor(node);
-        changeBorderColor(node);
+        changeBorderColorOwnRequests(node);
         removeUnknownUsers(node);
     }
 }, "/requests");
@@ -17,7 +17,7 @@ function changeFollowedStarColor(node) {
     followedItems.forEach(item => item.style.color = aniBlue);
 }
 
-function changeBorderColor(node) {
+function changeBorderColorOwnRequests(node) {
     const targetTagName = 'MD-LIST-ITEM'; // tagName is upper case
 
     let updateFunc = item => {
@@ -27,9 +27,6 @@ function changeBorderColor(node) {
         if (profileLink.length > 0) {
             item.style.borderColor = aniBlue
         }
-
-        // add border as horizontal seperator 
-        item.style.borderBottom = "1px solid rgba(155,155,155, 0.2)";
     }
 
     // are we target tag?
