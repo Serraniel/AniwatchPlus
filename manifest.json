@@ -5,6 +5,13 @@
       "manifest_version": 2,
       "author": "Serraniel",
       "homepage_url": "https://github.com/Serraniel/EnhancedAniwatch",
+      "options_ui": {
+              "page": "settings/settings.html",
+              "open_in_tab": true
+      },
+      "permissions": [
+              "storage"
+      ],
       "content_scripts": [{
               "matches": [
                   "*://aniwatch.me/*"
