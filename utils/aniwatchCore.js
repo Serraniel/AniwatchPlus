@@ -32,7 +32,8 @@ function findPreloader() {
 }
 
 function runAfterLoad(func, pattern = '.*') {
-    if (findPreloader()) {
+    let preloader = findPreloader();
+    if (typeof preloader !== undefined && preloader.style.display !== "none") {
         __afterLoadScripts.push({ "function": func, "pattern": pattern });
     } else {
         func();
