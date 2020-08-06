@@ -169,6 +169,7 @@ function updateLanguageDisplay(node) {
             });
         }
 
+        col.innerHTML = '';
         cols.forEach(div => {
             col.appendChild(div);
         });
