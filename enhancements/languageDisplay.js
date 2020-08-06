@@ -47,10 +47,6 @@ function updateLanguageDisplay(node) {
             }
         });
 
-
-        console.log(subs)
-        console.log(dubs)
-
         // build output html
         let iconsRequired = true;
         let cols = [];
