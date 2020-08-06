@@ -12,7 +12,7 @@ function updateLanguageDisplay(node) {
 
     const dubIcon = 'volume_up';
     const subIcon = 'closed_caption';
-    const zeroWidthSpace = '&#8203;';
+    const zeroWidthSpace = ''; // &#8203;
 
     let listItems = document.querySelectorAll('md-list-item');
 
@@ -78,7 +78,7 @@ function updateLanguageDisplay(node) {
                 dubDiv.appendChild(dubIconDiv);
 
                 let japIcon = document.createElement('i');
-                japIcon.classList.add('flag', 'flag-jp');
+                japIcon.classList.add('flag', 'flag-jp', 'mg-all-1');
                 dubDiv.appendChild(japIcon);
 
                 colDiv.appendChild(dubDiv);
@@ -104,7 +104,7 @@ function updateLanguageDisplay(node) {
             subDiv.appendChild(subIconDiv);
             subs.forEach(lang => {
                 let langIcon = document.createElement('i');
-                langIcon.classList.add('flag', `flag-${lang}`);
+                langIcon.classList.add('flag', `flag-${lang}`, 'mg-all-1');
                 subDiv.appendChild(langIcon);
             });
 
@@ -114,7 +114,7 @@ function updateLanguageDisplay(node) {
             iconsRequired = false;
         }
 
-        if (dubs > 0) {
+        if (dubs.length > 0) {
             dubs.forEach(lang => {
                 let colDiv = document.createElement('div');
                 colDiv.setAttribute('layout', 'column');
@@ -139,7 +139,7 @@ function updateLanguageDisplay(node) {
                 dubDiv.appendChild(dubIconDiv);
 
                 let langIcon = document.createElement('i');
-                langIcon.classList.add('flag', `flag-${lang}`);
+                langIcon.classList.add('flag', `flag-${lang}`, 'mg-all-1');
                 dubDiv.appendChild(langIcon);
 
                 colDiv.appendChild(dubDiv);
@@ -175,6 +175,11 @@ function updateLanguageDisplay(node) {
         cols.forEach(div => {
             col.appendChild(div);
         });
+
+        item.querySelectorAll('.layout-column:not(:last-child)').forEach(div => {
+            div.style.borderRight = '1px solid';
+            //div.style.marginRight = '3px';
+        })
 
         col.eaManipulated = true;
     });
