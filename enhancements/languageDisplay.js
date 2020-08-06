@@ -32,7 +32,7 @@ function updateLanguageDisplay(node) {
         subCols.forEach(element => {
             let langAttr = element.attributes['ng-hide'].value;
             let lang = langAttr.substring(langAttr.indexOf(langPrefix) + langPrefix.length, langAttr.indexOf(subSuffix));
-            if (element.ariaHidden) {
+            if (element.attributes['aria-hidden'].value == 'false') {
                 subs.push(lang);
             }
         });
@@ -42,10 +42,14 @@ function updateLanguageDisplay(node) {
         dubCols.forEach(element => {
             let langAttr = element.attributes['ng-hide'].value;
             let lang = langAttr.substring(langAttr.indexOf(langPrefix) + langPrefix.length, langAttr.indexOf(dubSuffix));
-            if (element.ariaHidden) {
+            if (element.attributes['aria-hidden'].value == 'false') {
                 dubs.push(lang);
             }
         });
+
+
+        console.log(subs)
+        console.log(dubs)
 
         // build output html
         let iconsRequired = true;
