@@ -32,7 +32,9 @@ function updateLanguageDisplay(node) {
         subCols.forEach(element => {
             let langAttr = element.attributes['ng-hide'].value;
             let lang = langAttr.substring(langAttr.indexOf(langPrefix) + langPrefix.length, langAttr.indexOf(subSuffix));
-            subs[lang] = element.ariaHidden;
+            if (element.ariaHidden) {
+                subs.push(lang);
+            }
         });
 
         // find dubs
@@ -41,7 +43,7 @@ function updateLanguageDisplay(node) {
             let langAttr = element.attributes['ng-hide'].value;
             let lang = langAttr.substring(langAttr.indexOf(langPrefix) + langPrefix.length, langAttr.indexOf(dubSuffix));
             if (element.ariaHidden) {
-                subs.push(lang);
+                dubs.push(lang);
             }
         });
 
@@ -76,7 +78,7 @@ function updateLanguageDisplay(node) {
                 dubDiv.appendChild(dubIconDiv);
 
                 let japIcon = document.createElement('i');
-                japIcon.classList.add('flag flag-jp');
+                japIcon.classList.add('flag', 'flag-jp');
                 dubDiv.appendChild(japIcon);
 
                 colDiv.appendChild(dubDiv);
