@@ -4,6 +4,10 @@
       "description": "Enhanced Aniwatch is a slim extension which provides several UI improvments for https://aniwatch.me.",
       "manifest_version": 2,
       "author": "Serraniel",
+      "developer": {
+          "name": "Serraniel and Contributers",
+          "url": "https://github.com/Serraniel/EnhancedAniwatch/graphs/contributors"
+      },
       "homepage_url": "https://github.com/Serraniel/EnhancedAniwatch",
       "content_scripts": [{
               "matches": [
