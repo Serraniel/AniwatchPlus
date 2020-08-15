@@ -1,7 +1,7 @@
   {
       "name": "Enhanced Aniwatch",
       "version": "0.1.0.0",
-      "description": "Contains several enhancments for https://aniwatch.me.",
+      "description": "Enhanced Aniwatch is a slim extension which provides several UI improvments for https://aniwatch.me.",
       "manifest_version": 2,
       "author": "Serraniel",
       "homepage_url": "https://github.com/Serraniel/EnhancedAniwatch",
