@@ -17,6 +17,7 @@
                   "*://aniwatch.me/*"
               ],
               "js": [
+                  "settings/SettingsProvider.js",
                   "utils/colors.js",
                   "utils/helpers.js",
                   "utils/aniwatchCore.js"
