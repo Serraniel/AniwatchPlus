@@ -10,7 +10,7 @@ function save_settings() {
     });
 }
 
-// Restores the settings using stored in chrome.storage
+// Restores the settings from chrome.storage
 function restore_settings() {
     chrome.storage.local.get([
     'maxPlayerWidth',
