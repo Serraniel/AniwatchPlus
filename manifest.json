@@ -1,5 +1,6 @@
   {
       "name": "Enhanced Aniwatch",
+      "short_name": "Enhanced Ani",
       "version": "0.1.0.0",
       "description": "Enhanced Aniwatch is a slim extension which provides several UI improvments for https://aniwatch.me.",
       "manifest_version": 2,
