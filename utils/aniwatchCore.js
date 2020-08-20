@@ -68,20 +68,9 @@ let __loop = setInterval(() => {
 }, 100);
 
 function awaitPathnameChange() {
-    let preLoader = document.getElementById('preloader');
-
-    if (typeof preLoader === 'undefined') {
-        return;
-    }
-
-    let loop = setInterval(() => {
-        if (preLoader.style.display === "none") {
-            clearInterval(loop);
-            __afterPathnameChangeScripts.forEach(script => {
-                if (window.location.pathname.match(script.pattern)) {
-                    script.function();
-                }
-            })
+    __afterPathnameChangeScripts.forEach(script => {
+        if (window.location.pathname.match(script.pattern)) {
+            script.function();
         }
-    }, 100);
+    })
 }
