@@ -1,6 +1,7 @@
 let __notificationCount = '';
 
 runAfterLoad(() => {
+    retrieveLoginStatus();
     __notificationCount = getNotificationCount();
     displayNotificationsInTitle();
 }, ".*");
@@ -10,8 +11,10 @@ runAfterPathnameChange(() => {
 }, ".*");
 
 function getNotificationCount() {
-    let menuUserText = document.getElementById('materialize-menu-dropdown').innerText.split('\n')[4];
-    return menuUserText.split(" ")[1] + ' ';
+    if (isLoggedIn) {
+        let menuUserText = document.getElementById('materialize-menu-dropdown').innerText.split('\n')[4];
+        return menuUserText.split(" ")[1] + ' ';
+    }
 }
 
 function displayNotificationsInTitle(){
