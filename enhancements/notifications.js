@@ -13,10 +13,26 @@ runAfterPathnameChange(() => {
 function getNotificationCount() {
     if (isLoggedIn) {
         let menuUserText = document.getElementById('materialize-menu-dropdown').innerText.split('\n')[4];
-        return menuUserText.split(" ")[1] + ' ';
+        let notificationCount = menuUserText.split("")[6];
+        console.log(notificationCount);
+        // If there are no notifications
+        if (Number.isNaN(parseInt(notificationCount)) || typeof notificationCount === 'undefined') {
+            console.warn("NaN or undefined");
+            return ``; // Otherwise displayNotificationsInTitle() throws undefined again
+        }
+        // Notifications present
+        else {
+            return `(${notificationCount}) `;
+        }
     }
 }
 
-function displayNotificationsInTitle(){
-    document.title = __notificationCount + document.title;
+function displayNotificationsInTitle() {
+    console.log(__notificationCount);
+    if (typeof __notificationCount === 'undefined') {
+        console.error("NoTiFiCaTiOnCoUnT uNdEfInEd!");
+    }
+    else {
+        document.title = __notificationCount + document.title;
+    }
 }
