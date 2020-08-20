@@ -36,7 +36,4 @@ function retrieveLoginStatus() {
         isLoggedIn = true;
         console.log(isLoggedIn);
     }
-    else {
-        console.error("Something went wrong, couldn't retrieve login status.");
-    }
 }
