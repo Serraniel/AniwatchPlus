@@ -1,5 +1,6 @@
 var isShiftPressed = false;
 var isCtrlPressed = false;
+var isLoggedIn = false;
 
 function isHtmlElement(object) {
     return object instanceof HTMLElement;
@@ -21,5 +22,21 @@ function handleKeyToggle(event, isPressed) {
         isShiftPressed = isPressed;
     } else if (event.key === 'Control') {
         isCtrlPressed = isPressed;
+    }
+}
+
+function retrieveLoginStatus() {
+    let menu = document.getElementById('materialize-menu-dropdown');
+    let menuItem = menu.innerText.split('\n')[4];
+    if (menuItem === 'Login') {
+        isLoggedIn = false;
+        console.log(isLoggedIn);
+    }
+    else if (menuItem.includes('User')) {
+        isLoggedIn = true;
+        console.log(isLoggedIn);
+    }
+    else {
+        console.error("Something went wrong, couldn't retrieve login status.");
     }
 }
