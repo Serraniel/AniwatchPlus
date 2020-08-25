@@ -3,8 +3,35 @@
     "version": "1.0.0",
     "description": "Ehanced Aniwatch is a browser extension for https://aniwatch.me/",
     "main": "index.js",
-    "dependencies": {},
-    "devDependencies": {},
+    "dependencies": {
+        "regenerator-runtime": "^0.13.5"
+    },
+    "devDependencies": {
+        "@babel/compat-data": "^7.10.3",
+        "@babel/core": "^7.10.3",
+        "@babel/plugin-proposal-class-properties": "^7.10.1",
+        "@babel/plugin-proposal-private-methods": "^7.10.1",
+        "@babel/preset-env": "^7.10.3",
+        "@babel/register": "^7.10.3",
+        "cross-env": "^7.0.2",
+        "cssnano": "^4.1.10",
+        "del": "^5.1.0",
+        "gulp": "^4.0.2",
+        "gulp-autoprefixer": "^7.0.1",
+        "gulp-babel": "^8.0.0",
+        "gulp-if": "^3.0.0",
+        "gulp-imagemin": "^7.1.0",
+        "gulp-load-plugins": "^2.0.3",
+        "gulp-plumber": "^1.2.1",
+        "gulp-postcss": "^8.0.0",
+        "gulp-rename": "^2.0.0",
+        "gulp-sass": "^4.1.0",
+        "gulp-size": "^3.0.0",
+        "gulp-sourcemaps": "^2.6.5",
+        "gulp-uglify-es": "^2.0.0",
+        "gulp-zip": "^5.0.2",
+        "sass": "^1.26.9"
+    },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
