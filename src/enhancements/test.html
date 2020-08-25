@@ -1,0 +1,17 @@
+<h3 flex="" layout="row" layout-align="end center" class="layout-align-end-center layout-row flex">
+    <div layout="column" class="layout-column">
+        <!---->
+        <div layout="row" layout-align="start center" ng-if="ep.lang.dub === true" class="layout-align-start-center layout-row">
+            <i class="material-icons mr-3" ng-bind="lang.global.icons.sound">volume_up</i>
+            <i class="flag flag-en mg-all-1" ng-hide="ep.lang.endub === 0" aria-hidden="false"></i>
+            <i class="flag flag-de mg-all-1" ng-hide="ep.lang.dedub === 0" aria-hidden="false"></i>
+        </div>
+        <!---->
+        <div layout="row" layout-align="start center" ng-if="ep.lang.sub === true" class="layout-align-start-center layout-row">
+            <i class="material-icons mr-3" ng-bind="lang.global.icons.caption">closed_caption</i>
+            <i class="flag flag-en mg-all-1" ng-hide="ep.lang.ensub === 0" aria-hidden="false"></i>
+            <i class="flag flag-jp mg-all-1 ng-hide" ng-hide="jp.lang.desub === 0" aria-hidden="false"></i>
+        </div>
+        <!---->
+    </div>
+</h3>
