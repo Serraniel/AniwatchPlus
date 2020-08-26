@@ -15,6 +15,7 @@ Base consts
 // Project sources
 const src = {
     root: 'src',
+    manifests: 'src/manifests',
     styles: 'src/stylesheets',
     scripts: 'src/javascript',
     images: 'src/images',
@@ -23,6 +24,7 @@ const src = {
 // Build path
 const tmp = {
     root: '.tmp',
+    manifests: '.tmp/manifests',
     styles: '.tmp/stylesheets',
     scripts: '.tmp/javascript',
     images: '.tmp/images',
@@ -33,6 +35,7 @@ const tmp = {
 // Dist path
 const dist = {
     root: 'dist',
+    manifests: 'dist/manifests',
     styles: 'dist/stylesheets',
     scripts: 'dist/javascript',
     images: 'dist/images',
@@ -110,8 +113,19 @@ gulp.task('images', () => {
             $.imagemin.optipng(),
             $.imagemin.svgo({ plugins: [{ cleanupIDs: false }] })
         ]))
-        .pipe($.size({ title: 'images' }))
+        .pipe($.size({
+            showFiles: true,
+        }))
         .pipe(gulp.dest(tmp.images))
+})
+
+gulp.task('manifests', () => {
+    return gulp.src(`${src.manifests}/**/*.json`)
+        .pipe($.plumber())
+        .pipe($.size({
+            showFiles: true,
+        }))
+        .pipe(gulp.dest(tmp.manifests))
 })
 
 /* ============================================================================
@@ -128,7 +142,7 @@ gulp.task('clean', gulp.series('clean:build', 'clean:dist'))
 BUILD CLEAN ALL
 ============================================================================ */
 
-gulp.task('build', gulp.series('clean:build', 'images', 'scripts', 'styles'));
+gulp.task('build', gulp.series('clean:build', 'manifests', 'images', 'scripts', 'styles'));
 
 /* ============================================================================
 DIST CLEAN ALL
