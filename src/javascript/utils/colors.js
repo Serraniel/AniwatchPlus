@@ -1,1 +1,1 @@
-const aniBlue = '#348fff';
+export const aniBlue = '#348fff';

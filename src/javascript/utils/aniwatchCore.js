@@ -1,11 +1,11 @@
 let __scripts = [];
 let __afterLoadScripts = [];
 
-function registerScript(func, pattern = '.*') {
+export function registerScript(func, pattern = '.*') {
     __scripts.push({ "function": func, "pattern": pattern });
 }
 
-function runScripts(node) {
+export function runScripts(node) {
     __scripts.forEach(script => {
         if (window.location.pathname.match(script.pattern)) {
             script.function(node);
@@ -31,7 +31,7 @@ function findPreloader() {
     return document.getElementById('preloader');
 }
 
-function runAfterLoad(func, pattern = '.*') {
+export function runAfterLoad(func, pattern = '.*') {
     let preloader = findPreloader();
     if (typeof preloader !== undefined && preloader.style.display !== "none") {
         __afterLoadScripts.push({ "function": func, "pattern": pattern });

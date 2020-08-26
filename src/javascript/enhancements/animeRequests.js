@@ -1,6 +1,10 @@
-registerScript(node => {
+import * as core from '../utils/aniwatchCore';
+import * as color from '../utils/colors';
+import * as helper from '../utils/helpers';
+
+core.registerScript(node => {
     // run the scripts
-    if (isHtmlElement(node)) {
+    if (helper.isHtmlElement(node)) {
         changeFollowedStarColor(node);
         changeBorderColorOwnRequests(node);
         removeUnknownUsers(node);
@@ -14,7 +18,7 @@ function changeFollowedStarColor(node) {
     let followedItems = Array.from(node.querySelectorAll('i')).filter(i => i.innerText.trim() === starIcon);
 
     // change color
-    followedItems.forEach(item => item.style.color = aniBlue);
+    followedItems.forEach(item => item.style.color = color.aniBlue);
 }
 
 function changeBorderColorOwnRequests(node) {
@@ -25,7 +29,7 @@ function changeBorderColorOwnRequests(node) {
 
         // highlight left border for own request
         if (profileLink.length > 0) {
-            item.style.borderColor = aniBlue
+            item.style.borderColor = color.aniBlue
         }
     }
 

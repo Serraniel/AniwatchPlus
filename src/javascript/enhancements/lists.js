@@ -1,6 +1,9 @@
-registerScript(node => {
+import * as core from '../utils/aniwatchCore';
+import * as helper from '../utils/helpers';
+
+core.registerScript(node => {
     // run the scripts
-    if (isHtmlElement(node)) {
+    if (helper.isHtmlElement(node)) {
         addListHorizontalSeparators(node)
     }
 }, ".*");

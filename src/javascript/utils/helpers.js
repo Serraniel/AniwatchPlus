@@ -1,7 +1,7 @@
-var isShiftPressed = false;
-var isCtrlPressed = false;
+export var isShiftPressed = false;
+export var isCtrlPressed = false;
 
-function isHtmlElement(object) {
+export function isHtmlElement(object) {
     return object instanceof HTMLElement;
 }
 
