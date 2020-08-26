@@ -3,6 +3,10 @@ const cssnano = require('cssnano')
 const gulpLoadPlugins = require('gulp-load-plugins')
 const uglify = require('gulp-uglify-es').default;
 const del = require('del');
+const browserify = require('browserify');
+const babelify = require('babelify');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
 
 const $ = gulpLoadPlugins()
 
@@ -29,7 +33,6 @@ const tmp = {
     scripts: '.tmp/javascript',
     images: '.tmp/images',
     vendor: '.tmp/libs',
-    maps: '../sourcemaps',
 }
 
 // Dist path
@@ -40,7 +43,6 @@ const dist = {
     scripts: 'dist/javascript',
     images: 'dist/images',
     vendor: 'dist/libs',
-    maps: 'dist/sourcemaps',
 }
 
 // Build mode
@@ -86,21 +88,27 @@ gulp.task('styles', () => {
             showFiles: true
         }))
         // write sourcemaps
-        .pipe($.if(isDev, $.sourcemaps.write(tmp.maps)))
+        .pipe($.if(isDev, $.sourcemaps.write()))
         .pipe(gulp.dest(tmp.styles))
 })
 
 gulp.task('scripts', () => {
-    return gulp.src(`${src.scripts}/**/*.js`)
+    let b = browserify({
+        entries: `${src.scripts}/index.js`,
+        debug: true
+    });
+
+    return b.transform('babelify').bundle()
         .pipe($.plumber())
-        .pipe($.if(isDev, $.sourcemaps.init()))
-        .pipe($.babel())
+        .pipe(source('app.js'))
+        .pipe(buffer())
+        .pipe($.if(isDev, $.sourcemaps.init({ loadMaps: true })))
+        //.pipe(uglify({ compress: { drop_console: isProd, drop_debugger: isProd } }))
         .pipe($.rename({ suffix: '.min' }))
-        .pipe($.if('*.js', uglify({ compress: { drop_console: isProd, drop_debugger: isProd } })))
         .pipe($.size({
             showFiles: true,
         }))
-        .pipe($.if(isDev, $.sourcemaps.write(tmp.maps)))
+        .pipe($.if(isDev, $.sourcemaps.write()))
         .pipe(gulp.dest(`${tmp.scripts}`))
 })
 
@@ -164,10 +172,6 @@ gulp.task('dist:copy', (done) => {
     // copy styles
     gulp.src(`${tmp.styles}/*.{min.css,min.css.gz}`)
         .pipe(gulp.dest(dist.styles))
-
-    // sourcemaps
-    gulp.src(`${tmp.root}/**/*.map`)
-        .pipe(gulp.dest(dist.root))
 
     done();
 })
