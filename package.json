@@ -3,6 +3,23 @@
     "version": "1.0.0",
     "description": "Ehanced Aniwatch is a browser extension for https://aniwatch.me/",
     "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "gulp build",
+        "build:prod": "cross-env NODE_ENV=production gulp build",
+        "dist": "gulp dist",
+        "dist:prod": "cross-env NODE_ENV=production gulp dist"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Serraniel/EnhancedAniwatch.git"
+    },
+    "author": "Serraniel",
+    "license": "MPL-2.0",
+    "bugs": {
+        "url": "https://github.com/Serraniel/EnhancedAniwatch/issues"
+    },
+    "homepage": "https://github.com/Serraniel/EnhancedAniwatch#readme",
     "dependencies": {
         "regenerator-runtime": "^0.13.7"
     },
@@ -38,18 +55,5 @@
         "sass": "^1.26.10",
         "vinyl-buffer": "^1.0.1",
         "vinyl-source-stream": "^2.0.0"
-    },
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/Serraniel/EnhancedAniwatch.git"
-    },
-    "author": "Serraniel",
-    "license": "MPL-2.0",
-    "bugs": {
-        "url": "https://github.com/Serraniel/EnhancedAniwatch/issues"
-    },
-    "homepage": "https://github.com/Serraniel/EnhancedAniwatch#readme"
+    }
 }
