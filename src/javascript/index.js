@@ -1,3 +1,5 @@
+import regeneratorRuntime from "regenerator-runtime";
+
 // core
 import { initCore } from './utils/aniwatchCore';
 // helper
