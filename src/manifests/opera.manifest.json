@@ -1,34 +1,20 @@
 {
-    "name": "Enhanced Aniwatch",
-    "short_name": "Enhanced Ani",
-    "version": "0.1.0.0",
-    "version_name": "0.1 Beta",
-    "description": "Enhanced Aniwatch is a slim extension which provides several UI improvments for https://aniwatch.me.",
+    "name": "$name",
+    "short_name": "$shortName",
+    "version": "$version",
+    "version_name": "$semanticVersion",
+    "description": "$description",
     "manifest_version": 2,
-    "author": "Serraniel",
-    "developer": "Serraniel and contributors",
-    "homepage_url": "https://github.com/Serraniel/EnhancedAniwatch",
+    "author": "$author",
+    "developer": "$developer",
+    "homepage_url": "$homepageURL",
     "content_scripts": [{
-            "matches": [
-                "*://aniwatch.me/*"
-            ],
-            "js": [
-                "utils/colors.js",
-                "utils/helpers.js",
-                "utils/aniwatchCore.js"
-            ],
-            "run_at": "document_start"
-        },
-        {
-            "matches": [
-                "*://aniwatch.me/*"
-            ],
-            "js": [
-                "enhancements/quickSearch.js",
-                "enhancements/animeRequests.js",
-                "enhancements/lists.js"
-            ],
-            "run_at": "document_end"
-        }
-    ]
+        "matches": [
+            "*://aniwatch.me/*"
+        ],
+        "js": [
+            "javascript/app.min.js"
+        ],
+        "run_at": "document_start"
+    }]
 }

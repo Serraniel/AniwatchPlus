@@ -7,6 +7,7 @@ const browserify = require('browserify');
 const babelify = require('babelify');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
+const fs = require('fs');
 
 const $ = gulpLoadPlugins()
 
@@ -128,8 +129,20 @@ gulp.task('images', () => {
 })
 
 gulp.task('manifests', () => {
-    return gulp.src(`${src.manifests}/**/*.json`)
+    const templateFile = `${src.manifests}/manifest.template.json`;
+
+    let template = JSON.parse(fs.readFileSync(templateFile))
+
+    return gulp.src(`${src.manifests}/**/!(*.template).json`)
         .pipe($.plumber())
+        .pipe($.replace('$name', template.name))
+        .pipe($.replace('$shortName', template.short_name))
+        .pipe($.replace('$version', template.version))
+        .pipe($.replace('$semanticVersion', template.version_name))
+        .pipe($.replace('$description', template.description))
+        .pipe($.replace('$author', template.author))
+        .pipe($.replace('$developer', template.developer))
+        .pipe($.replace('$homepageURL', template.homepage_url))
         .pipe($.size({
             showFiles: true,
         }))
