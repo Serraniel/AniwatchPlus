@@ -104,7 +104,7 @@ gulp.task('scripts', () => {
         .pipe(source('app.js'))
         .pipe(buffer())
         .pipe($.if(isDev, $.sourcemaps.init({ loadMaps: true })))
-        //.pipe(uglify({ compress: { drop_console: isProd, drop_debugger: isProd } }))
+        .pipe(uglify({ compress: { drop_console: isProd, drop_debugger: isProd } }))
         .pipe($.rename({ suffix: '.min' }))
         .pipe($.size({
             showFiles: true,
