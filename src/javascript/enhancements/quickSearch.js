@@ -4,11 +4,14 @@ import * as helper from '../utils/helpers';
 const quickSearchID = 'ea-quickSearch';
 const quickSearchLink = 'ea-quickSearchLink';
 
-core.runAfterLoad(() => {
-    initSearch();
-}, ".*");
+export function init() {
+    core.runAfterLoad(() => {
+        initSearch();
+    }, ".*");
+}
 
 function initSearch() {
+    console.log("INITSEARCH")
     let entry = document.createElement('li');
     entry.setAttribute('ng-repeat', 'item in navbar');
     entry.setAttribute('ng-class', '{\'anime-indicator\': item[\'@attributes\'].title==\'Anime\'}');

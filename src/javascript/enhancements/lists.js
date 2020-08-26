@@ -1,12 +1,14 @@
 import * as core from '../utils/aniwatchCore';
 import * as helper from '../utils/helpers';
 
-core.registerScript(node => {
-    // run the scripts
-    if (helper.isHtmlElement(node)) {
-        addListHorizontalSeparators(node)
-    }
-}, ".*");
+export function init() {
+    core.registerScript(node => {
+        // run the scripts
+        if (helper.isHtmlElement(node)) {
+            addListHorizontalSeparators(node)
+        }
+    }, ".*");
+}
 
 function addListHorizontalSeparators(node) {
     const targetTagName = 'MD-LIST-ITEM'; // tagName is upper case

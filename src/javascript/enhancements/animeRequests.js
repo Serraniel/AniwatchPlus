@@ -2,14 +2,16 @@ import * as core from '../utils/aniwatchCore';
 import * as color from '../utils/colors';
 import * as helper from '../utils/helpers';
 
-core.registerScript(node => {
-    // run the scripts
-    if (helper.isHtmlElement(node)) {
-        changeFollowedStarColor(node);
-        changeBorderColorOwnRequests(node);
-        removeUnknownUsers(node);
-    }
-}, "/requests");
+export function init() {
+    core.registerScript(node => {
+        // run the scripts
+        if (helper.isHtmlElement(node)) {
+            changeFollowedStarColor(node);
+            changeBorderColorOwnRequests(node);
+            removeUnknownUsers(node);
+        }
+    }, "/requests");
+}
 
 function changeFollowedStarColor(node) {
     const starIcon = 'star';

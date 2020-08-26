@@ -1,6 +1,24 @@
 let __scripts = [];
 let __afterLoadScripts = [];
 
+export function initCore() {
+    let observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+            for (let i = 0; i < mutation.addedNodes.length; i++) {
+                runScripts(mutation.addedNodes[i]);
+            }
+        });
+    });
+
+    observer.observe(document.documentElement || document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true
+    });
+
+    document.addEventListener("DOMContentLoaded", event => awaitPageLoaded(), false);
+}
+
 export function registerScript(func, pattern = '.*') {
     __scripts.push({ "function": func, "pattern": pattern });
 }
@@ -12,20 +30,6 @@ export function runScripts(node) {
         }
     });
 }
-
-let observer = new MutationObserver(mutations => {
-    mutations.forEach(mutation => {
-        for (let i = 0; i < mutation.addedNodes.length; i++) {
-            runScripts(mutation.addedNodes[i]);
-        }
-    });
-});
-
-observer.observe(document.documentElement || document.body, {
-    childList: true,
-    subtree: true,
-    attributes: true
-});
 
 function findPreloader() {
     return document.getElementById('preloader');
@@ -39,8 +43,6 @@ export function runAfterLoad(func, pattern = '.*') {
         func();
     }
 }
-
-document.addEventListener("DOMContentLoaded", event => awaitPageLoaded(), false);
 
 function awaitPageLoaded() {
     let preLoader = findPreloader();

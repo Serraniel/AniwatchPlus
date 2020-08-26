@@ -5,8 +5,10 @@ export function isHtmlElement(object) {
     return object instanceof HTMLElement;
 }
 
-document.addEventListener('keydown', event => handleKeyDown(event));
-document.addEventListener('keyup', event => handleKeyUp(event));
+export function initHelpers() {
+    document.addEventListener('keydown', event => handleKeyDown(event));
+    document.addEventListener('keyup', event => handleKeyUp(event));
+}
 
 function handleKeyDown(event) {
     handleKeyToggle(event, true);
