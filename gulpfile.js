@@ -7,6 +7,7 @@ const browserify = require('browserify');
 const babelify = require('babelify');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
+const merge = require('merge-stream');
 const fs = require('fs');
 
 const $ = gulpLoadPlugins()
@@ -33,17 +34,30 @@ const tmp = {
     styles: '.tmp/stylesheets',
     scripts: '.tmp/javascript',
     images: '.tmp/images',
-    vendor: '.tmp/libs',
 }
 
 // Dist path
 const dist = {
     root: 'dist',
-    manifests: 'dist/manifests',
-    styles: 'dist/stylesheets',
-    scripts: 'dist/javascript',
-    images: 'dist/images',
-    vendor: 'dist/libs',
+    chrome: {
+        root: 'dist/chrome',
+        styles: 'dist/chrome/stylesheets',
+        scripts: 'dist/chrome/javascript',
+        images: 'dist/chrome/images',
+    },
+    firefox: {
+        root: 'dist/firefox',
+        styles: 'dist/firefox/stylesheets',
+        scripts: 'dist/firefox/javascript',
+        images: 'dist/firefox/images',
+    },
+    opera: {
+        root: 'dist/opera',
+        styles: 'dist/opera/stylesheets',
+        scripts: 'dist/opera/javascript',
+        images: 'dist/opera/images',
+    },
+    zip: 'dist/zips',
 }
 
 // Build mode
@@ -169,24 +183,82 @@ gulp.task('build', gulp.series('clean:build', 'manifests', 'images', 'scripts', 
 DIST CLEAN ALL
 ============================================================================ */
 
-gulp.task('dist:copy', (done) => {
-    // copy vendor
-    gulp.src(`${tmp.vendor}/**/*`)
-        .pipe(gulp.dest(dist.vendor))
+gulp.task('dist:chrome', (done) => {
+    return merge(
+        // copy images
+        gulp.src(`${tmp.images}/**/*`)
+        .pipe(gulp.dest(dist.chrome.images)),
 
-    // copy images
-    gulp.src(`${tmp.images}/**/*`)
-        .pipe(gulp.dest(dist.images))
+        // copy scripts
+        gulp.src(`${tmp.scripts}/**/*.{min.js,min.js.gz}`)
+        .pipe(gulp.dest(dist.chrome.scripts)),
 
-    // copy scripts
-    gulp.src(`${tmp.scripts}/**/*.{min.js,min.js.gz}`)
-        .pipe(gulp.dest(dist.scripts))
+        // copy styles
+        gulp.src(`${tmp.styles}/*.{min.css,min.css.gz}`)
+        .pipe(gulp.dest(dist.chrome.styles)),
 
-    // copy styles
-    gulp.src(`${tmp.styles}/*.{min.css,min.css.gz}`)
-        .pipe(gulp.dest(dist.styles))
+        gulp.src(`${tmp.manifests}/chrome*`)
+        .pipe($.rename('manifest.json'))
+        .pipe(gulp.dest(dist.chrome.root))
+    );
+})
+
+gulp.task('dist:firefox', (done) => {
+    return merge(
+        // copy images
+        gulp.src(`${tmp.images}/**/*`)
+        .pipe(gulp.dest(dist.firefox.images)),
+
+        // copy scripts
+        gulp.src(`${tmp.scripts}/**/*.{min.js,min.js.gz}`)
+        .pipe(gulp.dest(dist.firefox.scripts)),
+
+        // copy styles
+        gulp.src(`${tmp.styles}/*.{min.css,min.css.gz}`)
+        .pipe(gulp.dest(dist.firefox.styles)),
+
+        gulp.src(`${tmp.manifests}/firefox*`)
+        .pipe($.rename('manifest.json'))
+        .pipe(gulp.dest(dist.firefox.root))
+    );
+})
+
+gulp.task('dist:opera', (done) => {
+    return merge(
+        // copy images
+        gulp.src(`${tmp.images}/**/*`)
+        .pipe(gulp.dest(dist.opera.images)),
+
+        // copy scripts
+        gulp.src(`${tmp.scripts}/**/*.{min.js,min.js.gz}`)
+        .pipe(gulp.dest(dist.opera.scripts)),
+
+        // copy styles
+        gulp.src(`${tmp.styles}/*.{min.css,min.css.gz}`)
+        .pipe(gulp.dest(dist.opera.styles)),
+
+        gulp.src(`${tmp.manifests}/opera*`)
+        .pipe($.rename('manifest.json'))
+        .pipe(gulp.dest(dist.opera.root))
+    );
+})
+
+gulp.task('dist:copy', gulp.series('dist:chrome', 'dist:firefox', 'dist:opera'));
+
+gulp.task('dist:zip', (done) => {
+    gulp.src(`${dist.chrome.root}/**/*`)
+        .pipe($.zip('chrome.zip'))
+        .pipe(gulp.dest(dist.root));
+
+    gulp.src(`${dist.firefox.root}/**/*`)
+        .pipe($.zip('firefox.zip'))
+        .pipe(gulp.dest(dist.root));
+
+    gulp.src(`${dist.opera.root}/**/*`)
+        .pipe($.zip('opera.zip'))
+        .pipe(gulp.dest(dist.root));
 
     done();
 })
 
-gulp.task('dist', gulp.series('clean', 'build', 'dist:copy'));
+gulp.task('dist', gulp.series('clean', 'build', 'dist:copy', 'dist:zip'));
