@@ -7,6 +7,10 @@
     "manifest_version": 2,
     "author": "$author",
     "homepage_url": "$homepageURL",
+    "icons": {
+        "48": "images/icon/icon_48.png",
+        "96": "images/icon/icon_96.png"
+    },
     "content_scripts": [{
         "matches": [
             "*://aniwatch.me/*"
