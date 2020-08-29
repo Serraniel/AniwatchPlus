@@ -11,7 +11,6 @@ export function init() {
 }
 
 function initSearch() {
-    console.log("INITSEARCH")
     let entry = document.createElement('li');
     entry.setAttribute('ng-repeat', 'item in navbar');
     entry.setAttribute('ng-class', '{\'anime-indicator\': item[\'@attributes\'].title==\'Anime\'}');
