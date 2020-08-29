@@ -8,7 +8,8 @@
         "build": "gulp build",
         "build:prod": "cross-env NODE_ENV=production gulp build",
         "dist": "gulp dist",
-        "dist:prod": "cross-env NODE_ENV=production gulp dist"
+        "dist:prod": "cross-env NODE_ENV=production gulp dist",
+        "watch": "gulp dist && gulp watch"
     },
     "repository": {
         "type": "git",
