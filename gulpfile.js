@@ -164,6 +164,22 @@ gulp.task('manifests', () => {
 })
 
 /* ============================================================================
+Watchers
+============================================================================ */
+
+gulp.task('watch', (done) => {
+    gulp.watch(`${src.styles}/**/*.scss`, gulp.series('clean:build', 'styles', 'dist:copy', 'dist:zip'))
+
+    gulp.watch(`${src.scripts}/**/*.js`, gulp.series('clean:build', 'scripts', 'dist:copy', 'dist:zip'))
+
+    gulp.watch(`${src.images}/**/*`, gulp.series('clean:build', 'images', 'dist:copy', 'dist:zip'))
+
+    gulp.watch(`${src.manifests}/**/*.*`, gulp.series('clean:build', 'manifests', 'dist:copy', 'dist:zip'))
+
+    done();
+})
+
+/* ============================================================================
 Clean
 ============================================================================ */
 
@@ -177,7 +193,9 @@ gulp.task('clean', gulp.series('clean:build', 'clean:dist'))
 BUILD CLEAN ALL
 ============================================================================ */
 
-gulp.task('build', gulp.series('clean:build', 'manifests', 'images', 'scripts', 'styles'));
+gulp.task('build', gulp.series('manifests', 'images', 'scripts', 'styles'));
+
+gulp.task('build:clean', gulp.series('clean:build', 'manifests', 'images', 'scripts', 'styles'));
 
 /* ============================================================================
 DIST CLEAN ALL
