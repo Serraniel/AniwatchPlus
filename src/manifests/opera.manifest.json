@@ -19,6 +19,6 @@
         "js": [
             "javascript/app.min.js"
         ],
-        "run_at": "document_start"
+        "run_at": "document_end"
     }]
 }
