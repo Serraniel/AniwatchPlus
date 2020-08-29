@@ -1,3 +1,5 @@
+import * as helper from './helpers';
+
 let __scripts = [];
 let __afterLoadScripts = [];
 
@@ -16,7 +18,7 @@ export function initCore() {
         attributes: true
     });
 
-    document.addEventListener("DOMContentLoaded", event => awaitPageLoaded(), false);
+    helper.onReady(() => awaitPageLoaded());
 }
 
 export function registerScript(func, pattern = '.*') {
