@@ -3,6 +3,7 @@
     "short_name": "$shortName",
     "version": "$version",
     "description": "$description",
+    "permissions": [],
     "manifest_version": 2,
     "author": "$author",
     "developer": $developer,
