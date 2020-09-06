@@ -155,7 +155,7 @@ gulp.task('manifests', () => {
         .pipe($.replace('$semanticVersion', template.version_name))
         .pipe($.replace('$description', template.description))
         .pipe($.replace('$author', template.author))
-        .pipe($.replace('$developer', template.developer))
+        .pipe($.replace('$developer', JSON.stringify(template.developer)))
         .pipe($.replace('$homepageURL', template.homepage_url))
         .pipe($.size({
             showFiles: true,
