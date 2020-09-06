@@ -21,7 +21,11 @@
         "email": "mail@serraniel.dev",
         "url": "https://serraniel.dev"
     },
-    "contributors": [],
+    "contributors": [
+        {
+            "name" : "Kaffem"
+        }
+    ],
     "license": "MPL-2.0",
     "bugs": {
         "url": "https://github.com/Serraniel/AniwatchPlus/issues",

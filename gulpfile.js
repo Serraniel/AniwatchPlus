@@ -110,7 +110,7 @@ gulp.task('styles', () => {
 gulp.task('scripts', () => {
     let b = browserify({
         entries: `${src.scripts}/index.js`,
-        debug: true
+        debug: isDev
     });
 
     return b.transform('babelify').bundle()
