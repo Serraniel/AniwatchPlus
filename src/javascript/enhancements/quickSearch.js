@@ -1,9 +1,14 @@
+import * as core from '../utils/aniwatchCore';
+import * as helper from '../utils/helpers';
+
 const quickSearchID = 'ea-quickSearch';
 const quickSearchLink = 'ea-quickSearchLink';
 
-runAfterLoad(() => {
-    initSearch();
-}, ".*");
+export function init() {
+    core.runAfterLoad(() => {
+        initSearch();
+    }, ".*");
+}
 
 function initSearch() {
     let entry = document.createElement('li');
@@ -58,7 +63,7 @@ function handleQuickSearch(event) {
 }
 
 function handleSearchForShiftF(event) {
-    if (isShiftPressed) {
+    if (helper.isShiftPressed) {
         if (event.key === 'F') {
             event.preventDefault();
             document.getElementById(quickSearchID).focus();
