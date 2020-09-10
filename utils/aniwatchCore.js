@@ -1,6 +1,5 @@
 let __scripts = [];
 let __afterLoadScripts = [];
-let __afterPopstateScripts = [];
 let __afterPathnameChangeScripts = [];
 
 function registerScript(func, pattern = '.*') {
