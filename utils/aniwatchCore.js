@@ -29,16 +29,34 @@ observer.observe(document.documentElement || document.body, {
     attributes: true
 });
 
+function findPreloader() {
+    return document.getElementById('preloader');
+}
+
 function runAfterLoad(func, pattern = '.*') {
-    __afterLoadScripts.push({ "function": func, "pattern": pattern });
+    let preloader = findPreloader();
+    if (typeof preloader !== undefined && preloader.style.display !== "none") {
+        __afterLoadScripts.push({ "function": func, "pattern": pattern });
+    } else {
+        func();
+    }
 }
 
 document.addEventListener("DOMContentLoaded", event => awaitPageLoaded(), false);
 
 function awaitPageLoaded() {
-    let preLoader = document.getElementById('preloader');
+    let preLoader = findPreloader();
+
+    let runScripts = () => {
+        __afterLoadScripts.forEach(script => {
+            if (window.location.pathname.match(script.pattern)) {
+                script.function();
+            }
+        });
+    };
 
     if (typeof preLoader === 'undefined') {
+        runScripts();
         return;
     }
 
@@ -46,11 +64,7 @@ function awaitPageLoaded() {
         if (preLoader.style.display === "none") {
             clearInterval(loop);
 
-            __afterLoadScripts.forEach(script => {
-                if (window.location.pathname.match(script.pattern)) {
-                    script.function();
-                }
-            })
+            runScripts();
         }
     }, 100);
 }
