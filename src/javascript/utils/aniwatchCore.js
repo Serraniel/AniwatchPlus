@@ -72,8 +72,20 @@ function awaitPageLoaded() {
     }, 100);
 }
 
-function runAfterPathnameChange(func, pattern = '.*') {
-    __afterPathnameChangeScripts.push({ "function": func, "pattern": pattern});
+export function runAfterPathnameChange(func, pattern = '.*') {
+    __afterPathnameChangeScripts.push({ "function": func, "pattern": pattern });
+}
+
+export function isLoggedIn() {
+    let menu = document.getElementById('materialize-menu-dropdown');
+    let result = true;
+
+    menu.innerText.split('\n').forEach(item => {
+        if (item === 'Login') {
+            result = false;
+            return;
+        }
+    });
 }
 
 let locationPath = location.pathname;

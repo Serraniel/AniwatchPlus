@@ -18,6 +18,10 @@ export function onReady(fn) {
     }
 }
 
+export function assigned(obj) {
+    return !(typeof obj === 'undefined' || obj === null);
+}
+
 function handleKeyDown(event) {
     handleKeyToggle(event, true);
 }
@@ -31,17 +35,5 @@ function handleKeyToggle(event, isPressed) {
         isShiftPressed = isPressed;
     } else if (event.key === 'Control') {
         isCtrlPressed = isPressed;
-    }
-}
-
-export function retrieveLoginStatus() {
-    let menu = document.getElementById('materialize-menu-dropdown');
-    let menuItem = menu.innerText.split('\n')[4];
-    if (menuItem === 'Login') {
-        isLoggedIn = false;
-        console.log(isLoggedIn);
-    } else if (menuItem.includes('User')) {
-        isLoggedIn = true;
-        console.log(isLoggedIn);
     }
 }
