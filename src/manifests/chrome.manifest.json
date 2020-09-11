@@ -4,7 +4,9 @@
     "version": "$version",
     "version_name": "$semanticVersion",
     "description": "$description",
-    "permissions": [],
+    "permissions": [
+        "*://aniwatch.me/*"
+    ],
     "manifest_version": 2,
     "author": "$author",
     "homepage_url": "$homepageURL",
