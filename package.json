@@ -61,7 +61,6 @@
         "gulp-sass": "^4.1.0",
         "gulp-size": "^3.0.0",
         "gulp-sourcemaps": "^2.6.5",
-        "gulp-uglify-es": "^2.0.0",
         "gulp-zip": "^5.0.2",
         "merge-stream": "^2.0.0",
         "sass": "^1.26.10",
