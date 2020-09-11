@@ -1,5 +1,6 @@
 import * as helper from './helpers';
 
+/* SCRIPT LOGICS */
 let __scripts = [];
 let __afterLoadScripts = [];
 let __afterPathnameChangeScripts = [];
@@ -18,6 +19,9 @@ export function initCore() {
         subtree: true,
         attributes: true
     });
+
+    patchBrowser();
+    window.addEventListener('locationchange', (event) => handleLocationChanged(event));
 
     helper.onReady(() => awaitPageLoaded());
 }
@@ -72,10 +76,49 @@ function awaitPageLoaded() {
     }, 100);
 }
 
+/* PATHNAME LOGIC */
 export function runAfterPathnameChange(func, pattern = '.*') {
     __afterPathnameChangeScripts.push({ "function": func, "pattern": pattern });
 }
 
+function handleLocationChanged(event) {
+    __afterPathnameChangeScripts.forEach(script => {
+        if (window.location.pathname.match(script.pattern)) {
+            script.function();
+        }
+    });
+}
+
+function patchBrowser() {
+    // patches several browser functions to dispatch a "locationchange" event
+    // as an extension is not allowed to override these functions we have to inject this as a script tag into the head
+    let scriptContent = `history.pushState = (func => function pushState() {
+        let result = func.apply(this, arguments);
+        window.dispatchEvent(new Event('pushstate'));
+        window.dispatchEvent(new Event('locationchange'));
+
+        return result;
+    })(history.pushState);
+
+    history.replaceState = (func => function replaceState() {
+        let result = func.apply(this, arguments);
+        window.dispatchEvent(new Event('replacestate'));
+        window.dispatchEvent(new Event('locationchange'));
+        return result;
+    })(history.replaceState);
+
+    window.addEventListener('popstate', () => {
+        window.dispatchEvent(new Event('locationchange'))
+    });`
+
+    let head = document.getElementsByTagName("head")[0];
+    let newScript = document.createElement('script');
+    newScript.type = 'text/javascript';
+    newScript.innerHTML = scriptContent;
+    head.appendChild(newScript);
+}
+
+/* LOGIN LOGIC */
 export function isLoggedIn() {
     let menu = document.getElementById('materialize-menu-dropdown');
     let result = true;
@@ -88,20 +131,4 @@ export function isLoggedIn() {
     });
 
     return result;
-}
-
-let locationPath = location.pathname;
-let __loop = setInterval(() => {
-    if (locationPath != location.pathname) {
-        locationPath = location.pathname;
-        awaitPathnameChange();
-    }
-}, 100);
-
-function awaitPathnameChange() {
-    __afterPathnameChangeScripts.forEach(script => {
-        if (window.location.pathname.match(script.pattern)) {
-            script.function();
-        }
-    })
 }
