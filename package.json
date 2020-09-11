@@ -10,8 +10,7 @@
         "build:prod": "cross-env NODE_ENV=production gulp build",
         "dist": "gulp dist",
         "dist:prod": "cross-env NODE_ENV=production gulp dist",
-        "watch": "gulp dist && gulp watch",
-        "publish:firefox": "web-ext build --source-dir ./dist/firefox"
+        "watch": "gulp dist && gulp watch"
     },
     "repository": {
         "type": "git",
@@ -22,9 +21,11 @@
         "email": "mail@serraniel.dev",
         "url": "https://serraniel.dev"
     },
-    "contributors": [{
-        "name": "Kaffem"
-    }],
+    "contributors": [
+        {
+            "name": "Kaffem"
+        }
+    ],
     "license": "MPL-2.0",
     "bugs": {
         "url": "https://github.com/Serraniel/AniwatchPlus/issues",
@@ -65,7 +66,6 @@
         "merge-stream": "^2.0.0",
         "sass": "^1.26.10",
         "vinyl-buffer": "^1.0.1",
-        "vinyl-source-stream": "^2.0.0",
-        "web-ext": "^5.0.0"
+        "vinyl-source-stream": "^2.0.0"
     }
 }
