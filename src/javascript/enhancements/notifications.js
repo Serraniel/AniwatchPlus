@@ -1,41 +1,33 @@
 import * as core from '../utils/aniwatchCore';
 import * as helper from '../utils/helpers';
 
-let __notificationCount = '';
-
 export function init() {
     core.runAfterLoad(() => {
-        retrieveLoginStatus();
-        __notificationCount = getNotificationCount();
-        displayNotificationsInTitle();
+        updateNotificationsInTitle();
     }, ".*");
 
     core.runAfterPathnameChange(() => {
-        displayNotificationsInTitle();
+        console.log('CHANGE')
+        updateNotificationsInTitle();
     }, ".*");
 }
 
 function getNotificationCount() {
     if (core.isLoggedIn()) {
         let menuUserText = document.getElementById('materialize-menu-dropdown').innerText.split('\n')[4];
-        let notificationCount = menuUserText.split('')[6];
-        // If there are no notifications
-        if (Number.isNaN(parseInt(notificationCount)) || !helper.assigned(notificationCount)) {
-            console.warn("NaN or undefined");
-            return ``; // Otherwise displayNotificationsInTitle() throws undefined again
-        }
-        // Notifications present
-        else {
-            return `(${notificationCount}) `;
-        }
+        console.log(menuUserText);
+        let notificationCount = menuUserText.match(/\d+/)?.[0] ?? 0;
+        console.log(notificationCount);
+        return notificationCount;
+    } else {
+        return 0;
     }
 }
 
-function displayNotificationsInTitle() {
-    console.log(__notificationCount);
-    if (!helper.assigned(__notificationCount)) {
-        console.error("NoTiFiCaTiOnCoUnT uNdEfInEd!");
-    } else {
-        document.title = __notificationCount + document.title;
+function updateNotificationsInTitle() {
+    let count = getNotificationCount();
+
+    if (helper.assigned(count) && count > 0) {
+        document.title = `(${count}) ${document.title}`;
     }
 }
