@@ -1,7 +1,7 @@
 const gulp = require('gulp');
 const cssnano = require('cssnano')
 const gulpLoadPlugins = require('gulp-load-plugins')
-const uglify = require('gulp-uglify-es').default;
+const terser = require('terser');
 const del = require('del');
 const browserify = require('browserify');
 const babelify = require('babelify');
@@ -118,7 +118,7 @@ gulp.task('scripts', () => {
         .pipe(source('app.js'))
         .pipe(buffer())
         .pipe($.if(isDev, $.sourcemaps.init({ loadMaps: true })))
-        .pipe(uglify({ compress: { drop_console: isProd, drop_debugger: isProd } }))
+        .pipe($.terser({ compress: { drop_console: isProd, drop_debugger: isProd } }))
         .pipe($.rename({ suffix: '.min' }))
         .pipe($.size({
             showFiles: true,
@@ -205,19 +205,19 @@ gulp.task('dist:chrome', (done) => {
     return merge(
         // copy images
         gulp.src(`${tmp.images}/**/*`)
-        .pipe(gulp.dest(dist.chrome.images)),
+            .pipe(gulp.dest(dist.chrome.images)),
 
         // copy scripts
         gulp.src(`${tmp.scripts}/**/*.{min.js,min.js.gz}`)
-        .pipe(gulp.dest(dist.chrome.scripts)),
+            .pipe(gulp.dest(dist.chrome.scripts)),
 
         // copy styles
         gulp.src(`${tmp.styles}/*.{min.css,min.css.gz}`)
-        .pipe(gulp.dest(dist.chrome.styles)),
+            .pipe(gulp.dest(dist.chrome.styles)),
 
         gulp.src(`${tmp.manifests}/chrome*`)
-        .pipe($.rename('manifest.json'))
-        .pipe(gulp.dest(dist.chrome.root))
+            .pipe($.rename('manifest.json'))
+            .pipe(gulp.dest(dist.chrome.root))
     );
 })
 
@@ -225,19 +225,19 @@ gulp.task('dist:firefox', (done) => {
     return merge(
         // copy images
         gulp.src(`${tmp.images}/**/*`)
-        .pipe(gulp.dest(dist.firefox.images)),
+            .pipe(gulp.dest(dist.firefox.images)),
 
         // copy scripts
         gulp.src(`${tmp.scripts}/**/*.{min.js,min.js.gz}`)
-        .pipe(gulp.dest(dist.firefox.scripts)),
+            .pipe(gulp.dest(dist.firefox.scripts)),
 
         // copy styles
         gulp.src(`${tmp.styles}/*.{min.css,min.css.gz}`)
-        .pipe(gulp.dest(dist.firefox.styles)),
+            .pipe(gulp.dest(dist.firefox.styles)),
 
         gulp.src(`${tmp.manifests}/firefox*`)
-        .pipe($.rename('manifest.json'))
-        .pipe(gulp.dest(dist.firefox.root))
+            .pipe($.rename('manifest.json'))
+            .pipe(gulp.dest(dist.firefox.root))
     );
 })
 
@@ -245,19 +245,19 @@ gulp.task('dist:opera', (done) => {
     return merge(
         // copy images
         gulp.src(`${tmp.images}/**/*`)
-        .pipe(gulp.dest(dist.opera.images)),
+            .pipe(gulp.dest(dist.opera.images)),
 
         // copy scripts
         gulp.src(`${tmp.scripts}/**/*.{min.js,min.js.gz}`)
-        .pipe(gulp.dest(dist.opera.scripts)),
+            .pipe(gulp.dest(dist.opera.scripts)),
 
         // copy styles
         gulp.src(`${tmp.styles}/*.{min.css,min.css.gz}`)
-        .pipe(gulp.dest(dist.opera.styles)),
+            .pipe(gulp.dest(dist.opera.styles)),
 
         gulp.src(`${tmp.manifests}/opera*`)
-        .pipe($.rename('manifest.json'))
-        .pipe(gulp.dest(dist.opera.root))
+            .pipe($.rename('manifest.json'))
+            .pipe(gulp.dest(dist.opera.root))
     );
 })
 
