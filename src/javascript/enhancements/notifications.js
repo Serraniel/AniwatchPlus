@@ -7,7 +7,6 @@ export function init() {
     }, ".*");
 
     core.runAfterPathnameChange(() => {
-        console.log('CHANGE')
         updateNotificationsInTitle();
     }, ".*");
 }
@@ -15,9 +14,7 @@ export function init() {
 function getNotificationCount() {
     if (core.isLoggedIn()) {
         let menuUserText = document.getElementById('materialize-menu-dropdown').innerText.split('\n')[4];
-        console.log(menuUserText);
         let notificationCount = menuUserText.match(/\d+/)?.[0] ?? 0;
-        console.log(notificationCount);
         return notificationCount;
     } else {
         return 0;
@@ -28,6 +25,9 @@ function updateNotificationsInTitle() {
     let count = getNotificationCount();
 
     if (helper.assigned(count) && count > 0) {
-        document.title = `(${count}) ${document.title}`;
+        // document.title is updated after the event is triggered, so we delay our title update by a reasonable time
+        setTimeout(() => {
+            document.title = `(${count}) ${document.title}`;
+        }, 100);
     }
 }
