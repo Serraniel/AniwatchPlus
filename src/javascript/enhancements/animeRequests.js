@@ -64,20 +64,26 @@ function removeUnknownUsers(node) {
         let anime = lowerDiv.innerText;
         let profileData = upperDiv.innerHTML;
 
-        // exchange data
-        let bElement = document.createElement('b');
-        bElement.textContent = anime;
-        upperDiv.innerHTML = ``;
-        upperDiv.appendChild(bElement);
-
         // add user note if own request
         if (profileLink.length > 0) {
-            lowerDiv.innerHTML = profileData;
+            let parser = new DOMParser();
+            let parsedDocument = parser.parseFromString(profileData, 'text/html');
+
+            lowerDiv.innerHTML = '';
+            while(parsedDocument.body.hasChildNodes()){
+                lowerDiv.appendChild(parsedDocument.body.removeChild(parsedDocument.body.firstChild));
+            }
         }
         // remove if foreign request.
         else {
             lowerDiv.innerHTML = '&nbsp;';
         }
+
+        // exchange data
+        let bElement = document.createElement('b');
+        bElement.textContent = anime;
+        upperDiv.innerHTML = ``;
+        upperDiv.appendChild(bElement);
     }
 
     if (node.tagName === targetTagName) {
