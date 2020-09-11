@@ -66,6 +66,7 @@ function removeUnknownUsers(node) {
 
         // add user note if own request
         if (profileLink.length > 0) {
+            // Workaround to avoid innerHTML because of #38, see https://devtidbits.com/2017/12/06/quick-fix-the-unsafe_var_assignment-warning-in-javascript/
             let parser = new DOMParser();
             let parsedDocument = parser.parseFromString(profileData, 'text/html');
 
