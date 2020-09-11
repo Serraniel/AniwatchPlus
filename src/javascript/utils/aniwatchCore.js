@@ -86,6 +86,8 @@ export function isLoggedIn() {
             return;
         }
     });
+
+    return result;
 }
 
 let locationPath = location.pathname;
