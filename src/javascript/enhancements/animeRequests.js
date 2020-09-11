@@ -65,7 +65,10 @@ function removeUnknownUsers(node) {
         let profileData = upperDiv.innerHTML;
 
         // exchange data
-        upperDiv.innerHTML = `<b>${anime}</b>`;
+        let bElement = document.createElement('b');
+        bElement.textContent = anime;
+        upperDiv.innerHTML = ``;
+        upperDiv.appendChild(bElement);
 
         // add user note if own request
         if (profileLink.length > 0) {
