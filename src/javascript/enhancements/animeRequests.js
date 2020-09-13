@@ -64,17 +64,27 @@ function removeUnknownUsers(node) {
         let anime = lowerDiv.innerText;
         let profileData = upperDiv.innerHTML;
 
-        // exchange data
-        upperDiv.innerHTML = `<b>${anime}</b>`;
-
         // add user note if own request
         if (profileLink.length > 0) {
-            lowerDiv.innerHTML = profileData;
+            // Workaround to avoid innerHTML because of #38, see https://devtidbits.com/2017/12/06/quick-fix-the-unsafe_var_assignment-warning-in-javascript/
+            let parser = new DOMParser();
+            let parsedDocument = parser.parseFromString(profileData, 'text/html');
+
+            lowerDiv.innerHTML = '';
+            while(parsedDocument.body.hasChildNodes()){
+                lowerDiv.appendChild(parsedDocument.body.removeChild(parsedDocument.body.firstChild));
+            }
         }
         // remove if foreign request.
         else {
             lowerDiv.innerHTML = '&nbsp;';
         }
+
+        // exchange data
+        let bElement = document.createElement('b');
+        bElement.textContent = anime;
+        upperDiv.innerHTML = ``;
+        upperDiv.appendChild(bElement);
     }
 
     if (node.tagName === targetTagName) {
