@@ -182,8 +182,12 @@ function updateLanguageDisplay(node) {
         });
 
         item.querySelectorAll('.layout-column:not(:last-child)').forEach(div => {
-            div.style.borderRight = '1px solid';
-            //div.style.marginRight = '3px';
+            div.style.borderRight = '1px solid rgba(155,155,155, 0.2)';
+        })
+
+        item.querySelectorAll('.layout-column').forEach(div => {
+            div.style.paddingLeft = '2px';
+            div.style.paddingRight = '2px';
         })
 
         col.eaManipulated = true;
