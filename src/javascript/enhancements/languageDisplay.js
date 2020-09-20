@@ -1,9 +1,14 @@
-registerScript(node => {
-    // run the scripts
-    if (isHtmlElement(node)) {
-        updateLanguageDisplay(node)
-    }
-}, "^/anime/[0-9]*$");
+import * as core from '../utils/aniwatchCore';
+import * as helper from '../utils/helpers';
+
+export function init() {
+    core.registerScript(node => {
+        // run the scripts
+        if (helper.isHtmlElement(node)) {
+            updateLanguageDisplay(node)
+        }
+    }, "^/anime/[0-9]*$");
+}
 
 function updateLanguageDisplay(node) {
     const langPrefix = 'ep.lang.';
