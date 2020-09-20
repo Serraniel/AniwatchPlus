@@ -1,1 +1,0 @@
-const aniBlue = '#348fff';
