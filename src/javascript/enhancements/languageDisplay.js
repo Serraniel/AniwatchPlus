@@ -33,7 +33,7 @@ function updateLanguageDisplay(node) {
         let dubs = [];
 
         // find subs
-        subCols = col.querySelectorAll('[ng-hide*="sub"]');
+        let subCols = col.querySelectorAll('[ng-hide*="sub"]');
         subCols.forEach(element => {
             let langAttr = element.attributes['ng-hide'].value;
             let lang = langAttr.substring(langAttr.indexOf(langPrefix) + langPrefix.length, langAttr.indexOf(subSuffix));
@@ -43,7 +43,7 @@ function updateLanguageDisplay(node) {
         });
 
         // find dubs
-        dubCols = col.querySelectorAll('[ng-hide*="dub"]');
+        let dubCols = col.querySelectorAll('[ng-hide*="dub"]');
         dubCols.forEach(element => {
             let langAttr = element.attributes['ng-hide'].value;
             let lang = langAttr.substring(langAttr.indexOf(langPrefix) + langPrefix.length, langAttr.indexOf(dubSuffix));
