@@ -57,7 +57,7 @@ function handleQuickSearch(event) {
         linkElement.click();
 
         // clean up afterwards
-        linkElement.href = '';
+        linkElement.removeAttribute('href');
         quickSearchElement.value = '';
     }
 }
