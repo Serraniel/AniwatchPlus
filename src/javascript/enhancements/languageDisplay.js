@@ -10,186 +10,190 @@ export function init() {
     }, "^/anime/[0-9]*$");
 }
 
+const langPrefix = 'ep.lang.';
+const dubSuffix = 'dub';
+const subSuffix = 'sub';
+
+const dubIcon = 'volume_up';
+const subIcon = 'closed_caption';
+const zeroWidthSpace = ''; // &#8203;
+
 function updateLanguageDisplay(node) {
-    const langPrefix = 'ep.lang.';
-    const dubSuffix = 'dub';
-    const subSuffix = 'sub';
+    const listNodeName = 'MD-LIST-ITEM';
 
-    const dubIcon = 'volume_up';
-    const subIcon = 'closed_caption';
-    const zeroWidthSpace = ''; // &#8203;
+    if (node.nodeName === listNodeName) {
+        updateLanguageDisplayListMode(node);
+    }
+}
 
-    let listItems = document.querySelectorAll('md-list-item');
+function updateLanguageDisplayListMode(node) {
+    // last column with flags
+    let col = node.querySelector('h3.layout-align-end-center');
 
-    listItems.forEach(item => {
-        // last column with flags
-        let col = item.querySelector('h3.layout-align-end-center');
+    if (typeof col === 'undefined' || col.eaManipulated) {
+        return;
+    }
 
-        if (col.eaManipulated) {
-            return;
+    let subs = [];
+    let dubs = [];
+
+    // find subs
+    let subCols = col.querySelectorAll('[ng-hide*="sub"]');
+    subCols.forEach(element => {
+        let langAttr = element.attributes['ng-hide'].value;
+        let lang = langAttr.substring(langAttr.indexOf(langPrefix) + langPrefix.length, langAttr.indexOf(subSuffix));
+        if (element.attributes['aria-hidden'].value == 'false') {
+            subs.push(lang);
+        }
+    });
+
+    // find dubs
+    let dubCols = col.querySelectorAll('[ng-hide*="dub"]');
+    dubCols.forEach(element => {
+        let langAttr = element.attributes['ng-hide'].value;
+        let lang = langAttr.substring(langAttr.indexOf(langPrefix) + langPrefix.length, langAttr.indexOf(dubSuffix));
+        if (element.attributes['aria-hidden'].value == 'false') {
+            dubs.push(lang);
+        }
+    });
+
+    // build output html
+    let iconsRequired = true;
+    let cols = [];
+
+    // subs first;
+    if (subs.length > 0) {
+        let colDiv = document.createElement('div');
+        colDiv.setAttribute('layout', 'column');
+        colDiv.classList.add('layout-column');
+
+        // do we have dubs?
+        if (dubs.length > 0) {
+            let dubDiv = document.createElement('div');
+            dubDiv.setAttribute('layout', 'row');
+            dubDiv.setAttribute('layout-align', 'start center');
+            dubDiv.classList.add('layout-align-start-center', 'layout-row');
+
+            let dubIconDiv = document.createElement('i');
+            if (iconsRequired) {
+                dubIconDiv.classList.add('material-icons', 'mr-3');
+                dubIconDiv.innerText = dubIcon;
+            }
+            // add dummy with 24px for correct presentation
+            else {
+                dubIconDiv.style.height = '24px';
+                dubIconDiv.innerText = zeroWidthSpace;
+            }
+
+            dubDiv.appendChild(dubIconDiv);
+
+            let japIcon = document.createElement('i');
+            japIcon.classList.add('flag', 'flag-jp', 'mg-all-1');
+            dubDiv.appendChild(japIcon);
+
+            colDiv.appendChild(dubDiv);
         }
 
-        let subs = [];
-        let dubs = [];
+        // do the subs
+        let subDiv = document.createElement('div');
+        subDiv.setAttribute('layout', 'row');
+        subDiv.setAttribute('layout-align', 'start center');
+        subDiv.classList.add('layout-align-start-center', 'layout-row');
 
-        // find subs
-        let subCols = col.querySelectorAll('[ng-hide*="sub"]');
-        subCols.forEach(element => {
-            let langAttr = element.attributes['ng-hide'].value;
-            let lang = langAttr.substring(langAttr.indexOf(langPrefix) + langPrefix.length, langAttr.indexOf(subSuffix));
-            if (element.attributes['aria-hidden'].value == 'false') {
-                subs.push(lang);
-            }
+        let subIconDiv = document.createElement('i');
+        if (iconsRequired) {
+            subIconDiv.classList.add('material-icons', 'mr-3');
+            subIconDiv.innerText = subIcon;
+        }
+        // add dummy with 24px for correct presentation
+        else {
+            subIconDiv.style.height = '24px';
+            subIconDiv.innerText = zeroWidthSpace;
+        }
+
+        subDiv.appendChild(subIconDiv);
+        subs.forEach(lang => {
+            let langIcon = document.createElement('i');
+            langIcon.classList.add('flag', `flag-${lang}`, 'mg-all-1');
+            subDiv.appendChild(langIcon);
         });
 
-        // find dubs
-        let dubCols = col.querySelectorAll('[ng-hide*="dub"]');
-        dubCols.forEach(element => {
-            let langAttr = element.attributes['ng-hide'].value;
-            let lang = langAttr.substring(langAttr.indexOf(langPrefix) + langPrefix.length, langAttr.indexOf(dubSuffix));
-            if (element.attributes['aria-hidden'].value == 'false') {
-                dubs.push(lang);
-            }
-        });
+        colDiv.appendChild(subDiv);
 
-        // build output html
-        let iconsRequired = true;
-        let cols = [];
+        cols.push(colDiv);
+        iconsRequired = false;
+    }
 
-        // subs first;
-        if (subs.length > 0) {
+    if (dubs.length > 0) {
+        dubs.forEach(lang => {
             let colDiv = document.createElement('div');
             colDiv.setAttribute('layout', 'column');
             colDiv.classList.add('layout-column');
 
-            // do we have dubs?
-            if (dubs.length > 0) {
-                let dubDiv = document.createElement('div');
-                dubDiv.setAttribute('layout', 'row');
-                dubDiv.setAttribute('layout-align', 'start center');
-                dubDiv.classList.add('layout-align-start-center', 'layout-row');
+            let dubDiv = document.createElement('div');
+            dubDiv.setAttribute('layout', 'row');
+            dubDiv.setAttribute('layout-align', 'start center');
+            dubDiv.classList.add('layout-align-start-center', 'layout-row');
 
-                let dubIconDiv = document.createElement('i');
-                if (iconsRequired) {
-                    dubIconDiv.classList.add('material-icons', 'mr-3');
-                    dubIconDiv.innerText = dubIcon;
-                }
-                // add dummy with 24px for correct presentation
-                else {
-                    dubIconDiv.style.height = '24px';
-                    dubIconDiv.innerText = zeroWidthSpace;
-                }
-
-                dubDiv.appendChild(dubIconDiv);
-
-                let japIcon = document.createElement('i');
-                japIcon.classList.add('flag', 'flag-jp', 'mg-all-1');
-                dubDiv.appendChild(japIcon);
-
-                colDiv.appendChild(dubDiv);
-            }
-
-            // do the subs
-            let subDiv = document.createElement('div');
-            subDiv.setAttribute('layout', 'row');
-            subDiv.setAttribute('layout-align', 'start center');
-            subDiv.classList.add('layout-align-start-center', 'layout-row');
-
-            let subIconDiv = document.createElement('i');
+            let dubIconDiv = document.createElement('i');
             if (iconsRequired) {
-                subIconDiv.classList.add('material-icons', 'mr-3');
-                subIconDiv.innerText = subIcon;
+                dubIconDiv.classList.add('material-icons', 'mr-3');
+                dubIconDiv.innerText = dubIcon;
             }
             // add dummy with 24px for correct presentation
             else {
-                subIconDiv.style.height = '24px';
-                subIconDiv.innerText = zeroWidthSpace;
+                dubIconDiv.style.height = '24px';
+                dubIconDiv.innerText = zeroWidthSpace;
             }
 
-            subDiv.appendChild(subIconDiv);
-            subs.forEach(lang => {
-                let langIcon = document.createElement('i');
-                langIcon.classList.add('flag', `flag-${lang}`, 'mg-all-1');
-                subDiv.appendChild(langIcon);
-            });
+            dubDiv.appendChild(dubIconDiv);
 
-            colDiv.appendChild(subDiv);
+            let langIcon = document.createElement('i');
+            langIcon.classList.add('flag', `flag-${lang}`, 'mg-all-1');
+            dubDiv.appendChild(langIcon);
 
-            cols.push(colDiv);
-            iconsRequired = false;
-        }
+            colDiv.appendChild(dubDiv);
 
-        if (dubs.length > 0) {
-            dubs.forEach(lang => {
-                let colDiv = document.createElement('div');
-                colDiv.setAttribute('layout', 'column');
-                colDiv.classList.add('layout-column');
+            // do we have subs?
+            if (subs.length > 0) {
+                let subDiv = document.createElement('div');
+                subDiv.setAttribute('layout', 'row');
+                subDiv.setAttribute('layout-align', 'start center');
+                subDiv.classList.add('layout-align-start-center', 'layout-row');
 
-                let dubDiv = document.createElement('div');
-                dubDiv.setAttribute('layout', 'row');
-                dubDiv.setAttribute('layout-align', 'start center');
-                dubDiv.classList.add('layout-align-start-center', 'layout-row');
-
-                let dubIconDiv = document.createElement('i');
+                let subIconDiv = document.createElement('i');
                 if (iconsRequired) {
-                    dubIconDiv.classList.add('material-icons', 'mr-3');
-                    dubIconDiv.innerText = dubIcon;
+                    subIconDiv.classList.add('material-icons', 'mr-3');
+                    subIconDiv.innerText = subIcon;
                 }
                 // add dummy with 24px for correct presentation
                 else {
-                    dubIconDiv.style.height = '24px';
-                    dubIconDiv.innerText = zeroWidthSpace;
+                    subIconDiv.style.height = '24px';
+                    subIconDiv.innerText = zeroWidthSpace;
                 }
 
-                dubDiv.appendChild(dubIconDiv);
+                subDiv.appendChild(subIconDiv);
+                colDiv.appendChild(subDiv);
+            }
 
-                let langIcon = document.createElement('i');
-                langIcon.classList.add('flag', `flag-${lang}`, 'mg-all-1');
-                dubDiv.appendChild(langIcon);
-
-                colDiv.appendChild(dubDiv);
-
-                // do we have subs?
-                if (subs.length > 0) {
-                    let subDiv = document.createElement('div');
-                    subDiv.setAttribute('layout', 'row');
-                    subDiv.setAttribute('layout-align', 'start center');
-                    subDiv.classList.add('layout-align-start-center', 'layout-row');
-
-                    let subIconDiv = document.createElement('i');
-                    if (iconsRequired) {
-                        subIconDiv.classList.add('material-icons', 'mr-3');
-                        subIconDiv.innerText = subIcon;
-                    }
-                    // add dummy with 24px for correct presentation
-                    else {
-                        subIconDiv.style.height = '24px';
-                        subIconDiv.innerText = zeroWidthSpace;
-                    }
-
-                    subDiv.appendChild(subIconDiv);
-                    colDiv.appendChild(subDiv);
-                }
-
-                cols.push(colDiv);
-                iconsRequired = false;
-            });
-        }
-
-        col.innerHTML = '';
-        cols.forEach(div => {
-            col.appendChild(div);
+            cols.push(colDiv);
+            iconsRequired = false;
         });
+    }
 
-        item.querySelectorAll('.layout-column:not(:last-child)').forEach(div => {
-            div.style.borderRight = '1px solid rgba(155,155,155, 0.2)';
-        })
-
-        item.querySelectorAll('.layout-column').forEach(div => {
-            div.style.paddingLeft = '2px';
-            div.style.paddingRight = '2px';
-        })
-
-        col.eaManipulated = true;
+    col.innerHTML = '';
+    cols.forEach(div => {
+        col.appendChild(div);
     });
+
+    node.querySelectorAll('.layout-column:not(:last-child)').forEach(div => {
+        div.style.borderRight = '1px solid rgba(155,155,155, 0.2)';
+    })
+
+    node.querySelectorAll('.layout-column').forEach(div => {
+        div.style.paddingLeft = '2px';
+        div.style.paddingRight = '2px';
+    })
+
+    col.eaManipulated = true;
 }
