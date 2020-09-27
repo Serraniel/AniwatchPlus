@@ -10,19 +10,16 @@ export function init() {
     }, "^/anime/[0-9]*$");
 }
 
-const langPrefix = 'ep.lang.';
-const dubSuffix = 'dub';
-const subSuffix = 'sub';
-
-const dubIcon = 'volume_up';
-const subIcon = 'closed_caption';
-const zeroWidthSpace = ''; // &#8203;
-
 function updateLanguageDisplay(node) {
     const listNodeName = 'MD-LIST-ITEM';
+    const boxNodeName = 'DIV';
+    const boxClassName = 'card-margin';
 
     if (node.nodeName === listNodeName) {
         updateLanguageDisplayListMode(node);
+    }
+    else if (node.nodeName === boxNodeName && node.classList.contains(boxClassName)) {
+        updateLanguageDisplayBoxMode(node);
     }
 }
 
@@ -34,24 +31,54 @@ function updateLanguageDisplayListMode(node) {
         return;
     }
 
+    dopUpdateLanguageDisplay(col, false);
+}
+
+function updateLanguageDisplayBoxMode(node) {
+    // last column with flags
+    let col = node.querySelector('div.layout-align-end-start');
+
+    console.log(col)
+
+    if (typeof col === 'undefined' || col.eaManipulated) {
+        return;
+    }
+
+    dopUpdateLanguageDisplay(col, true);
+}
+
+
+function dopUpdateLanguageDisplay(parent, isBoxedModed) {
+    const listLangPrefix = 'ep.lang.';
+    const boxLangPrefix = 'episodeObject.lang.';
+    // aniwatch uses different prefixes in list und box mode :/
+    let realLangPrefix = isBoxedModed ? boxLangPrefix : listLangPrefix;
+
+    const dubSuffix = 'dub';
+    const subSuffix = 'sub';
+
+    const dubIcon = 'volume_up';
+    const subIcon = 'closed_caption';
+    const zeroWidthSpace = ''; // &#8203;
+
     let subs = [];
     let dubs = [];
 
     // find subs
-    let subCols = col.querySelectorAll('[ng-hide*="sub"]');
+    let subCols = parent.querySelectorAll('[ng-hide*="sub"]');
     subCols.forEach(element => {
         let langAttr = element.attributes['ng-hide'].value;
-        let lang = langAttr.substring(langAttr.indexOf(langPrefix) + langPrefix.length, langAttr.indexOf(subSuffix));
+        let lang = langAttr.substring(langAttr.indexOf(realLangPrefix) + realLangPrefix.length, langAttr.indexOf(subSuffix));
         if (element.attributes['aria-hidden'].value == 'false') {
             subs.push(lang);
         }
     });
 
     // find dubs
-    let dubCols = col.querySelectorAll('[ng-hide*="dub"]');
+    let dubCols = parent.querySelectorAll('[ng-hide*="dub"]');
     dubCols.forEach(element => {
         let langAttr = element.attributes['ng-hide'].value;
-        let lang = langAttr.substring(langAttr.indexOf(langPrefix) + langPrefix.length, langAttr.indexOf(dubSuffix));
+        let lang = langAttr.substring(langAttr.indexOf(realLangPrefix) + realLangPrefix.length, langAttr.indexOf(dubSuffix));
         if (element.attributes['aria-hidden'].value == 'false') {
             dubs.push(lang);
         }
@@ -181,19 +208,19 @@ function updateLanguageDisplayListMode(node) {
         });
     }
 
-    col.innerHTML = '';
+    parent.innerHTML = '';
     cols.forEach(div => {
-        col.appendChild(div);
+        parent.appendChild(div);
     });
 
-    node.querySelectorAll('.layout-column:not(:last-child)').forEach(div => {
+    parent.querySelectorAll('.layout-column:not(:last-child)').forEach(div => {
         div.style.borderRight = '1px solid rgba(155,155,155, 0.2)';
     })
 
-    node.querySelectorAll('.layout-column').forEach(div => {
+    parent.querySelectorAll('.layout-column').forEach(div => {
         div.style.paddingLeft = '2px';
         div.style.paddingRight = '2px';
     })
 
-    col.eaManipulated = true;
+    parent.eaManipulated = true;
 }
