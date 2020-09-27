@@ -27,7 +27,7 @@ function updateLanguageDisplayListMode(node) {
     // last column with flags
     let col = node.querySelector('h3.layout-align-end-center');
 
-    if (typeof col === 'undefined' || col.eaManipulated) {
+    if (typeof col === 'undefined' || col.awpManipulated) {
         return;
     }
 
@@ -38,9 +38,7 @@ function updateLanguageDisplayBoxMode(node) {
     // last column with flags
     let col = node.querySelector('div.layout-align-end-start');
 
-    console.log(col)
-
-    if (typeof col === 'undefined' || col.eaManipulated) {
+    if (typeof col === 'undefined' || col.awpManipulated) {
         return;
     }
 
@@ -222,5 +220,5 @@ function dopUpdateLanguageDisplay(parent, isBoxedModed) {
         div.style.paddingRight = '2px';
     })
 
-    parent.eaManipulated = true;
+    parent.awpManipulated = true;
 }
