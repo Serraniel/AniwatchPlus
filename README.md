@@ -18,7 +18,16 @@ This extension isn´t available in browser stores yet. Please download from [rel
 
 ## Development
 ### Tools
-This project requires you to install [NPM](https://nodejs.org/en/download/) and [gulp](https://www.npmjs.com/package/gulp).
+This project requires you to install the latestst versions of [Node.js](https://nodejs.org/en/download/), [NPM](https://nodejs.org/en/download/) and [gulp](https://www.npmjs.com/package/gulp).
+Minimum required versions:
+| Tool | Version |
+|-|-|
+| Node.js | => 12.18.x |
+| npm | => 6.14.x |
+| gulp | => 4.0.x |
+| gulp-cli\* | => 2.3.x |
+
+\* only required if you plan to run gulp directly from command line.
 
 ### Build
 ```sh
