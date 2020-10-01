@@ -42,7 +42,7 @@ function updateLanguageDisplayBoxMode(node) {
         return;
     }
 
-    dopUpdateLanguageDisplay(col, true);
+    doUpdateLanguageDisplay(col, true);
 }
 
 
