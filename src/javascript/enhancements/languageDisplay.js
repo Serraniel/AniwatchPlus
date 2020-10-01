@@ -46,7 +46,7 @@ function updateLanguageDisplayBoxMode(node) {
 }
 
 
-function dopUpdateLanguageDisplay(parent, isBoxedModed) {
+function doUpdateLanguageDisplay(parent, isBoxedModed) {
     const listLangPrefix = 'ep.lang.';
     const boxLangPrefix = 'episodeObject.lang.';
     // aniwatch uses different prefixes in list und box mode :/
