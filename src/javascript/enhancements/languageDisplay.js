@@ -31,7 +31,7 @@ function updateLanguageDisplayListMode(node) {
         return;
     }
 
-    dopUpdateLanguageDisplay(col, false);
+    doUpdateLanguageDisplay(col, false);
 }
 
 function updateLanguageDisplayBoxMode(node) {
