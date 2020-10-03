@@ -1,20 +1,25 @@
+[![Travis (.org)](https://img.shields.io/travis/serraniel/aniwatchplus?style=flat-square)](https://travis-ci.org/github/Serraniel/AniwatchPlus)
+[![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/serraniel/aniwatchplus?style=flat-square)](https://snyk.io/test/github/Serraniel/AniwatchPlus?targetFile=package.json)
+[![David](https://img.shields.io/david/serraniel/AniwatchPlus?style=flat-square)](https://david-dm.org/serraniel/aniwatchplus)
+[![Scrutinizer code quality (GitHub/Bitbucket)](https://img.shields.io/scrutinizer/quality/g/serraniel/aniwatchplus?style=flat-square)](https://scrutinizer-ci.com/g/Serraniel/AniwatchPlus/)
+[![GitHub issues](https://img.shields.io/github/issues/serraniel/aniwatchplus?style=flat-square)](https://github.com/Serraniel/AniwatchPlus/issues)
+[![GitHub](https://img.shields.io/github/license/serraniel/aniwatchplus?style=flat-square)](https://github.com/Serraniel/AniwatchPlus/blob/develop/LICENSE)
+
+
 # Aniwatch Plus
-*Aniwatch Plus* is an unofficial extension which provides several UI improvments for https://aniwatch.me. 
+**Aniwatch Plus** is an unofficial browser extension which will improve your experience on https://aniwatch.me by adding features like a quick search and improving the websites appearance.
 
 ## Features
-* adds quick search to website
-* cleaner style for lists
-* better presentation of anime requests
+* Adds quick search
+* Cleaner list presentation
+* Improved presentation of available audio and subtitles
+* Better display of anime requests 
 
-## Browser Support
-We currently support the following browsers in current versions:
-* Google Chrome
-* Mozilla Firefox
-* Opera
-* Microsoft Edge
-
-### Installation
-This extension isn´t available in browser stores yet. Please download from [releases](https://github.com/Serraniel/AniwatchPlus/releases) for your browser and check how to manually install an extension into your browser. If you want to install the extension in Microsoft Edge, please use the Chrome release version.
+## Download
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/hgniihpjiioldkafogebpkbaiflmpimb?label=Google%20Chrome&logo=Google%20Chrome&style=flat-square)](https://chrome.google.com/webstore/detail/aniwatch-plus/hgniihpjiioldkafogebpkbaiflmpimb?hl=de)
+[![Mozilla Add-on](https://img.shields.io/amo/v/aniwatch-plus?label=Mozilla%20Firefox&logo=Firefox&style=flat-square)](https://addons.mozilla.org/de/firefox/addon/aniwatch-plus/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search)
+[![GitHub release tag for opera (latest by date including pre-releases)](https://img.shields.io/github/v/release/serraniel/aniwatchplus?include_prereleases&label=Opera&logo=Opera&logoColor=red&style=flat-square)](https://addons.opera.com/de/extensions/details/aniwatch-plus/)
+[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/serraniel/aniwatchplus?include_prereleases&label=Download%20manually&logo=Github&style=flat-square)](https://github.com/Serraniel/AniwatchPlus/releases)
 
 ## Development
 ### Tools
@@ -22,12 +27,10 @@ This project requires you to install the latestst versions of [Node.js](https://
 Minimum required versions:
 | Tool | Version |
 |-|-|
-| Node.js | => 12.18.x |
+| node.js | => 12.18.x |
 | npm | => 6.14.x |
 | gulp | => 4.0.x |
-| gulp-cli\* | => 2.3.x |
 
-\* only required if you plan to run gulp directly from command line.
 
 ### Build
 ```sh
