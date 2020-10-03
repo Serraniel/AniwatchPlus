@@ -1,10 +1,11 @@
+<img align="right" width="100" height="100" src="resources/logo/AnimeWatch.ico/main/black/AWPLUS%20Final%20Black%20128.png">
+
 [![Travis (.org)](https://img.shields.io/travis/serraniel/aniwatchplus?style=flat-square)](https://travis-ci.org/github/Serraniel/AniwatchPlus)
 [![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/serraniel/aniwatchplus?style=flat-square)](https://snyk.io/test/github/Serraniel/AniwatchPlus?targetFile=package.json)
 [![David](https://img.shields.io/david/serraniel/AniwatchPlus?style=flat-square)](https://david-dm.org/serraniel/aniwatchplus)
 [![Scrutinizer code quality (GitHub/Bitbucket)](https://img.shields.io/scrutinizer/quality/g/serraniel/aniwatchplus?style=flat-square)](https://scrutinizer-ci.com/g/Serraniel/AniwatchPlus/)
 [![GitHub issues](https://img.shields.io/github/issues/serraniel/aniwatchplus?style=flat-square)](https://github.com/Serraniel/AniwatchPlus/issues)
 [![GitHub](https://img.shields.io/github/license/serraniel/aniwatchplus?style=flat-square)](https://github.com/Serraniel/AniwatchPlus/blob/develop/LICENSE)
-
 
 # Aniwatch Plus
 **Aniwatch Plus** is an unofficial browser extension which will improve your experience on https://aniwatch.me by adding features like a quick search and improving the websites appearance.
