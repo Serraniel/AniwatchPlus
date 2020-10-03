@@ -7,6 +7,6 @@ cache:
   directories:
   - node_modules
 install:
-  - npm install
+  - npm install -d
 script:
   - npm run dist:prod
