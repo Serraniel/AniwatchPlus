@@ -19,8 +19,10 @@ function addListHorizontalSeparators(node) {
     }
 
     // are we target tag?
-    if (node.tagName === targetTagName && typeof element.nextSibling !== "undefined") {
-        updateFunc(node);
+    if (node.tagName === targetTagName) {
+        if (typeof node.nextSibling !== "undefined") {
+            updateFunc(node);
+        }
     } else {
         // find items -> all 
         let requestItems = node.querySelectorAll('md-list-item:not(:last-child)');
