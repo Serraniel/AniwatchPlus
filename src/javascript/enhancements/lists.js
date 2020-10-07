@@ -19,11 +19,11 @@ function addListHorizontalSeparators(node) {
     }
 
     // are we target tag?
-    if (node.tagName === targetTagName) {
+    if (node.tagName === targetTagName && typeof element.nextSibling !== "undefined") {
         updateFunc(node);
     } else {
         // find items -> all 
-        let requestItems = node.querySelectorAll('md-list-item');
+        let requestItems = node.querySelectorAll('md-list-item:not(:last-child)');
 
         // update borders
         requestItems.forEach(item => {
