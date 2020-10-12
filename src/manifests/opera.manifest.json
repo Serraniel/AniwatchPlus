@@ -22,6 +22,9 @@
         "js": [
             "javascript/app.min.js"
         ],
+        "css": [
+            "stylesheets/aniwatchplus.min.css"
+        ],
         "run_at": "document_end"
     }]
 }

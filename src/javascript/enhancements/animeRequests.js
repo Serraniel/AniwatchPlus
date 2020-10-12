@@ -31,7 +31,7 @@ function changeBorderColorOwnRequests(node) {
 
         // highlight left border for own request
         if (profileLink.length > 0) {
-            item.style.borderColor = color.aniBlue
+            item.style.borderLeftColor = color.aniBlue
         }
     }
 
