@@ -62,7 +62,7 @@
         "gulp-terser": "^1.4.0",
         "gulp-zip": "^5.0.2",
         "merge-stream": "^2.0.0",
-        "postcss": "^8.1.1",
+        "postcss": "^8.1.2",
         "sass": "^1.27.0",
         "terser": "^5.3.5",
         "vinyl-buffer": "^1.0.1",
