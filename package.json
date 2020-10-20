@@ -64,7 +64,7 @@
         "merge-stream": "^2.0.0",
         "postcss": "^8.1.2",
         "sass": "^1.27.0",
-        "terser": "^5.3.5",
+        "terser": "^5.3.7",
         "vinyl-buffer": "^1.0.1",
         "vinyl-source-stream": "^2.0.0"
     }
