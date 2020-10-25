@@ -6,7 +6,7 @@ export function init() {
         updateNotificationsInTitle();
     }, ".*");
 
-    core.runAfterPathnameChange(() => {
+    core.runAfterLocationChange(() => {
         updateNotificationsInTitle();
     }, ".*");
 }

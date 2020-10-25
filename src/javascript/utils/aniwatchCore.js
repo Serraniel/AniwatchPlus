@@ -3,7 +3,7 @@ import * as helper from './helpers';
 /* SCRIPT LOGICS */
 let __scripts = [];
 let __afterLoadScripts = [];
-let __afterPathnameChangeScripts = [];
+let __afterLocationChangeScripts = [];
 
 export function initCore() {
     let observer = new MutationObserver(mutations => {
@@ -20,16 +20,13 @@ export function initCore() {
         attributes: true
     });
 
-    // patchBrowser();
-    // window.addEventListener('locationchange', (event) => handleLocationChanged(event));
-
     runAfterLoad(() => {
         let loadingBar = document.getElementById('enable-ani-cm');
         let loadingBarObserver = new MutationObserver(mutations => {
             mutations.forEach(mutation => {
                 // enable-ani-cm node changes from display:none to display:block after loading
                 if (mutation.oldValue.includes('display: none')) {
-                    __afterPathnameChangeScripts.forEach(script => {
+                    __afterLocationChangeScripts.forEach(script => {
                         if (window.location.pathname.match(script.pattern)) {
                             script.function();
                         }
@@ -100,45 +97,8 @@ function awaitPageLoaded() {
 }
 
 /* PATHNAME LOGIC */
-export function runAfterPathnameChange(func, pattern = '.*') {
-    __afterPathnameChangeScripts.push({ "function": func, "pattern": pattern });
-}
-
-function handleLocationChanged(event) {
-    __afterPathnameChangeScripts.forEach(script => {
-        if (window.location.pathname.match(script.pattern)) {
-            script.function();
-        }
-    });
-}
-
-function patchBrowser() {
-    // patches several browser functions to dispatch a "locationchange" event
-    // as an extension is not allowed to override these functions we have to inject this as a script tag into the head
-    let scriptContent = `history.pushState = (func => function pushState() {
-        let result = func.apply(this, arguments);
-        window.dispatchEvent(new Event('pushstate'));
-        window.dispatchEvent(new Event('locationchange'));
-
-        return result;
-    })(history.pushState);
-
-    history.replaceState = (func => function replaceState() {
-        let result = func.apply(this, arguments);
-        window.dispatchEvent(new Event('replacestate'));
-        window.dispatchEvent(new Event('locationchange'));
-        return result;
-    })(history.replaceState);
-
-    window.addEventListener('popstate', () => {
-        window.dispatchEvent(new Event('locationchange'))
-    });`
-
-    let head = document.getElementsByTagName("head")[0];
-    let newScript = document.createElement('script');
-    newScript.type = 'text/javascript';
-    newScript.innerHTML = scriptContent;
-    head.appendChild(newScript);
+export function runAfterLocationChange(func, pattern = '.*') {
+    __afterLocationChangeScripts.push({ "function": func, "pattern": pattern });
 }
 
 /* LOGIN LOGIC */
