@@ -20,8 +20,31 @@ export function initCore() {
         attributes: true
     });
 
-    patchBrowser();
-    window.addEventListener('locationchange', (event) => handleLocationChanged(event));
+    // patchBrowser();
+    // window.addEventListener('locationchange', (event) => handleLocationChanged(event));
+
+    runAfterLoad(() => {
+        let loadingBar = document.getElementById('enable-ani-cm');
+        let loadingBarObserver = new MutationObserver(mutations => {
+            mutations.forEach(mutation => {
+                // enable-ani-cm node changes from display:none to display:block after loading
+                if (mutation.oldValue.includes('display: none')) {
+                    __afterPathnameChangeScripts.forEach(script => {
+                        if (window.location.pathname.match(script.pattern)) {
+                            script.function();
+                        }
+                    });
+                }
+            })
+        });
+
+        loadingBarObserver.observe(loadingBar, {
+            attributes: true,
+            attributeOldValue: true,
+            attributeFilter: ['style'],
+        });
+
+    }, '.*')
 
     helper.onReady(() => awaitPageLoaded());
 }
