@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - "node"
+dist: trusty
+cache:
+  npm: true
+  directories:
+  - node_modules
+install:
+  - npm install -d
+script:
+  - npm run dist:prod

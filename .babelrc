@@ -6,7 +6,7 @@
         "targets": {
           "esmodules": true
         },
-        "modules": "umd"
+        "modules": "auto"
       }
     ]
   ],

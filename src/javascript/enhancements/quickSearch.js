@@ -57,14 +57,19 @@ function handleQuickSearch(event) {
         linkElement.click();
 
         // clean up afterwards
-        linkElement.href = '';
+        linkElement.removeAttribute('href');
         quickSearchElement.value = '';
     }
 }
 
 function handleSearchForShiftF(event) {
     if (helper.isShiftPressed) {
-        if (event.key === 'F') {
+        // check if some kind of input is focused already; we then prevent our hotkey
+        if (document.activeElement instanceof HTMLInputElement || document.activeElement.isContentEditable) {
+            return;
+        }
+        
+        if (event.code === 'KeyF') {
             event.preventDefault();
             document.getElementById(quickSearchID).focus();
         }

@@ -3,6 +3,9 @@
     "short_name": "$shortName",
     "version": "$version",
     "description": "$description",
+    "permissions": [
+        "*://aniwatch.me/*"
+    ],
     "manifest_version": 2,
     "author": "$author",
     "developer": $developer,
@@ -17,6 +20,9 @@
         ],
         "js": [
             "javascript/app.min.js"
+        ],
+        "css": [
+            "stylesheets/aniwatchplus.min.css"
         ],
         "run_at": "document_end"
     }]
