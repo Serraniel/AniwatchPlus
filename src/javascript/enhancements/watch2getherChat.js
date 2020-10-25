@@ -3,6 +3,7 @@ import * as helper from '../utils/helpers';
 import { v4 as uuidv4 } from 'uuid';
 
 export function init() {
+    // UPS // runAfterLoad is not what we want...wait for runAfterLocationChange....
     core.runAfterLoad(() => {
         manipulateChatInput();
     }, "^/watch2gether/.*$");
