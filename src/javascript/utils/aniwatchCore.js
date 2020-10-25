@@ -88,7 +88,7 @@ function awaitPageLoaded() {
     }
 
     let loop = setInterval(() => {
-        if (preLoader.style.display === "none") {
+        if (preLoader.style.display === "none" && document.readyState === 'complete') {
             clearInterval(loop);
 
             runScripts();
