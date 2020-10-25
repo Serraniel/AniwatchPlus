@@ -1,0 +1,21 @@
+.awp {
+    &-w2g {
+        &-chatCounter {
+            white-space: nowrap;
+
+            &-max {
+                animation: shake 0.1s ease-in-out 0.1s 3 alternate;
+
+                @keyframes shake {
+                    from {
+                        transform: rotate(3deg);
+                    }
+                    to {
+                        transform-origin: center center;
+                        transform: rotate(-3deg);
+                    }
+                }
+            }
+        }
+    }
+}

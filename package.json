@@ -32,7 +32,9 @@
         "email": "mail@serraniel.dev"
     },
     "homepage": "https://github.com/Serraniel/AniwatchPlus#readme",
-    "dependencies": {},
+    "dependencies": {
+        "uuid": "^8.3.1"
+    },
     "devDependencies": {
         "@babel/compat-data": "^7.12.1",
         "@babel/core": "^7.12.3",
