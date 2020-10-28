@@ -14,11 +14,11 @@
 
                 @keyframes shake {
                     from {
-                        transform: rotate(3deg);
+                        transform: rotate(5deg);
                     }
                     to {
                         transform-origin: center center;
-                        transform: rotate(-3deg);
+                        transform: rotate(-5deg);
                     }
                 }
             }
