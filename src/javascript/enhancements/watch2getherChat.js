@@ -51,10 +51,10 @@ function updateCharCounter(textarea, charCounterSpan) {
     charCounterSpan.innerText = `${current} / ${max}`;
 
     // animation if at max
-    // this need to be delayed because removing and adding it too fast again will prevent the browsers to replay the animation
     if (current >= max && !charCounterSpan.classList.contains(SHAKE_CLASS)) {
         charCounterSpan.classList.add(SHAKE_CLASS);
 
+        // remove css class after animation finished, so it can be restarted again
         setTimeout(() => {
             charCounterSpan.classList.remove(SHAKE_CLASS);
         }, 200);
