@@ -45,9 +45,6 @@ function addCharCounter(textarea) {
 function updateCharCounter(textarea, charCounterSpan) {
     const SHAKE_CLASS = 'awp-w2g-chatCounter-max';
 
-    // reset class
-    charCounterSpan.classList.remove(SHAKE_CLASS);
-
     let current = textarea.value.length;
     let max = textarea.maxLength;
 
@@ -55,9 +52,11 @@ function updateCharCounter(textarea, charCounterSpan) {
 
     // animation if at max
     // this need to be delayed because removing and adding it too fast again will prevent the browsers to replay the animation
-    if (current >= max) {
+    if (current >= max && !charCounterSpan.classList.contains(SHAKE_CLASS)) {
+        charCounterSpan.classList.add(SHAKE_CLASS);
+
         setTimeout(() => {
-            charCounterSpan.classList.add(SHAKE_CLASS);
-        }, 100);
+            charCounterSpan.classList.remove(SHAKE_CLASS);
+        }, 200);
     }
 }
