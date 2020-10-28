@@ -1,0 +1,7 @@
+md-tab-item{
+
+    // hide disabled tabs
+    &.md-disabled {
+        display: none;
+    }
+}
