@@ -18,6 +18,10 @@ export function onReady(fn) {
     }
 }
 
+export function assigned(obj) {
+    return !(typeof obj === 'undefined' || obj === null);
+}
+
 function handleKeyDown(event) {
     handleKeyToggle(event, true);
 }

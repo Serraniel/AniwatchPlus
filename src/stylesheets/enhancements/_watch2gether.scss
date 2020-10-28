@@ -19,3 +19,10 @@
         }
     }
 }
+
+.material-icons {
+    // Fix icon position for room creator
+    &[aria-label="Room creator"] {
+        vertical-align: text-top;
+    }
+}
