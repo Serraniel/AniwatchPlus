@@ -14,7 +14,9 @@
 * Adds quick search
 * Cleaner list presentation
 * Improved presentation of available audio and subtitles
-* Better display of anime requests 
+* Better display of anime requests
+* Display notification count in tab title
+* Autoplay after screenshot
 
 ## Download
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/hgniihpjiioldkafogebpkbaiflmpimb?label=Google%20Chrome&logo=Google%20Chrome&style=flat-square)](https://chrome.google.com/webstore/detail/aniwatch-plus/hgniihpjiioldkafogebpkbaiflmpimb?hl=de)
