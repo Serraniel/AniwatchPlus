@@ -1,3 +1,9 @@
+.material-icons {
+    // Fix icon position for room creator
+    &[aria-label="Room creator"] {
+        vertical-align: text-top;
+    }
+}
 .awp {
     &-w2g {
         &-chatCounter {

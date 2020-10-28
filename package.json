@@ -1,6 +1,6 @@
 {
     "name": "aniwatch-plus",
-    "version": "0.2.1-beta.0",
+    "version": "0.3.0-beta",
     "description": "Aniwatch Plus is a browser extension for https://aniwatch.me/",
     "main": "index.js",
     "scripts": {

@@ -28,9 +28,9 @@ This project requires you to install the latestst versions of [Node.js](https://
 Minimum required versions:
 | Tool | Version |
 |-|-|
-| node.js | => 12.18.x |
-| npm | => 6.14.x |
-| gulp | => 4.0.x |
+| node.js | ^14.x.x |
+| npm | ^6.x.x |
+| gulp | ^4.x.x |
 
 
 ### Build

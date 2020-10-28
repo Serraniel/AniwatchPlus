@@ -1,7 +1,9 @@
 import * as helper from './helpers';
 
+/* SCRIPT LOGICS */
 let __scripts = [];
 let __afterLoadScripts = [];
+let __afterLocationChangeScripts = [];
 
 export function initCore() {
     let observer = new MutationObserver(mutations => {
@@ -17,6 +19,29 @@ export function initCore() {
         subtree: true,
         attributes: true
     });
+
+    runAfterLoad(() => {
+        let loadingBar = document.getElementById('enable-ani-cm');
+        let loadingBarObserver = new MutationObserver(mutations => {
+            mutations.forEach(mutation => {
+                // enable-ani-cm node changes from display:none to display:block after loading
+                if (mutation.oldValue.includes('display: none')) {
+                    __afterLocationChangeScripts.forEach(script => {
+                        if (window.location.pathname.match(script.pattern)) {
+                            script.function();
+                        }
+                    });
+                }
+            })
+        });
+
+        loadingBarObserver.observe(loadingBar, {
+            attributes: true,
+            attributeOldValue: true,
+            attributeFilter: ['style'],
+        });
+
+    }, '.*')
 
     helper.onReady(() => awaitPageLoaded());
 }
@@ -63,10 +88,30 @@ function awaitPageLoaded() {
     }
 
     let loop = setInterval(() => {
-        if (preLoader.style.display === "none") {
+        if (preLoader.style.display === "none" && document.readyState === 'complete') {
             clearInterval(loop);
 
             runScripts();
         }
     }, 100);
+}
+
+/* PATHNAME LOGIC */
+export function runAfterLocationChange(func, pattern = '.*') {
+    __afterLocationChangeScripts.push({ "function": func, "pattern": pattern });
+}
+
+/* LOGIN LOGIC */
+export function isLoggedIn() {
+    let menu = document.getElementById('materialize-menu-dropdown');
+    let result = true;
+
+    menu.innerText.split('\n').forEach(item => {
+        if (item === 'Login') {
+            result = false;
+            return;
+        }
+    });
+
+    return result;
 }
