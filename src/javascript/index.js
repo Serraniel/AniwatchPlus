@@ -20,5 +20,6 @@ initHelpers();
 anilyr();
 animeRequests();
 languageDisplay();
-notifications();quickSearch();
+notifications();
+quickSearch();
 watch2getherChat();
