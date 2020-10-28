@@ -4,18 +4,20 @@ import { v4 as uuidv4 } from 'uuid';
 
 export function init() {
     // UPS // runAfterLoad is not what we want...wait for runAfterLocationChange....
-    core.runAfterLoad(() => {
+    core.runAfterLocationChange(() => {
         manipulateChatInput();
     }, "^/watch2gether/.*$");
 }
 
-function manipulateChatInput() {    
+function manipulateChatInput() {
     let textarea = document.querySelector('.chat-input textarea');
 
     // avoid duplicate registration
     if (typeof textarea.dataset.charCounterId !== 'undefined') {
         return;
     }
+
+    addCharCounter(textarea);
 }
 
 function addCharCounter(textarea) {
@@ -23,23 +25,39 @@ function addCharCounter(textarea) {
     let controlRow = chatDiv.children[1]; // row with controls
     let btn = controlRow.querySelector('button'); // find send button
 
-    let counterSpan = document.createElement('span'); // create span for counter
-    counterSpan.classList.add('awp-w2g-chatCounter');
+    let charCounterSpan = document.createElement('span'); // create span for counter
+    charCounterSpan.classList.add('awp-w2g-chatCounter');
 
     // id and "connection"
-    let counterId = `awp-${v4()}`
-    counterSpan.id = counterId;
+    let counterId = `awp-${uuidv4()}`
+    charCounterSpan.id = counterId;
     textarea.dataset.charCounterId = counterId;
 
-    btn.parentElement.inserBefore(counterSpan, btn); // and insert in front of the button
+    btn.parentElement.insertBefore(charCounterSpan, btn); // and insert in front of the button
+    updateCharCounter(textarea, charCounterSpan);
 
-    textarea.addEventListener('keypress keyup', () => {        
-        let current = textarea.value.length;
-        let max = textarea.maxLength;
-
-        counterSpan.innerText = `${current} / ${max}`;
-
-        // animation if at max
-        counterSpan.classList.toggle('awp-w2g-chatCounter-max', current >= max);
+    textarea.addEventListener('keyup', () => {
+        console.log('TRIGGER')
+        updateCharCounter(textarea, charCounterSpan)
     });
+}
+
+function updateCharCounter(textarea, charCounterSpan) {
+    const SHAKE_CLASS = 'awp-w2g-chatCounter-max';
+
+    // reset class
+    charCounterSpan.classList.remove(SHAKE_CLASS);
+
+    let current = textarea.value.length;
+    let max = textarea.maxLength;
+
+    charCounterSpan.innerText = `${current} / ${max}`;
+
+    // animation if at max
+    // this need to be delayed because removing and adding it too fast again will prevent the browsers to replay the animation
+    if (current >= max) {
+        setTimeout(() => {
+            charCounterSpan.classList.add(SHAKE_CLASS);
+        }, 100);
+    }
 }
