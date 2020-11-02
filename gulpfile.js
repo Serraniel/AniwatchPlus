@@ -25,6 +25,7 @@ const src = {
     styles: 'src/stylesheets',
     scripts: 'src/javascript',
     images: 'src/images',
+    html: 'src/html',
 }
 
 // Build path
@@ -34,6 +35,7 @@ const tmp = {
     styles: '.tmp/stylesheets',
     scripts: '.tmp/javascript',
     images: '.tmp/images',
+    html: '.tmp/html',
 }
 
 // Dist path
@@ -44,18 +46,21 @@ const dist = {
         styles: 'dist/chrome/stylesheets',
         scripts: 'dist/chrome/javascript',
         images: 'dist/chrome/images',
+        html: 'dist/chrome/html',
     },
     firefox: {
         root: 'dist/firefox',
         styles: 'dist/firefox/stylesheets',
         scripts: 'dist/firefox/javascript',
         images: 'dist/firefox/images',
+        html: 'dist/firefox/html',
     },
     opera: {
         root: 'dist/opera',
         styles: 'dist/opera/stylesheets',
         scripts: 'dist/opera/javascript',
         images: 'dist/opera/images',
+        html: 'dist/opera/html',
     },
     zip: 'dist/zips',
 }
