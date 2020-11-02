@@ -18,16 +18,22 @@
         "48": "images/icon/icon_48.png",
         "96": "images/icon/icon_96.png"
     },
-    "content_scripts": [{
-        "matches": [
-            "*://aniwatch.me/*"
-        ],
-        "js": [
-            "javascript/app.min.js"
-        ],
-        "css": [
-            "stylesheets/aniwatchplus.min.css"
-        ],
-        "run_at": "document_end"
-    }]
+    "options_ui": {
+        "page": "html/settings.html",
+        "open_in_tab": true
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://aniwatch.me/*"
+            ],
+            "js": [
+                "javascript/app.min.js"
+            ],
+            "css": [
+                "stylesheets/aniwatchplus.min.css"
+            ],
+            "run_at": "document_end"
+        }
+    ]
 }
