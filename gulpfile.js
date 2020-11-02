@@ -147,6 +147,16 @@ gulp.task('images', () => {
         .pipe(gulp.dest(tmp.images))
 })
 
+gulp.task('html', () => {
+    return gulp.src(`${src.html}/**/*`)
+        .pipe($.plumber())
+        // any steps for HTML processing?
+        .pipe($.size({
+            showFiles: true,
+        }))
+        .pipe(gulp.dest(tmp.html))
+})
+
 gulp.task('manifests', () => {
     const templateFile = `${src.manifests}/manifest.template.json`;
 
@@ -179,6 +189,8 @@ gulp.task('watch', (done) => {
 
     gulp.watch(`${src.images}/**/*`, gulp.series('clean:build', 'images', 'dist:copy', 'dist:zip'))
 
+    gulp.watch(`${src.html}/**/*`, gulp.series('clean:build', 'html', 'dist:copy', 'dist:zip'))
+
     gulp.watch(`${src.manifests}/**/*.*`, gulp.series('clean:build', 'manifests', 'dist:copy', 'dist:zip'))
 
     done();
@@ -198,7 +210,7 @@ gulp.task('clean', gulp.series('clean:build', 'clean:dist'))
 BUILD CLEAN ALL
 ============================================================================ */
 
-gulp.task('build', gulp.series('manifests', 'images', 'scripts', 'styles'));
+gulp.task('build', gulp.series('manifests', 'images', 'scripts', 'styles', 'html'));
 
 gulp.task('build:clean', gulp.series('clean:build', 'manifests', 'images', 'scripts', 'styles'));
 
@@ -220,6 +232,10 @@ gulp.task('dist:chrome', (done) => {
         gulp.src(`${tmp.styles}/*.{min.css,min.css.gz}`)
             .pipe(gulp.dest(dist.chrome.styles)),
 
+        // copy html
+        gulp.src(`${tmp.html}/*.html`)
+            .pipe(gulp.dest(dist.chrome.html)),
+
         gulp.src(`${tmp.manifests}/chrome*`)
             .pipe($.rename('manifest.json'))
             .pipe(gulp.dest(dist.chrome.root))
@@ -240,6 +256,10 @@ gulp.task('dist:firefox', (done) => {
         gulp.src(`${tmp.styles}/*.{min.css,min.css.gz}`)
             .pipe(gulp.dest(dist.firefox.styles)),
 
+        // copy html
+        gulp.src(`${tmp.html}/*.html`)
+            .pipe(gulp.dest(dist.firefox.html)),
+
         gulp.src(`${tmp.manifests}/firefox*`)
             .pipe($.rename('manifest.json'))
             .pipe(gulp.dest(dist.firefox.root))
@@ -259,6 +279,10 @@ gulp.task('dist:opera', (done) => {
         // copy styles
         gulp.src(`${tmp.styles}/*.{min.css,min.css.gz}`)
             .pipe(gulp.dest(dist.opera.styles)),
+
+        // copy html
+        gulp.src(`${tmp.html}/*.html`)
+            .pipe(gulp.dest(dist.opera.html)),
 
         gulp.src(`${tmp.manifests}/opera*`)
             .pipe($.rename('manifest.json'))
