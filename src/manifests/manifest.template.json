@@ -5,6 +5,7 @@
     "version_name": "0.3.0 Beta",
     "description": "Aniwatch Plus is an unofficial extension which provides several UI improvments for https://aniwatch.me.",
     "permissions": [
+        "storage",
         "*://aniwatch.me/*"
     ],
     "manifest_version": 2,

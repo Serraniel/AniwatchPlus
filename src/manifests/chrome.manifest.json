@@ -5,6 +5,7 @@
     "version_name": "$semanticVersion",
     "description": "$description",
     "permissions": [
+        "storage",
         "*://aniwatch.me/*"
     ],
     "manifest_version": 2,

@@ -4,6 +4,7 @@
     "version": "$version",
     "description": "$description",
     "permissions": [
+        "storage",
         "*://aniwatch.me/*"
     ],
     "manifest_version": 2,
