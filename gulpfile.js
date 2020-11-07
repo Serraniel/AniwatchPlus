@@ -9,6 +9,8 @@ const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
 const merge = require('merge-stream');
 const fs = require('fs');
+const factor = require('factor-bundle');
+const { debug } = require('console');
 
 const $ = gulpLoadPlugins()
 
@@ -113,14 +115,33 @@ gulp.task('styles', () => {
 })
 
 gulp.task('scripts', () => {
-    let b = browserify({
-        entries: `${src.scripts}/index.js`,
-        debug: isDev
+    const modules = [
+        'app',
+        'settings',
+    ];
+
+    const inputs = [];
+    const streams = [];
+
+    modules.forEach(module => {
+        inputs.push(`${src.scripts}/${module}.js`);
+        streams.push(source(`${module}.js`));
     });
 
-    return b.transform('babelify').bundle()
+    const b = browserify(inputs, { debug: isDev });
+
+    let outstream = b
+        .transform('babelify')
+        .plugin(factor, { outputs: streams })
+        .bundle()
+        .pipe(source('common.js'))
+
+    streams.forEach(stream => {
+        outstream = outstream.pipe($.merge(stream));
+    });
+
+    return outstream
         .pipe($.plumber())
-        .pipe(source('app.js'))
         .pipe(buffer())
         .pipe($.if(isDev, $.sourcemaps.init({ loadMaps: true })))
         .pipe($.terser({ compress: { drop_console: isProd, drop_debugger: isProd } }))
@@ -129,7 +150,7 @@ gulp.task('scripts', () => {
             showFiles: true,
         }))
         .pipe($.if(isDev, $.sourcemaps.write()))
-        .pipe(gulp.dest(`${tmp.scripts}`))
+        .pipe(gulp.dest(`${tmp.scripts}`));
 })
 
 gulp.task('images', () => {
