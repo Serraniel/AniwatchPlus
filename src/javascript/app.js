@@ -9,6 +9,8 @@ import { init as languageDisplay } from './enhancements/languageDisplay';
 import { init as notifications } from './enhancements/notifications';
 import { init as quickSearch } from './enhancements/quickSearch';
 import { init as watch2getherChat } from './enhancements/watch2getherChat';
+// css
+import { init as cssEnhancements } from './enhancements/cssEnhancements';
 
 // core
 initCore();
@@ -23,3 +25,6 @@ languageDisplay();
 notifications();
 quickSearch();
 watch2getherChat();
+
+// css
+cssEnhancements();

@@ -1,5 +1,5 @@
 md-list-item {
-    &:not(:last-child) {
+    &:not(:last-child):not(.awp-list-disabled) {
         border-bottom: 1px solid $gray;
     }
 }

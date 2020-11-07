@@ -2,19 +2,18 @@ import { getGlobalStorageProvider } from "../browserApi/storageProvider";
 import { assigned } from "../utils/helpers";
 
 // website
-export const SETTINGS_websiteDisplayQuickSearch = 'websiteDisplayQuickSearch'; //
-export const SETTINGS_websiteShowNotificationsCountInTab = 'websiteShowNotificationsCountInTab'; //
+export const SETTINGS_websiteDisplayQuickSearch = 'websiteDisplayQuickSearch';
+export const SETTINGS_websiteShowNotificationsCountInTab = 'websiteShowNotificationsCountInTab';
 export const SETTINGS_websiteHideUnusedTabs = 'websiteHideUnusedTabs';
 export const SETTINGS_websiteOptimizeListAppearance = 'websiteOptimizeListAppearance';
 // anime
-export const SETTINGS_animeLanguageDisplay = 'animeLanguageDisplay'; //
+export const SETTINGS_animeLanguageDisplay = 'animeLanguageDisplay';
 // requests 
-export const SETTINGS_requestBeautifyPage = 'requestBeautifyPage'; //
+export const SETTINGS_requestBeautifyPage = 'requestBeautifyPage';
 // player
-export const SETTINGS_playerAutoplayAfterScreenshot = 'playerAutoplayAfterScreenshot'; //
+export const SETTINGS_playerAutoplayAfterScreenshot = 'playerAutoplayAfterScreenshot';
 // w2g
-export const SETTINGS_w2gDisplayCharacterCounter = 'w2gDisplayCharacterCounter'; //
-
+export const SETTINGS_w2gDisplayCharacterCounter = 'w2gDisplayCharacterCounter';
 class Configuration {
     constructor() {
         this.settingsCache = new Map();
