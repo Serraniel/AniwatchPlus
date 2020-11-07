@@ -1,4 +1,4 @@
-import { getGlobalConfiguration } from '../configuration/configuration';
+import { getGlobalConfiguration, SETTINGS_playerAutoplayAfterScreenshot } from '../configuration/configuration';
 import * as core from '../utils/aniwatchCore';
 import * as helper from '../utils/helpers';
 
@@ -6,13 +6,15 @@ const SCREENSHOT_TOOLTIP_ID = 'anilyr-screenshots-tooltip';
 const PLAYER_ID = 'player';
 
 export function init() {
-    if (getGlobalConfiguration().playerAutoplayAfterScreenshot) {
-        core.registerScript(node => {
-            if (helper.isHtmlElement(node) && node.id === SCREENSHOT_TOOLTIP_ID) {
-                observeScreenshotTooltip(node);
-            }
-        }, "^/anime/[0-9]*/[0-9]*$");
-    }
+    getGlobalConfiguration().getProperty(SETTINGS_playerAutoplayAfterScreenshot, value => {
+        if (value) {
+            core.registerScript(node => {
+                if (helper.isHtmlElement(node) && node.id === SCREENSHOT_TOOLTIP_ID) {
+                    observeScreenshotTooltip(node);
+                }
+            }, "^/anime/[0-9]*/[0-9]*$");
+        }
+    });
 }
 
 function observeScreenshotTooltip(tooltip) {

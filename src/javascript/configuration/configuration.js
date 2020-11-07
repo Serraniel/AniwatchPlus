@@ -1,49 +1,36 @@
 import { getGlobalStorageProvider } from "../browserApi/storageProvider";
 import { assigned } from "../utils/helpers";
 
+// website
+export const SETTINGS_websiteDisplayQuickSearch = 'websiteDisplayQuickSearch'; //
+export const SETTINGS_websiteShowNotificationsCountInTab = 'websiteShowNotificationsCountInTab'; //
+export const SETTINGS_websiteHideUnusedTabs = 'websiteHideUnusedTabs';
+export const SETTINGS_websiteOptimizeListAppearance = 'websiteOptimizeListAppearance';
+// anime
+export const SETTINGS_animeLanguageDisplay = 'animeLanguageDisplay'; //
+// requests 
+export const SETTINGS_requestBeautifyPage = 'requestBeautifyPage'; //
+// player
+export const SETTINGS_playerAutoplayAfterScreenshot = 'playerAutoplayAfterScreenshot'; //
+// w2g
+export const SETTINGS_w2gDisplayCharacterCounter = 'w2gDisplayCharacterCounter'; //
+
 class Configuration {
     constructor() {
-        // website
-        this.websiteDisplayQuickSearch = true;
-        this.websiteShowNotificationsCountInTab = true;
-        this.websiteHideUnusedTabs = true;
-        this.websiteOptimizeListAppearance = true;
-
-        // anime
-        this.animeLanguageDisplay = true;
-
-        // requests 
-        this.requestBeautifyPage = true;
-
-        // player 
-        this.playerAutoplayAfterScreenshot = true;
-
-        // w2g
-        this.w2gDisplayCharacterCounter = true;
-
-        this.reloadConfiguration();
+        this.settingsCache = new Map();
     }
 
-    reloadConfiguration() {
-        // website
-        getGlobalStorageProvider().getData('websiteDisplayQuickSearch', this.websiteDisplayQuickSearch, value => this.websiteDisplayQuickSearch = value);
-        getGlobalStorageProvider().getData('websiteShowNotificationsCountInTab', this.websiteShowNotificationsCountInTab, value => this.websiteShowNotificationsCountInTab = value);
-        getGlobalStorageProvider().getData('websiteHideUnusedTabs', this.websiteHideUnusedTabs, value => this.websiteHideUnusedTabs = value);
-        getGlobalStorageProvider().getData('websiteOptimizeListAppearance', this.websiteOptimizeListAppearance, value => this.websiteOptimizeListAppearance = value);
-
-        // anime
-        getGlobalStorageProvider().getData('animeLanguageDisplay', this.animeLanguageDisplay, value => this.animeLanguageDisplay = value);
-
-        // requests
-        getGlobalStorageProvider().getData('requestBeautifyPage', this.requestBeautifyPage, value => this.requestBeautifyPage = value);
-
-        // player
-        getGlobalStorageProvider().getData('playerAutoplayAfterScreenshot', this.playerAutoplayAfterScreenshot, value => this.playerAutoplayAfterScreenshot = value);
-
-        // w2g
-        getGlobalStorageProvider().getData('w2gDisplayCharacterCounter', this.w2gDisplayCharacterCounter, value => this.w2gDisplayCharacterCounter = value);
-
-        console.log(this);
+    getProperty(key, callback) {
+        if (this.settingsCache.has(key)) {
+            callback(this.settingsCache.get(key));
+        }
+        else {
+            // OOOPS // currently all settings are default true. This isn´t a problem but there should be much better soloutions after migration to typescript....
+            let value = getGlobalStorageProvider().getData(key, true, value => {
+                this.settingsCache.set(key, value);
+                callback(value);
+            });
+        }
     }
 }
 

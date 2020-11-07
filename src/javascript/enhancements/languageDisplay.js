@@ -1,16 +1,20 @@
-import { getGlobalConfiguration } from '../configuration/configuration';
+import { getGlobalConfiguration, SETTINGS_animeLanguageDisplay } from '../configuration/configuration';
 import * as core from '../utils/aniwatchCore';
 import * as helper from '../utils/helpers';
 
 export function init() {
-    if (getGlobalConfiguration().animeLanguageDisplay) {
-        core.registerScript(node => {
-            // run the scripts
-            if (helper.isHtmlElement(node)) {
-                updateLanguageDisplay(node)
+    getGlobalConfiguration().getProperty(SETTINGS_animeLanguageDisplay, value => {
+        if (value) {
+            if (getGlobalConfiguration().animeLanguageDisplay) {
+                core.registerScript(node => {
+                    // run the scripts
+                    if (helper.isHtmlElement(node)) {
+                        updateLanguageDisplay(node)
+                    }
+                }, "^/anime/[0-9]*$");
             }
-        }, "^/anime/[0-9]*$");
-    }
+        }
+    });
 }
 
 function updateLanguageDisplay(node) {

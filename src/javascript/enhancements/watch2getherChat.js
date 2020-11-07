@@ -1,14 +1,15 @@
 import * as core from '../utils/aniwatchCore';
-import * as helper from '../utils/helpers';
 import { v4 as uuidv4 } from 'uuid';
-import { getGlobalConfiguration } from '../configuration/configuration';
+import { getGlobalConfiguration, SETTINGS_w2gDisplayCharacterCounter } from '../configuration/configuration';
 
 export function init() {
-    if (getGlobalConfiguration().w2gDisplayCharacterCounter) {
-        core.runAfterLocationChange(() => {
-            manipulateChatInput();
-        }, "^/watch2gether/.*$");
-    }
+    getGlobalConfiguration().getProperty(SETTINGS_w2gDisplayCharacterCounter, value => {
+        if (value) {
+            core.runAfterLocationChange(() => {
+                manipulateChatInput();
+            }, "^/watch2gether/.*$");
+        }
+    });
 }
 
 function manipulateChatInput() {

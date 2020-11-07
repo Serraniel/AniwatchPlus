@@ -1,4 +1,4 @@
-import { getGlobalConfiguration } from '../configuration/configuration';
+import { getGlobalConfiguration, SETTINGS_websiteDisplayQuickSearch } from '../configuration/configuration';
 import * as core from '../utils/aniwatchCore';
 import * as helper from '../utils/helpers';
 
@@ -6,15 +6,13 @@ const quickSearchID = 'ea-quickSearch';
 const quickSearchLink = 'ea-quickSearchLink';
 
 export function init() {
-    let config = getGlobalConfiguration();
-    console.log(config);
-    console.log(config.websiteDisplayQuickSearch);
-    console.log(getGlobalConfiguration().websiteDisplayQuickSearch)
-    if (getGlobalConfiguration().websiteDisplayQuickSearch) {
-        core.runAfterLoad(() => {
-            initSearch();
-        }, ".*");
-    }
+    getGlobalConfiguration().getProperty(SETTINGS_websiteDisplayQuickSearch, value => {
+        if (value) {
+            core.runAfterLoad(() => {
+                initSearch();
+            }, ".*");
+        }
+    });
 }
 
 function initSearch() {

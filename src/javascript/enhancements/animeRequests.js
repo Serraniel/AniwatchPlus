@@ -1,19 +1,21 @@
-import { getGlobalConfiguration } from '../configuration/configuration';
+import { getGlobalConfiguration, SETTINGS_requestBeautifyPage } from '../configuration/configuration';
 import * as core from '../utils/aniwatchCore';
 import * as color from '../utils/colors';
 import * as helper from '../utils/helpers';
 
 export function init() {
-    if (getGlobalConfiguration().requestBeautifyPage) {
-        core.registerScript(node => {
-            // run the scripts
-            if (helper.isHtmlElement(node)) {
-                changeFollowedStarColor(node);
-                changeBorderColorOwnRequests(node);
-                removeUnknownUsers(node);
-            }
-        }, "/requests");
-    }
+    getGlobalConfiguration().getProperty(SETTINGS_requestBeautifyPage, value => {
+        if (value) {
+            core.registerScript(node => {
+                // run the scripts
+                if (helper.isHtmlElement(node)) {
+                    changeFollowedStarColor(node);
+                    changeBorderColorOwnRequests(node);
+                    removeUnknownUsers(node);
+                }
+            }, "/requests");
+        }
+    });
 }
 
 function changeFollowedStarColor(node) {
