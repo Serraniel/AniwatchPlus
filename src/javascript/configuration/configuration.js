@@ -1,3 +1,4 @@
+import { getGlobalStorageProvider } from "../browserApi/storageProvider";
 import { assigned } from "../utils/helpers";
 
 class Configuration {
@@ -24,7 +25,25 @@ class Configuration {
     }
 
     reloadConfiguration() {
+        // website
+        getGlobalStorageProvider().getData('websiteDisplayQuickSearch', this.websiteDisplayQuickSearch, value => this.websiteDisplayQuickSearch = value);
+        getGlobalStorageProvider().getData('websiteShowNotificationsCountInTab', this.websiteShowNotificationsCountInTab, value => this.websiteShowNotificationsCountInTab = value);
+        getGlobalStorageProvider().getData('websiteHideUnusedTabs', this.websiteHideUnusedTabs, value => this.websiteHideUnusedTabs = value);
+        getGlobalStorageProvider().getData('websiteOptimizeListAppearance', this.websiteOptimizeListAppearance, value => this.websiteOptimizeListAppearance = value);
 
+        // anime
+        getGlobalStorageProvider().getData('animeLanguageDisplay', this.animeLanguageDisplay, value => this.animeLanguageDisplay = value);
+
+        // requests
+        getGlobalStorageProvider().getData('requestBeautifyPage', this.requestBeautifyPage, value => this.requestBeautifyPage = value);
+
+        // player
+        getGlobalStorageProvider().getData('playerAutoplayAfterScreenshot', this.playerAutoplayAfterScreenshot, value => this.playerAutoplayAfterScreenshot = value);
+
+        // w2g
+        getGlobalStorageProvider().getData('w2gDisplayCharacterCounter', this.w2gDisplayCharacterCounter, value => this.w2gDisplayCharacterCounter = value);
+
+        console.log(this);
     }
 }
 
