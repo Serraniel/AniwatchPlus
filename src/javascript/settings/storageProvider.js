@@ -2,10 +2,22 @@ const { assigned } = require("../utils/helpers")
 
 class StorageProviderChromium {
 
-    storeData(key, value, callback) {
+    setData(key, value) {
+        let obj = {};
+        obj[key] = value;
+
+        this.getStorage().set(obj);
     }
 
     getData(key, defaultValue, callback) {
+        this.getStorage().get(key, items => {
+            if (assigned(items)) {
+                callback(items[key]);
+            }
+            else {
+                callback(defaultValue);
+            }
+        })
     }
 
     getStorage() {
@@ -20,7 +32,7 @@ class StorageProviderChromium {
 
 class StorageProviderFirefox {
 
-    storeData(key, value, callback) {
+    setData(key, value, callback) {
     }
 
     getData(key, defaultValue, callback) {
@@ -44,7 +56,7 @@ function createStorageProvider() {
 
 }
 
-export function globalStorageProvider() {
+export function getGlobalStorageProvider() {
     if (!assigned(__storageProvieder)) {
         createStorageProvider();
     }
