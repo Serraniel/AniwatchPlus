@@ -25,6 +25,7 @@
                 "*://aniwatch.me/*"
             ],
             "js": [
+                "javascript/common.min.js",
                 "javascript/app.min.js"
             ],
             "css": [
