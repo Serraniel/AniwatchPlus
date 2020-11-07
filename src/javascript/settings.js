@@ -1,4 +1,4 @@
-import { getGlobalStorageProvider } from "./settings/storageProvider";
+import { getGlobalStorageProvider } from "./browserApi/storageProvider";
 import { onReady } from "./utils/helpers";
 
 const OPTION_SELECTOR = 'input[type="checkbox"';
