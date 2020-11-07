@@ -1,14 +1,17 @@
+import { getGlobalConfiguration } from '../configuration/configuration';
 import * as core from '../utils/aniwatchCore';
 import * as helper from '../utils/helpers';
 
 export function init() {
-    core.runAfterLoad(() => {
-        updateNotificationsInTitle();
-    }, ".*");
+    if (getGlobalConfiguration().websiteShowNotificationsCountInTab) {
+        core.runAfterLoad(() => {
+            updateNotificationsInTitle();
+        }, ".*");
 
-    core.runAfterLocationChange(() => {
-        updateNotificationsInTitle();
-    }, ".*");
+        core.runAfterLocationChange(() => {
+            updateNotificationsInTitle();
+        }, ".*");
+    }
 }
 
 function getNotificationCount() {

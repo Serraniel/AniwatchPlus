@@ -1,3 +1,4 @@
+import { getGlobalConfiguration } from '../configuration/configuration';
 import * as core from '../utils/aniwatchCore';
 import * as helper from '../utils/helpers';
 
@@ -5,11 +6,13 @@ const SCREENSHOT_TOOLTIP_ID = 'anilyr-screenshots-tooltip';
 const PLAYER_ID = 'player';
 
 export function init() {
-    core.registerScript(node => {
-        if (helper.isHtmlElement(node) && node.id === SCREENSHOT_TOOLTIP_ID) {
-            observeScreenshotTooltip(node);
-        }
-    }, "^/anime/[0-9]*/[0-9]*$");
+    if (getGlobalConfiguration().playerAutoplayAfterScreenshot) {
+        core.registerScript(node => {
+            if (helper.isHtmlElement(node) && node.id === SCREENSHOT_TOOLTIP_ID) {
+                observeScreenshotTooltip(node);
+            }
+        }, "^/anime/[0-9]*/[0-9]*$");
+    }
 }
 
 function observeScreenshotTooltip(tooltip) {
@@ -18,7 +21,7 @@ function observeScreenshotTooltip(tooltip) {
             // Switched to invisible
             if (!mutation.oldValue.includes('display: none') && mutation.target.style.display == 'none') {
                 let player = findPlayer();
-                if(typeof player !== 'undefined'){
+                if (typeof player !== 'undefined') {
                     resumePlayer(player);
                 }
             }

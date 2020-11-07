@@ -1,3 +1,4 @@
+import { getGlobalConfiguration } from '../configuration/configuration';
 import * as core from '../utils/aniwatchCore';
 import * as helper from '../utils/helpers';
 
@@ -5,9 +6,15 @@ const quickSearchID = 'ea-quickSearch';
 const quickSearchLink = 'ea-quickSearchLink';
 
 export function init() {
-    core.runAfterLoad(() => {
-        initSearch();
-    }, ".*");
+    let config = getGlobalConfiguration();
+    console.log(config);
+    console.log(config.websiteDisplayQuickSearch);
+    console.log(getGlobalConfiguration().websiteDisplayQuickSearch)
+    if (getGlobalConfiguration().websiteDisplayQuickSearch) {
+        core.runAfterLoad(() => {
+            initSearch();
+        }, ".*");
+    }
 }
 
 function initSearch() {
@@ -68,7 +75,7 @@ function handleSearchForShiftF(event) {
         if (document.activeElement instanceof HTMLInputElement || document.activeElement.isContentEditable) {
             return;
         }
-        
+
         if (event.code === 'KeyF') {
             event.preventDefault();
             document.getElementById(quickSearchID).focus();
