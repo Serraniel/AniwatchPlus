@@ -11,7 +11,7 @@ class StorageProviderChromium {
 
     getData(key, defaultValue, callback) {
         this.getStorage().get(key, items => {
-            if (assigned(items)) {
+            if (assigned(items) && assigned(items[key])) {
                 callback(items[key]);
             }
             else {
