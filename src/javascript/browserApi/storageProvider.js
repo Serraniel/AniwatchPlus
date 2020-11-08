@@ -32,13 +32,32 @@ class StorageProviderChromium {
 
 class StorageProviderFirefox {
 
-    setData(key, value, callback) {
+    setData(key, value) {
+        let obj = {};
+        obj[key] = value;
+
+        this.getStorage().set(obj);
     }
 
     getData(key, defaultValue, callback) {
+        let promise = this.getStorage().get(key);
+
+        promise.then(items => {
+            if (assigned(items) && assigned(items[key])) {
+                callback(items[key]);
+            }
+            else {
+                callback(defaultValue);
+            }
+        });
     }
 
     getStorage() {
+        if (assigned(browser.storage.sync)) {
+            return browser.storage.sync;
+        }
+
+        return browser.storage.local;
     }
 }
 
