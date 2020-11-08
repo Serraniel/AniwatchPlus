@@ -25,7 +25,7 @@ class Configuration {
         }
         else {
             // OOOPS // currently all settings are default true. This isn´t a problem but there should be much better soloutions after migration to typescript....
-            let value = getGlobalStorageProvider().getData(key, true, value => {
+            getGlobalStorageProvider().getData(key, true, value => {
                 this.settingsCache.set(key, value);
                 callback(value);
             });
@@ -33,7 +33,7 @@ class Configuration {
     }
 }
 
-let __globalConfig = undefined;
+let __globalConfig;
 
 export function getGlobalConfiguration() {
     if (!assigned(__globalConfig)) {

@@ -61,7 +61,7 @@ class StorageProviderFirefox {
     }
 }
 
-let __storageProvieder = undefined;
+let __storageProvieder;
 
 function createStorageProvider() {
     // chrome based browser
