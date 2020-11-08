@@ -5,14 +5,12 @@ import * as helper from '../utils/helpers';
 export function init() {
     getGlobalConfiguration().getProperty(SETTINGS_animeLanguageDisplay, value => {
         if (value) {
-            if (getGlobalConfiguration().animeLanguageDisplay) {
-                core.registerScript(node => {
-                    // run the scripts
-                    if (helper.isHtmlElement(node)) {
-                        updateLanguageDisplay(node)
-                    }
-                }, "^/anime/[0-9]*$");
-            }
+            core.registerScript(node => {
+                // run the scripts
+                if (helper.isHtmlElement(node)) {
+                    updateLanguageDisplay(node)
+                }
+            }, "^/anime/[0-9]*$");
         }
     });
 }
