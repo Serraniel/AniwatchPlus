@@ -28,10 +28,6 @@ export function init() {
             core.runAfterLoad(() => {
                 disableFunc(document.body);
             }, ".*");
-
-            core.runAfterLocationChange(() => {
-                disableFunc(document.body);
-            }, ".*");
         }
     });
 
@@ -58,10 +54,6 @@ export function init() {
             }, ".*");
 
             core.runAfterLoad(() => {
-                disableFunc(document.body);
-            }, ".*");
-
-            core.runAfterLocationChange(() => {
                 disableFunc(document.body);
             }, ".*");
         }
