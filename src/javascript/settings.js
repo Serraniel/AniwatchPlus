@@ -42,4 +42,7 @@ onReady(() => {
 
     // try restore options
     restoreOptions();
+
+    // update version label
+    document.getElementById('version').innerText = `v${chrome.runtime.getManifest().version}`
 });
