@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Aniwatch Plus Settings</title>
+    <meta charset="utf-8" />
+</head>
+
+<body>
+    <form>
+        <h1>Aniwatch Plus Settings</h1>
+
+        <h2>General Settings</h2>
+        <hr />
+        <h3>Website</h3>
+        <input type="checkbox" id="websiteDisplayQuickSearch" data-default-value="true" />
+        <label for="websiteDisplayQuickSearch">Enable Quick Search</label><br />
+
+        <input type="checkbox" id="websiteShowNotificationsCountInTab" data-default-value="true" />
+        <label for="websiteShowNotificationsCountInTab">Show notification counter in browser tab</label><br />
+
+        <input type="checkbox" id="websiteHideUnusedTabs" data-default-value="true" />
+        <label for="websiteHideUnusedTabs">Hide tabs without functionality</label><br />
+
+        <input type="checkbox" id="websiteOptimizeListAppearance" data-default-value="true" />
+        <label for="websiteOptimizeListAppearance">Optimize appearance of lists</label><br />
+
+        <h3>Anime</h3>
+        <input type="checkbox" id="animeLanguageDisplay" data-default-value="true" />
+        <label for="animeLanguageDisplay">Optimize presentation of available subs and dubs</label><br />
+
+        <h3>Requests page</h3>
+        <input type="checkbox" id="requestBeautifyPage" data-default-value="true" />
+        <label for="requestBeautifyPage">Enhance "Requestes" page</label><br />
+        <h2>Player Settings</h2>
+        <hr />
+        <h3>General</h3>
+        <input type="checkbox" id="playerAutoplayAfterScreenshot" data-default-value="true" />
+        <label for="playerAutoplayAfterScreenshot">Autoplay after screenshots</label><br />
+
+        <h3>Watch2gether</h3>
+        <input type="checkbox" id="w2gDisplayCharacterCounter" data-default-value="true" />
+        <label for="w2gDisplayCharacterCounter">Display character count in chat</label><br />
+
+        <br /><br />
+        <button id="btnSave">Save</button>
+        <button id="btnReset">Reset</button>
+        <br />
+        <i>Please reload aniwatch website after you changed the settings.</i>
+        <hr />
+        <i id="version"></i> <i>- <a href="https://github.com/Serraniel/AniwatchPlus/releases">Changelogs</a></i>
+    </form>
+
+    <script src="../javascript/common.min.js"></script>
+    <script src="../javascript/settings.min.js"></script>
+</body>
+
+</html>

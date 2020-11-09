@@ -1,3 +1,4 @@
+import { getGlobalConfiguration, SETTINGS_websiteDisplayQuickSearch } from '../configuration/configuration';
 import * as core from '../utils/aniwatchCore';
 import * as helper from '../utils/helpers';
 
@@ -5,9 +6,13 @@ const quickSearchID = 'ea-quickSearch';
 const quickSearchLink = 'ea-quickSearchLink';
 
 export function init() {
-    core.runAfterLoad(() => {
-        initSearch();
-    }, ".*");
+    getGlobalConfiguration().getProperty(SETTINGS_websiteDisplayQuickSearch, value => {
+        if (value) {
+            core.runAfterLoad(() => {
+                initSearch();
+            }, ".*");
+        }
+    });
 }
 
 function initSearch() {
@@ -68,7 +73,7 @@ function handleSearchForShiftF(event) {
         if (document.activeElement instanceof HTMLInputElement || document.activeElement.isContentEditable) {
             return;
         }
-        
+
         if (event.code === 'KeyF') {
             event.preventDefault();
             document.getElementById(quickSearchID).focus();

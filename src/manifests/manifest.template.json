@@ -5,6 +5,7 @@
     "version_name": "0.3.1 Beta",
     "description": "Aniwatch Plus is an unofficial extension which provides several UI improvments for https://aniwatch.me.",
     "permissions": [
+        "storage",
         "*://aniwatch.me/*"
     ],
     "manifest_version": 2,
@@ -18,16 +19,23 @@
         "48": "images/icon/icon_48.png",
         "96": "images/icon/icon_96.png"
     },
-    "content_scripts": [{
-        "matches": [
-            "*://aniwatch.me/*"
-        ],
-        "js": [
-            "javascript/app.min.js"
-        ],
-        "css": [
-            "stylesheets/aniwatchplus.min.css"
-        ],
-        "run_at": "document_end"
-    }]
+    "options_ui": {
+        "page": "html/settings.html",
+        "open_in_tab": false
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://aniwatch.me/*"
+            ],
+            "js": [
+                "javascript/common.min.js",
+                "javascript/app.min.js"
+            ],
+            "css": [
+                "stylesheets/aniwatchplus.min.css"
+            ],
+            "run_at": "document_end"
+        }
+    ]
 }

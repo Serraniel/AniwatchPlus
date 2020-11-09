@@ -1,6 +1,6 @@
 md-tab-item {
     // hide disabled tabs
-    &.md-disabled {
+    &.md-disabled:not(.awp-hide-unused-disabled) {
         display: none;
     }
 }

@@ -1,5 +1,5 @@
 md-list-item {
-    &:not(:last-child) {
+    &:not(:last-child):not(.awp-list-disabled) {
         // added important to override aniwatch new introduced border which has a different, more "aggressive" color
         // https://canary.discord.com/channels/541683465599451136/543812424541798421/773621830161268756
         border-bottom: 1px solid $gray !important;  

@@ -9,6 +9,8 @@ const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
 const merge = require('merge-stream');
 const fs = require('fs');
+const factor = require('factor-bundle');
+const { debug } = require('console');
 
 const $ = gulpLoadPlugins()
 
@@ -25,6 +27,7 @@ const src = {
     styles: 'src/stylesheets',
     scripts: 'src/javascript',
     images: 'src/images',
+    html: 'src/html',
 }
 
 // Build path
@@ -34,6 +37,7 @@ const tmp = {
     styles: '.tmp/stylesheets',
     scripts: '.tmp/javascript',
     images: '.tmp/images',
+    html: '.tmp/html',
 }
 
 // Dist path
@@ -44,18 +48,21 @@ const dist = {
         styles: 'dist/chrome/stylesheets',
         scripts: 'dist/chrome/javascript',
         images: 'dist/chrome/images',
+        html: 'dist/chrome/html',
     },
     firefox: {
         root: 'dist/firefox',
         styles: 'dist/firefox/stylesheets',
         scripts: 'dist/firefox/javascript',
         images: 'dist/firefox/images',
+        html: 'dist/firefox/html',
     },
     opera: {
         root: 'dist/opera',
         styles: 'dist/opera/stylesheets',
         scripts: 'dist/opera/javascript',
         images: 'dist/opera/images',
+        html: 'dist/opera/html',
     },
     zip: 'dist/zips',
 }
@@ -108,14 +115,33 @@ gulp.task('styles', () => {
 })
 
 gulp.task('scripts', () => {
-    let b = browserify({
-        entries: `${src.scripts}/index.js`,
-        debug: isDev
+    const modules = [
+        'app',
+        'settings',
+    ];
+
+    const inputs = [];
+    const streams = [];
+
+    modules.forEach(module => {
+        inputs.push(`${src.scripts}/${module}.js`);
+        streams.push(source(`${module}.js`));
     });
 
-    return b.transform('babelify').bundle()
+    const b = browserify(inputs, { debug: isDev });
+
+    let outstream = b
+        .transform('babelify')
+        .plugin(factor, { outputs: streams })
+        .bundle()
+        .pipe(source('common.js'))
+
+    streams.forEach(stream => {
+        outstream = outstream.pipe($.merge(stream));
+    });
+
+    return outstream
         .pipe($.plumber())
-        .pipe(source('app.js'))
         .pipe(buffer())
         .pipe($.if(isDev, $.sourcemaps.init({ loadMaps: true })))
         .pipe($.terser({ compress: { drop_console: isProd, drop_debugger: isProd } }))
@@ -124,7 +150,7 @@ gulp.task('scripts', () => {
             showFiles: true,
         }))
         .pipe($.if(isDev, $.sourcemaps.write()))
-        .pipe(gulp.dest(`${tmp.scripts}`))
+        .pipe(gulp.dest(`${tmp.scripts}`));
 })
 
 gulp.task('images', () => {
@@ -140,6 +166,16 @@ gulp.task('images', () => {
             showFiles: true,
         }))
         .pipe(gulp.dest(tmp.images))
+})
+
+gulp.task('html', () => {
+    return gulp.src(`${src.html}/**/*`)
+        .pipe($.plumber())
+        // any steps for HTML processing?
+        .pipe($.size({
+            showFiles: true,
+        }))
+        .pipe(gulp.dest(tmp.html))
 })
 
 gulp.task('manifests', () => {
@@ -174,6 +210,8 @@ gulp.task('watch', (done) => {
 
     gulp.watch(`${src.images}/**/*`, gulp.series('clean:build', 'images', 'dist:copy', 'dist:zip'))
 
+    gulp.watch(`${src.html}/**/*`, gulp.series('clean:build', 'html', 'dist:copy', 'dist:zip'))
+
     gulp.watch(`${src.manifests}/**/*.*`, gulp.series('clean:build', 'manifests', 'dist:copy', 'dist:zip'))
 
     done();
@@ -193,7 +231,7 @@ gulp.task('clean', gulp.series('clean:build', 'clean:dist'))
 BUILD CLEAN ALL
 ============================================================================ */
 
-gulp.task('build', gulp.series('manifests', 'images', 'scripts', 'styles'));
+gulp.task('build', gulp.series('manifests', 'images', 'scripts', 'styles', 'html'));
 
 gulp.task('build:clean', gulp.series('clean:build', 'manifests', 'images', 'scripts', 'styles'));
 
@@ -215,6 +253,10 @@ gulp.task('dist:chrome', (done) => {
         gulp.src(`${tmp.styles}/*.{min.css,min.css.gz}`)
             .pipe(gulp.dest(dist.chrome.styles)),
 
+        // copy html
+        gulp.src(`${tmp.html}/*.html`)
+            .pipe(gulp.dest(dist.chrome.html)),
+
         gulp.src(`${tmp.manifests}/chrome*`)
             .pipe($.rename('manifest.json'))
             .pipe(gulp.dest(dist.chrome.root))
@@ -235,6 +277,10 @@ gulp.task('dist:firefox', (done) => {
         gulp.src(`${tmp.styles}/*.{min.css,min.css.gz}`)
             .pipe(gulp.dest(dist.firefox.styles)),
 
+        // copy html
+        gulp.src(`${tmp.html}/*.html`)
+            .pipe(gulp.dest(dist.firefox.html)),
+
         gulp.src(`${tmp.manifests}/firefox*`)
             .pipe($.rename('manifest.json'))
             .pipe(gulp.dest(dist.firefox.root))
@@ -254,6 +300,10 @@ gulp.task('dist:opera', (done) => {
         // copy styles
         gulp.src(`${tmp.styles}/*.{min.css,min.css.gz}`)
             .pipe(gulp.dest(dist.opera.styles)),
+
+        // copy html
+        gulp.src(`${tmp.html}/*.html`)
+            .pipe(gulp.dest(dist.opera.html)),
 
         gulp.src(`${tmp.manifests}/opera*`)
             .pipe($.rename('manifest.json'))
