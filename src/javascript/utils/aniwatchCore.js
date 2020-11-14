@@ -82,7 +82,7 @@ function awaitPageLoaded() {
         });
     };
 
-    if (typeof preLoader === 'undefined') {
+    if (!helper.assigned(preLoader)) {
         runScripts();
         return;
     }
