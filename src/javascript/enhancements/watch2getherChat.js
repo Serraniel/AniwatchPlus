@@ -41,7 +41,6 @@ function addCharCounter(textarea) {
     updateCharCounter(textarea, charCounterSpan);
 
     textarea.addEventListener('keyup', () => {
-        console.log('TRIGGER')
         updateCharCounter(textarea, charCounterSpan)
     });
 }
