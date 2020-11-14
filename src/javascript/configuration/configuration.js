@@ -6,6 +6,7 @@ export const SETTINGS_websiteDisplayQuickSearch = 'websiteDisplayQuickSearch';
 export const SETTINGS_websiteShowNotificationsCountInTab = 'websiteShowNotificationsCountInTab';
 export const SETTINGS_websiteHideUnusedTabs = 'websiteHideUnusedTabs';
 export const SETTINGS_websiteOptimizeListAppearance = 'websiteOptimizeListAppearance';
+export const SETTINGS_websiteOptimizeFontColors = 'websiteOptimizeFontColors';
 // anime
 export const SETTINGS_animeLanguageDisplay = 'animeLanguageDisplay';
 // requests 
