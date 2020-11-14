@@ -7,30 +7,45 @@ const BADGE_CLASS = 'label';
 
 export function init() {
     getGlobalConfiguration().getProperty(SETTINGS_websiteOptimizeFontColors, value => {
-        if (value) {            
-            core.registerScript(node => {
-                console.log(node);
-                // run the scripts
-                if (helper.isHtmlElement(node)) {
+        if (value) {
+            core.runAfterLoad(() => {
+                checkRunColorOptimization(document.documentElement);
+            }, ".*");
 
-                    if (node.classList.contains(BADGE_CLASS)) {
-                        optimizeFontColorsBadges(node);
-                    }
-                    else {
-                        node.querySelectorAll(`.${BADGE_CLASS}`).forEach(element => {
-                            optimizeFontColorsBadges(element);
-                        });
-                    }
-                }
+            core.runAfterLocationChange(() => {
+                checkRunColorOptimization(document.documentElement);
+            }, ".*");
+
+            core.registerScript(node => {
+                checkRunColorOptimization(node);
             }, ".*");
         }
     });
 }
 
+function checkRunColorOptimization(node) {
+    console.log(node);
+
+    // run the scripts
+    if (helper.isHtmlElement(node)) {
+        if (node.classList.contains(BADGE_CLASS)) {
+            optimizeFontColorsBadges(node);
+        }
+        else {
+            node.querySelectorAll(`.${BADGE_CLASS}`).forEach(element => {
+                optimizeFontColorsBadges(element);
+            });
+        }
+    }
+}
+
 function optimizeFontColorsBadges(badge) {
-    let color = window.getComputedStyle(badge, null).getPropertyValue('background-color');
-    let c = new Color(color)
-    if (c.isLight()) {
-        badge.classList.add('awp-fontColor-dark')
+    let colorStr = window.getComputedStyle(badge, null).getPropertyValue('background-color');
+
+    if (colorStr.length > 0) { // some elements do not have a computed background color
+        let color = new Color(colorStr)
+        if (color.isLight()) {
+            badge.classList.add('awp-fontColor-dark')
+        }
     }
 }
