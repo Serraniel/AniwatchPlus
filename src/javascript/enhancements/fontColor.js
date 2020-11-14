@@ -24,7 +24,6 @@ export function init() {
 }
 
 function checkRunColorOptimization(node) {
-    console.log(node);
 
     // run the scripts
     if (helper.isHtmlElement(node)) {
