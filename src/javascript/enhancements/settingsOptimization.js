@@ -10,9 +10,24 @@ export function init() {
             core.registerScript(node => {
                 // run the scripts
                 if (helper.isHtmlElement(node)) {
+                    if (node.tagName === TOOLTIP_TAG_NAME) {
+                        changeTooltipDirection(node);
+                    }
+                    else {
+                        node.querySelectorAll(TOOLTIP_TAG_NAME).forEach(tooltip => changeTooltipDirection(tooltip));
+                    }
                 }
             }, "^/profile/[0-9]*\?tab=6$");
         }
     });
 }
 
+function changeTooltipDirection(tooltip) {
+    const DIRECTION_ATTRIBUTE = 'md-direction';
+
+    let directionStr = tooltip.getAttribute(DIRECTION_ATTRIBUTE);
+
+    if (directionStr === 'top') {
+        tooltip.setAttribute(DIRECTION_ATTRIBUTE, 'right');
+    }
+}
