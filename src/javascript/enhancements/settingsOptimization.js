@@ -17,7 +17,7 @@ export function init() {
                         node.querySelectorAll(TOOLTIP_TAG_NAME).forEach(tooltip => changeTooltipDirection(tooltip));
                     }
                 }
-            }, "^/profile/[0-9]*\?tab=6$");
+            }, "^/profile/[0-9]*$");
         }
     });
 }
@@ -28,6 +28,6 @@ function changeTooltipDirection(tooltip) {
     let directionStr = tooltip.getAttribute(DIRECTION_ATTRIBUTE);
 
     if (directionStr === 'top') {
-        tooltip.setAttribute(DIRECTION_ATTRIBUTE, 'right');
+        tooltip.setAttribute(DIRECTION_ATTRIBUTE, 'right');        
     }
 }
