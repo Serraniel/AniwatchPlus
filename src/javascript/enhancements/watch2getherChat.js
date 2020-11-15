@@ -1,6 +1,7 @@
 import * as core from '../utils/aniwatchCore';
 import { v4 as uuidv4 } from 'uuid';
 import { getGlobalConfiguration, SETTINGS_w2gDisplayCharacterCounter } from '../configuration/configuration';
+import { assigned } from '../utils/helpers';
 
 export function init() {
     getGlobalConfiguration().getProperty(SETTINGS_w2gDisplayCharacterCounter, value => {
@@ -16,7 +17,7 @@ function manipulateChatInput() {
     let textarea = document.querySelector('.chat-input textarea');
 
     // avoid duplicate registration
-    if (typeof textarea.dataset.charCounterId !== 'undefined') {
+    if (assigned(textarea.dataset.charCounterId)) {
         return;
     }
 
@@ -40,7 +41,6 @@ function addCharCounter(textarea) {
     updateCharCounter(textarea, charCounterSpan);
 
     textarea.addEventListener('keyup', () => {
-        console.log('TRIGGER')
         updateCharCounter(textarea, charCounterSpan)
     });
 }
