@@ -22,6 +22,8 @@ export function init() {
             };
 
             core.registerScript(node => {
+                console.log(node);
+                node.querySelectorAll('*').forEach(e => console.log(e));
                 disableFunc(node);
             }, ".*");
 

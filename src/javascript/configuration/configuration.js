@@ -5,13 +5,15 @@ import { assigned } from "../utils/helpers";
 export const SETTINGS_websiteDisplayQuickSearch = 'websiteDisplayQuickSearch';
 export const SETTINGS_websiteShowNotificationsCountInTab = 'websiteShowNotificationsCountInTab';
 export const SETTINGS_websiteHideUnusedTabs = 'websiteHideUnusedTabs';
-export const SETTINGS_websiteOptimizeListAppearance = 'websiteOptimizeListAppearance';
+export const SETTINGS_websiteOptimizeListAppearance = 'websiteOptimizeListAppearance'
 // anime
 export const SETTINGS_animeLanguageDisplay = 'animeLanguageDisplay';
 // requests 
 export const SETTINGS_requestBeautifyPage = 'requestBeautifyPage';
 // player
 export const SETTINGS_playerAutoplayAfterScreenshot = 'playerAutoplayAfterScreenshot';
+// settings
+export const SETTINGS_settingsEnhanceTooltips = 'settingsEnhanceTooltips';
 // w2g
 export const SETTINGS_w2gDisplayCharacterCounter = 'w2gDisplayCharacterCounter';
 class Configuration {
