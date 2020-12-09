@@ -33,7 +33,7 @@
     },
     "homepage": "https://github.com/Serraniel/AniwatchPlus#readme",
     "dependencies": {
-        "uuid": "^8.3.1"
+        "uuid": "^8.3.2"
     },
     "devDependencies": {
         "@babel/compat-data": "^7.12.7",
