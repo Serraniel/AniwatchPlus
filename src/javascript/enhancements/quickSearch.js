@@ -70,7 +70,7 @@ function handleQuickSearch(event) {
 function handleSearchForShiftF(event) {
     if (helper.isShiftPressed) {
         // check if some kind of input is focused already; we then prevent our hotkey
-        if (document.activeElement instanceof HTMLInputElement || document.activeElement.isContentEditable) {
+        if (document.activeElement instanceof HTMLInputElement || document.activeElement instanceof HTMLTextAreaElement || document.activeElement.isContentEditable) {
             return;
         }
 
