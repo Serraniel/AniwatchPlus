@@ -1,7 +1,7 @@
 {
     "name": "Aniwatch Plus",
     "short_name": "AW+",
-    "version": "0.4.2.0",
+    "version": "0.4.2.1",
     "version_name": "0.4.2 Beta",
     "description": "Aniwatch Plus is an unofficial extension which provides several UI improvments for https://aniwatch.me.",
     "permissions": [
