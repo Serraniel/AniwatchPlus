@@ -31,8 +31,7 @@ function updateLanguageDisplay(node) {
 function updateLanguageDisplayListMode(node) {
     // last column with flags
     let col = node.querySelector('h3.layout-align-end-center');
-
-    if (typeof col === 'undefined' || col.awpManipulated) {
+    if (!helper.assigned(col) || col.awpManipulated) {
         return;
     }
 
@@ -43,7 +42,7 @@ function updateLanguageDisplayBoxMode(node) {
     // last column with flags
     let col = node.querySelector('div.layout-align-end-start');
 
-    if (typeof col === 'undefined' || col.awpManipulated) {
+    if (!helper.assigned(col) || col.awpManipulated) {
         return;
     }
 

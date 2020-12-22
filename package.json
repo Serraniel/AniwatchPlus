@@ -1,6 +1,6 @@
 {
     "name": "aniwatch-plus",
-    "version": "0.4.0-beta",
+    "version": "0.4.2-beta.1",
     "description": "Aniwatch Plus is a browser extension for https://aniwatch.me/",
     "main": "index.js",
     "scripts": {
@@ -34,19 +34,19 @@
     "homepage": "https://github.com/Serraniel/AniwatchPlus#readme",
     "dependencies": {
         "color": "^3.1.3",
-        "uuid": "^8.3.1"
+        "uuid": "^8.3.2"
     },
     "devDependencies": {
-        "@babel/compat-data": "^7.12.5",
-        "@babel/core": "^7.12.3",
+        "@babel/compat-data": "^7.12.7",
+        "@babel/core": "^7.12.10",
         "@babel/helper-module-imports": "^7.12.5",
         "@babel/plugin-proposal-class-properties": "^7.12.1",
         "@babel/plugin-proposal-private-methods": "^7.12.1",
-        "@babel/preset-env": "^7.12.1",
-        "@babel/register": "^7.12.1",
+        "@babel/preset-env": "^7.12.11",
+        "@babel/register": "^7.12.10",
         "babelify": "^10.0.0",
         "browserify": "^17.0.0",
-        "cross-env": "^7.0.2",
+        "cross-env": "^7.0.3",
         "cssnano": "^4.1.10",
         "del": "^6.0.0",
         "factor-bundle": "^2.5.0",
@@ -55,7 +55,7 @@
         "gulp-babel": "^8.0.0",
         "gulp-if": "^3.0.0",
         "gulp-imagemin": "^7.1.0",
-        "gulp-load-plugins": "^2.0.5",
+        "gulp-load-plugins": "^2.0.6",
         "gulp-merge": "^0.1.1",
         "gulp-plumber": "^1.2.1",
         "gulp-postcss": "^9.0.0",
@@ -63,13 +63,13 @@
         "gulp-replace": "^1.0.0",
         "gulp-sass": "^4.1.0",
         "gulp-size": "^3.0.0",
-        "gulp-sourcemaps": "^2.6.5",
-        "gulp-terser": "^1.4.1",
+        "gulp-sourcemaps": "^3.0.0",
+        "gulp-terser": "^2.0.0",
         "gulp-zip": "^5.0.2",
         "merge-stream": "^2.0.0",
-        "postcss": "^8.1.7",
-        "sass": "^1.29.0",
-        "terser": "^5.3.8",
+        "postcss": "^8.2.1",
+        "sass": "^1.30.0",
+        "terser": "^5.5.1",
         "vinyl-buffer": "^1.0.1",
         "vinyl-source-stream": "^2.0.0"
     }

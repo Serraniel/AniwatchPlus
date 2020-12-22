@@ -23,7 +23,7 @@ function observeScreenshotTooltip(tooltip) {
             // Switched to invisible
             if (!mutation.oldValue.includes('display: none') && mutation.target.style.display == 'none') {
                 let player = findPlayer();
-                if (typeof player !== 'undefined') {
+                if (helper.assigned(player)) {
                     resumePlayer(player);
                 }
             }
