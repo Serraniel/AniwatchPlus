@@ -41,7 +41,7 @@
         "@babel/helper-module-imports": "^7.12.5",
         "@babel/plugin-proposal-class-properties": "^7.12.1",
         "@babel/plugin-proposal-private-methods": "^7.12.1",
-        "@babel/preset-env": "^7.12.10",
+        "@babel/preset-env": "^7.12.11",
         "@babel/register": "^7.12.10",
         "babelify": "^10.0.0",
         "browserify": "^17.0.0",
