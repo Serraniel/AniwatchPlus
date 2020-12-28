@@ -1,6 +1,5 @@
 import { getGlobalConfiguration, SETTINGS_websiteHideUnusedTabs, SETTINGS_websiteOptimizeListAppearance } from '../configuration/configuration';
 import * as core from '../utils/aniwatchCore';
-import * as helper from '../utils/helpers';
 
 export function init(): void {
     getGlobalConfiguration().getProperty(SETTINGS_websiteHideUnusedTabs, value => {
