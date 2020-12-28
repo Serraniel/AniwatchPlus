@@ -1,14 +1,13 @@
 import { getGlobalConfiguration, SETTINGS_requestBeautifyPage } from '../configuration/configuration';
 import * as core from '../utils/aniwatchCore';
 import * as color from '../utils/colors';
-import * as helper from '../utils/helpers';
 
-export function init() {
+export function init(): void {
     getGlobalConfiguration().getProperty(SETTINGS_requestBeautifyPage, value => {
         if (value) {
             core.registerScript(node => {
                 // run the scripts
-                if (helper.isHtmlElement(node)) {
+                if (node instanceof HTMLElement) {
                     changeFollowedStarColor(node);
                     changeBorderColorOwnRequests(node);
                     removeUnknownUsers(node);
@@ -18,20 +17,20 @@ export function init() {
     });
 }
 
-function changeFollowedStarColor(node) {
-    const starIcon = 'star';
+function changeFollowedStarColor(node: HTMLElement): void {
+    const STAR_ICON = 'star';
 
     // find stars
-    let followedItems = Array.from(node.querySelectorAll('i')).filter(i => i.innerText.trim() === starIcon);
+    let followedItems = Array.from(node.querySelectorAll('i')).filter(i => i.innerText.trim() === STAR_ICON);
 
     // change color
     followedItems.forEach(item => item.style.color = color.aniBlue);
 }
 
-function changeBorderColorOwnRequests(node) {
-    const targetTagName = 'MD-LIST-ITEM'; // tagName is upper case
+function changeBorderColorOwnRequests(node: HTMLElement): void {
+    const TARGET_TAG_NAME = 'MD-LIST-ITEM'; // tagName is upper case
 
-    let updateFunc = item => {
+    let updateFunc = (item: HTMLElement): void => {
         let profileLink = item.querySelectorAll('a[href*="/profile/"]:not([href="/profile/false"])');
 
         // highlight left border for own request
@@ -41,7 +40,7 @@ function changeBorderColorOwnRequests(node) {
     }
 
     // are we target tag?
-    if (node.tagName === targetTagName) {
+    if (node.tagName === TARGET_TAG_NAME) {
         updateFunc(node);
     } else {
         // find items -> all 
@@ -49,15 +48,17 @@ function changeBorderColorOwnRequests(node) {
 
         // update borders
         requestItems.forEach(item => {
-            updateFunc(item);
+            if (item instanceof HTMLElement) {
+                updateFunc(item);
+            }
         });
     }
 }
 
-function removeUnknownUsers(node) {
-    const targetTagName = 'MD-LIST-ITEM'; // tagName is upper case
+function removeUnknownUsers(node: HTMLElement): void {
+    const TARGET_TAG_NAME = 'MD-LIST-ITEM'; // tagName is upper case
 
-    let updateFunc = item => {
+    let updateFunc = (item: Element) => {
         // find user profile link -> own request
         let profileLink = item.querySelectorAll('a[href*="/profile/"]:not([href="/profile/false"])');
 
@@ -66,7 +67,7 @@ function removeUnknownUsers(node) {
         let lowerDiv = upperDiv.parentElement.nextElementSibling;
 
         // remember Data
-        let anime = lowerDiv.innerText;
+        let anime = lowerDiv.textContent;
         let profileData = upperDiv.innerHTML;
 
         // add user note if own request
@@ -92,7 +93,7 @@ function removeUnknownUsers(node) {
         upperDiv.appendChild(bElement);
     }
 
-    if (node.tagName === targetTagName) {
+    if (node.tagName === TARGET_TAG_NAME) {
         updateFunc(node);
     } else {
         // find items -> all 
