@@ -156,6 +156,16 @@ function updateTime(node) {
     return true;
 }
 
+function updateTimeZone(node) {
+    const HINT_UTC = 'UTC+1';
+    if (node.textContent === HINT_UTC) {
+        let tzMeta = spacetime().timezone();
+        console.log(tzMeta);
+
+        node.textContent = `${tzMeta.name} (UTC${tzMeta.current.offset >= 0 ? '+' : ''}${tzMeta.current.offset})`;
+    }
+}
+
 function updateTimestamps(node) {
     let nodes = helper.findTextNodes(node);
 
@@ -179,5 +189,7 @@ function updateTimestamps(node) {
             __alteredNodes.push(node);
             return;
         }
+
+        updateTimeZone(node);
     });
 }
