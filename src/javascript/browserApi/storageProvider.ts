@@ -1,20 +1,22 @@
 const { assigned } = require("../utils/helpers")
 
+export type ConfigurationStorageBooleanCallback = (value: boolean) => void;
+
 export interface ICustomBrowserStorageProvider {
-    setData(key: string, value: string): void;
-    getData(key: string, defaultValue: string, callback: (x: string) => void): void;
+    setDataAsBoolean(key: string, value: boolean): void;
+    getDataAsBoolean(key: string, defaultValue: boolean, callback: ConfigurationStorageBooleanCallback): void;
 }
 
 class StorageProviderChromium implements ICustomBrowserStorageProvider {
 
-    setData(key: string, value: string): void {
+    setDataAsBoolean(key: string, value: boolean): void {
         let obj = {};
         obj[key] = value;
 
         this.getStorage().set(obj);
     }
 
-    getData(key: string, defaultValue: string, callback: (x: string) => void): void {
+    getDataAsBoolean(key: string, defaultValue: boolean, callback: ConfigurationStorageBooleanCallback): void {
         this.getStorage().get(key, items => {
             if (assigned(items) && assigned(items[key])) {
                 callback(items[key]);
@@ -37,19 +39,19 @@ class StorageProviderChromium implements ICustomBrowserStorageProvider {
 
 class StorageProviderFirefox implements ICustomBrowserStorageProvider {
 
-    setData(key: string, value: string): void {
+    setDataAsBoolean(key: string, value: boolean): void {
         let obj = {};
         obj[key] = value;
 
         this.getStorage().set(obj);
     }
 
-    getData(key: string, defaultValue: string, callback: (x: string) => void): void {
+    getDataAsBoolean(key: string, defaultValue: boolean, callback: ConfigurationStorageBooleanCallback): void {
         let promise = this.getStorage().get(key);
 
         promise.then(items => {
             if (assigned(items) && assigned(items[key])) {
-                callback(items[key] as string);
+                callback(items[key] as boolean);
             }
             else {
                 callback(defaultValue);

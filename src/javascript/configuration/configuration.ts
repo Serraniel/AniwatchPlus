@@ -1,4 +1,4 @@
-import { getGlobalStorageProvider } from "../browserApi/storageProvider";
+import { ConfigurationStorageBooleanCallback, getGlobalStorageProvider } from "../browserApi/storageProvider";
 import { assigned } from "../utils/helpers";
 
 // website
@@ -16,17 +16,20 @@ export const SETTINGS_playerAutoplayAfterScreenshot = 'playerAutoplayAfterScreen
 // w2g
 export const SETTINGS_w2gDisplayCharacterCounter = 'w2gDisplayCharacterCounter';
 class Configuration {
+    settingsCache: Map<string, boolean>;
+
     constructor() {
         this.settingsCache = new Map();
     }
 
-    getProperty(key, callback) {
+    getProperty(key: string, callback: ConfigurationStorageBooleanCallback): void {
         if (this.settingsCache.has(key)) {
             callback(this.settingsCache.get(key));
         }
         else {
+            // TODO see commenz
             // OOOPS // currently all settings are default true. This isn´t a problem but there should be much better soloutions after migration to typescript....
-            getGlobalStorageProvider().getData(key, true, value => {
+            getGlobalStorageProvider().getDataAsBoolean(key, true, value => {
                 this.settingsCache.set(key, value);
                 callback(value);
             });
@@ -34,7 +37,7 @@ class Configuration {
     }
 }
 
-let __globalConfig;
+let __globalConfig: Configuration;
 
 export function getGlobalConfiguration() {
     if (!assigned(__globalConfig)) {

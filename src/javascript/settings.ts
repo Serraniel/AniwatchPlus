@@ -5,7 +5,7 @@ const OPTION_SELECTOR = 'input[type="checkbox"';
 
 function storeOptions() {
     document.querySelectorAll(OPTION_SELECTOR).forEach(optionElement => {
-        getGlobalStorageProvider().setData(optionElement.id, optionElement.checked);
+        getGlobalStorageProvider().setDataAsBoolean(optionElement.id, optionElement.checked);
     });
 }
 
@@ -13,7 +13,7 @@ function restoreOptions() {
     document.querySelectorAll(OPTION_SELECTOR).forEach(optionElement => {
         let defaultValue = optionElement.dataset.defaultValue === 'true' ? true : false;
 
-        getGlobalStorageProvider().getData(optionElement.id, defaultValue, value => {
+        getGlobalStorageProvider().getDataAsBoolean(optionElement.id, defaultValue, value => {
             optionElement.checked = value;
         });
     });
