@@ -18,7 +18,7 @@ export function init(): void {
                 checkRunColorOptimization(document.documentElement);
             }, ".*");
 
-            core.registerScript(node => {
+            core.registerScript((node: Node) => {
                 if (node instanceof Element) {
                     checkRunColorOptimization(node);
                 }

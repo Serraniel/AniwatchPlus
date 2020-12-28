@@ -18,7 +18,7 @@ export function init(): void {
                 }
             };
 
-            core.registerScript(node => {
+            core.registerScript((node: Node) => {
                 if (node instanceof Element) {
                     disableFunc(node);
                 }

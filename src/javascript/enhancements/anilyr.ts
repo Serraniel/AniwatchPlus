@@ -8,7 +8,7 @@ const PLAYER_ID = 'player';
 export function init(): void {
     getGlobalConfiguration().getProperty(SETTINGS_playerAutoplayAfterScreenshot, value => {
         if (value) {
-            core.registerScript(node => {
+            core.registerScript((node: Node) => {
                 let element = node as HTMLElement;
                 if (helper.assigned(element) && element.id === SCREENSHOT_TOOLTIP_ID) {
                     observeScreenshotTooltip(element);

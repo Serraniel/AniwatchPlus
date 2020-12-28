@@ -5,7 +5,7 @@ import * as color from '../utils/colors';
 export function init(): void {
     getGlobalConfiguration().getProperty(SETTINGS_requestBeautifyPage, value => {
         if (value) {
-            core.registerScript(node => {
+            core.registerScript((node: Node) => {
                 // run the scripts
                 if (node instanceof HTMLElement) {
                     changeFollowedStarColor(node);
