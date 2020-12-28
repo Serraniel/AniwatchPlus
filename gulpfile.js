@@ -126,7 +126,7 @@ gulp.task('scripts', () => {
 
     modules.forEach(module => {
         inputs.push(`${src.scripts}/${module}.ts`);
-        streams.push(source(`${module}.ts`));
+        streams.push(source(`${module}.js`));
     });
 
     const b = browserify(inputs, { debug: isDev });
