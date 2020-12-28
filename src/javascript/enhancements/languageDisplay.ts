@@ -2,12 +2,14 @@ import { getGlobalConfiguration, SETTINGS_animeLanguageDisplay } from '../config
 import * as core from '../utils/aniwatchCore';
 import * as helper from '../utils/helpers';
 
-export function init() {
+const MANIPULATED_ATTR_NAME = 'awpManipulated';
+
+export function init(): void {
     getGlobalConfiguration().getProperty(SETTINGS_animeLanguageDisplay, value => {
         if (value) {
-            core.registerScript(node => {
+            core.registerScript((node: Node) => {
                 // run the scripts
-                if (helper.isHtmlElement(node)) {
+                if (node instanceof Element) {
                     updateLanguageDisplay(node)
                 }
             }, "^/anime/[0-9]*$");
@@ -15,34 +17,35 @@ export function init() {
     });
 }
 
-function updateLanguageDisplay(node) {
-    const listNodeName = 'MD-LIST-ITEM';
-    const boxNodeName = 'DIV';
-    const boxClassName = 'card-margin';
+function updateLanguageDisplay(node: Element): void {
+    const LIST_NODE_NAME = 'MD-LIST-ITEM';
+    const BOX_NODE_NAME = 'DIV';
+    const BOX_CLASS_NAME = 'card-margin';
 
-    if (node.nodeName === listNodeName) {
+    if (node.nodeName === LIST_NODE_NAME) {
         updateLanguageDisplayListMode(node);
     }
-    else if (node.nodeName === boxNodeName && node.classList.contains(boxClassName)) {
+    else if (node.nodeName === BOX_NODE_NAME && node.classList.contains(BOX_CLASS_NAME)) {
         updateLanguageDisplayBoxMode(node);
     }
 }
 
-function updateLanguageDisplayListMode(node) {
+function updateLanguageDisplayListMode(node: Element): void {
     // last column with flags
     let col = node.querySelector('h3.layout-align-end-center');
-    if (!helper.assigned(col) || col.awpManipulated) {
+
+    if (!helper.assigned(col) || col.hasAttribute(MANIPULATED_ATTR_NAME)) {
         return;
     }
 
     doUpdateLanguageDisplay(col, false);
 }
 
-function updateLanguageDisplayBoxMode(node) {
+function updateLanguageDisplayBoxMode(node: Element): void {
     // last column with flags
     let col = node.querySelector('div.layout-align-end-start');
 
-    if (!helper.assigned(col) || col.awpManipulated) {
+    if (!helper.assigned(col) || col.hasAttribute(MANIPULATED_ATTR_NAME)) {
         return;
     }
 
@@ -50,27 +53,27 @@ function updateLanguageDisplayBoxMode(node) {
 }
 
 
-function doUpdateLanguageDisplay(parent, isBoxedModed) {
-    const listLangPrefix = 'ep.lang.';
-    const boxLangPrefix = 'episodeObject.lang.';
+function doUpdateLanguageDisplay(parent: Element, isBoxedModed: boolean): void {
+    const LIST_LANG_PREFIX = 'ep.lang.';
+    const BOX_LANG_PREFIX = 'episodeObject.lang.';
     // aniwatch uses different prefixes in list und box mode :/
-    let realLangPrefix = isBoxedModed ? boxLangPrefix : listLangPrefix;
+    let realLangPrefix = isBoxedModed ? BOX_LANG_PREFIX : LIST_LANG_PREFIX;
 
-    const dubSuffix = 'dub';
-    const subSuffix = 'sub';
+    const DUB_SUFFIX = 'dub';
+    const SUB_SUFFIX = 'sub';
 
-    const dubIcon = 'volume_up';
-    const subIcon = 'closed_caption';
-    const zeroWidthSpace = ''; // &#8203;
+    const DUB_ICON = 'volume_up';
+    const SUB_ICON = 'closed_caption';
+    const ZERO_WIDTH_SPACE_CHARACTER = ''; // &#8203;
 
-    let subs = [];
-    let dubs = [];
+    let subs: Array<string> = [];
+    let dubs: Array<string> = [];
 
     // find subs
     let subCols = parent.querySelectorAll('[ng-hide*="sub"]');
-    subCols.forEach(element => {
+    subCols.forEach((element: Element) => {
         let langAttr = element.attributes['ng-hide'].value;
-        let lang = langAttr.substring(langAttr.indexOf(realLangPrefix) + realLangPrefix.length, langAttr.indexOf(subSuffix));
+        let lang = langAttr.substring(langAttr.indexOf(realLangPrefix) + realLangPrefix.length, langAttr.indexOf(SUB_SUFFIX));
         if (element.attributes['aria-hidden'].value == 'false') {
             subs.push(lang);
         }
@@ -78,9 +81,9 @@ function doUpdateLanguageDisplay(parent, isBoxedModed) {
 
     // find dubs
     let dubCols = parent.querySelectorAll('[ng-hide*="dub"]');
-    dubCols.forEach(element => {
+    dubCols.forEach((element: Element) => {
         let langAttr = element.attributes['ng-hide'].value;
-        let lang = langAttr.substring(langAttr.indexOf(realLangPrefix) + realLangPrefix.length, langAttr.indexOf(dubSuffix));
+        let lang = langAttr.substring(langAttr.indexOf(realLangPrefix) + realLangPrefix.length, langAttr.indexOf(DUB_SUFFIX));
         if (element.attributes['aria-hidden'].value == 'false') {
             dubs.push(lang);
         }
@@ -106,12 +109,12 @@ function doUpdateLanguageDisplay(parent, isBoxedModed) {
             let dubIconDiv = document.createElement('i');
             if (iconsRequired) {
                 dubIconDiv.classList.add('material-icons', 'mr-3');
-                dubIconDiv.innerText = dubIcon;
+                dubIconDiv.innerText = DUB_ICON;
             }
             // add dummy with 24px for correct presentation
             else {
                 dubIconDiv.style.height = '24px';
-                dubIconDiv.innerText = zeroWidthSpace;
+                dubIconDiv.innerText = ZERO_WIDTH_SPACE_CHARACTER;
             }
 
             dubDiv.appendChild(dubIconDiv);
@@ -132,16 +135,16 @@ function doUpdateLanguageDisplay(parent, isBoxedModed) {
         let subIconDiv = document.createElement('i');
         if (iconsRequired) {
             subIconDiv.classList.add('material-icons', 'mr-3');
-            subIconDiv.innerText = subIcon;
+            subIconDiv.innerText = SUB_ICON;
         }
         // add dummy with 24px for correct presentation
         else {
             subIconDiv.style.height = '24px';
-            subIconDiv.innerText = zeroWidthSpace;
+            subIconDiv.innerText = ZERO_WIDTH_SPACE_CHARACTER;
         }
 
         subDiv.appendChild(subIconDiv);
-        subs.forEach(lang => {
+        subs.forEach((lang: string) => {
             let langIcon = document.createElement('i');
             langIcon.classList.add('flag', `flag-${lang}`, 'mg-all-1');
             subDiv.appendChild(langIcon);
@@ -154,7 +157,7 @@ function doUpdateLanguageDisplay(parent, isBoxedModed) {
     }
 
     if (dubs.length > 0) {
-        dubs.forEach(lang => {
+        dubs.forEach((lang: string) => {
             let colDiv = document.createElement('div');
             colDiv.setAttribute('layout', 'column');
             colDiv.classList.add('layout-column');
@@ -167,12 +170,12 @@ function doUpdateLanguageDisplay(parent, isBoxedModed) {
             let dubIconDiv = document.createElement('i');
             if (iconsRequired) {
                 dubIconDiv.classList.add('material-icons', 'mr-3');
-                dubIconDiv.innerText = dubIcon;
+                dubIconDiv.innerText = DUB_ICON;
             }
             // add dummy with 24px for correct presentation
             else {
                 dubIconDiv.style.height = '24px';
-                dubIconDiv.innerText = zeroWidthSpace;
+                dubIconDiv.innerText = ZERO_WIDTH_SPACE_CHARACTER;
             }
 
             dubDiv.appendChild(dubIconDiv);
@@ -193,12 +196,12 @@ function doUpdateLanguageDisplay(parent, isBoxedModed) {
                 let subIconDiv = document.createElement('i');
                 if (iconsRequired) {
                     subIconDiv.classList.add('material-icons', 'mr-3');
-                    subIconDiv.innerText = subIcon;
+                    subIconDiv.innerText = SUB_ICON;
                 }
                 // add dummy with 24px for correct presentation
                 else {
                     subIconDiv.style.height = '24px';
-                    subIconDiv.innerText = zeroWidthSpace;
+                    subIconDiv.innerText = ZERO_WIDTH_SPACE_CHARACTER;
                 }
 
                 subDiv.appendChild(subIconDiv);
@@ -216,13 +219,17 @@ function doUpdateLanguageDisplay(parent, isBoxedModed) {
     });
 
     parent.querySelectorAll('.layout-column:not(:last-child)').forEach(div => {
-        div.style.borderRight = '1px solid rgba(155,155,155, 0.2)';
+        if (div instanceof HTMLElement) {
+            div.style.borderRight = '1px solid rgba(155,155,155, 0.2)';
+        }
     })
 
     parent.querySelectorAll('.layout-column').forEach(div => {
-        div.style.paddingLeft = '2px';
-        div.style.paddingRight = '2px';
+        if (div instanceof HTMLElement) {
+            div.style.paddingLeft = '2px';
+            div.style.paddingRight = '2px';
+        }
     })
 
-    parent.awpManipulated = true;
+    parent.setAttribute('awpManipulated', String(true));
 }
