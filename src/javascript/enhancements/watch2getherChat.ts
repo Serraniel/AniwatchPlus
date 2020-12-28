@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { getGlobalConfiguration, SETTINGS_w2gDisplayCharacterCounter } from '../configuration/configuration';
 import { assigned } from '../utils/helpers';
 
-export function init() {
+export function init(): void {
     getGlobalConfiguration().getProperty(SETTINGS_w2gDisplayCharacterCounter, value => {
         if (value) {
             core.runAfterLocationChange(() => {
@@ -13,8 +13,8 @@ export function init() {
     });
 }
 
-function manipulateChatInput() {
-    let textarea = document.querySelector('.chat-input textarea');
+function manipulateChatInput(): void {
+    let textarea = document.querySelector('.chat-input textarea') as HTMLTextAreaElement;
 
     // avoid duplicate registration
     if (assigned(textarea.dataset.charCounterId)) {
@@ -24,7 +24,7 @@ function manipulateChatInput() {
     addCharCounter(textarea);
 }
 
-function addCharCounter(textarea) {
+function addCharCounter(textarea: HTMLTextAreaElement): void {
     let chatDiv = textarea.parentElement.parentElement; // div with chat input and controls
     let controlRow = chatDiv.children[1]; // row with controls
     let btn = controlRow.querySelector('button'); // find send button
@@ -45,7 +45,7 @@ function addCharCounter(textarea) {
     });
 }
 
-function updateCharCounter(textarea, charCounterSpan) {
+function updateCharCounter(textarea: HTMLTextAreaElement, charCounterSpan: HTMLSpanElement): void {
     const SHAKE_CLASS = 'awp-w2g-chatCounter-max';
 
     let current = textarea.value.length;
