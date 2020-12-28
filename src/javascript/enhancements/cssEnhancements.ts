@@ -2,27 +2,27 @@ import { getGlobalConfiguration, SETTINGS_websiteHideUnusedTabs, SETTINGS_websit
 import * as core from '../utils/aniwatchCore';
 import * as helper from '../utils/helpers';
 
-export function init() {
+export function init(): void {
     getGlobalConfiguration().getProperty(SETTINGS_websiteHideUnusedTabs, value => {
         // if disabled, add class to avoid our css optimizations
         if (!value) {
-            let disableFunc = node => {
-                if (helper.isHtmlElement(node)) {
-                    let disableNode = node => {
-                        node.classList.add('awp-hide-unused-disabled')
-                    }
+            let disableFunc = (node: Element) => {
+                let disableNode = (node: Element) => {
+                    node.classList.add('awp-hide-unused-disabled')
+                }
 
-                    if (node.tagName === 'MD-TAB-ITEM') {
-                        disableNode(node);
-                    }
-                    else {
-                        node.querySelectorAll('md-tab-item').forEach(node => disableNode(node));
-                    }
+                if (node.tagName === 'MD-TAB-ITEM') {
+                    disableNode(node);
+                }
+                else {
+                    node.querySelectorAll('md-tab-item').forEach(node => disableNode(node));
                 }
             };
 
             core.registerScript(node => {
-                disableFunc(node);
+                if (node instanceof Element) {
+                    disableFunc(node);
+                }
             }, ".*");
 
             core.runAfterLoad(() => {
@@ -34,23 +34,23 @@ export function init() {
     getGlobalConfiguration().getProperty(SETTINGS_websiteOptimizeListAppearance, value => {
         // if disabled, add class to avoid our css optimizations
         if (!value) {
-            let disableFunc = node => {
-                if (helper.isHtmlElement(node)) {
-                    let disableNode = node => {
-                        node.classList.add('awp-list-disabled')
-                    }
+            let disableFunc = (node: Element) => {
+                let disableNode = (node: Element) => {
+                    node.classList.add('awp-list-disabled')
+                }
 
-                    if (node.tagName === 'MD-LIST-ITEM') {
-                        disableNode(node);
-                    }
-                    else {
-                        node.querySelectorAll('md-list-item').forEach(node => disableNode(node));
-                    }
+                if (node.tagName === 'MD-LIST-ITEM') {
+                    disableNode(node);
+                }
+                else {
+                    node.querySelectorAll('md-list-item').forEach(node => disableNode(node));
                 }
             }
 
             core.registerScript(node => {
-                disableFunc(node);
+                if (node instanceof Element) {
+                    disableFunc(node);
+                }
             }, ".*");
 
             core.runAfterLoad(() => {
