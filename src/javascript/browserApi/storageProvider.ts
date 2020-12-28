@@ -1,15 +1,20 @@
 const { assigned } = require("../utils/helpers")
 
-class StorageProviderChromium {
+export interface ICustomBrowserStorageProvider {
+    setData(key: string, value: string): void;
+    getData(key: string, defaultValue: string, callback: (x: string) => void): void;
+}
 
-    setData(key, value) {
+class StorageProviderChromium implements ICustomBrowserStorageProvider {
+
+    setData(key: string, value: string): void {
         let obj = {};
         obj[key] = value;
 
         this.getStorage().set(obj);
     }
 
-    getData(key, defaultValue, callback) {
+    getData(key: string, defaultValue: string, callback: (x: string) => void): void {
         this.getStorage().get(key, items => {
             if (assigned(items) && assigned(items[key])) {
                 callback(items[key]);
@@ -20,7 +25,7 @@ class StorageProviderChromium {
         })
     }
 
-    getStorage() {
+    private getStorage(): chrome.storage.StorageArea {
         if (assigned(chrome.storage.sync)) {
             return chrome.storage.sync;
         }
@@ -30,21 +35,21 @@ class StorageProviderChromium {
 }
 
 
-class StorageProviderFirefox {
+class StorageProviderFirefox implements ICustomBrowserStorageProvider {
 
-    setData(key, value) {
+    setData(key: string, value: string): void {
         let obj = {};
         obj[key] = value;
 
         this.getStorage().set(obj);
     }
 
-    getData(key, defaultValue, callback) {
+    getData(key: string, defaultValue: string, callback: (x: string) => void): void {
         let promise = this.getStorage().get(key);
 
         promise.then(items => {
             if (assigned(items) && assigned(items[key])) {
-                callback(items[key]);
+                callback(items[key] as string);
             }
             else {
                 callback(defaultValue);
@@ -52,7 +57,7 @@ class StorageProviderFirefox {
         });
     }
 
-    getStorage() {
+    private getStorage(): browser.storage.StorageArea {
         if (assigned(browser.storage.sync)) {
             return browser.storage.sync;
         }
@@ -61,11 +66,13 @@ class StorageProviderFirefox {
     }
 }
 
-let __storageProvieder;
+let __storageProvieder: ICustomBrowserStorageProvider;
 
 function createStorageProvider() {
     // chrome based browser
-    if (assigned(chrome?.app)) {
+    // TODO: chrome.app?
+    // if (assigned(chrome?.app)) {        
+    if (true) {
         __storageProvieder = new StorageProviderChromium();
     }
     // firefox
@@ -75,7 +82,7 @@ function createStorageProvider() {
 
 }
 
-export function getGlobalStorageProvider() {
+export function getGlobalStorageProvider(): ICustomBrowserStorageProvider {
     if (!assigned(__storageProvieder)) {
         createStorageProvider();
     }
