@@ -3,6 +3,8 @@ import { getGlobalConfiguration, SETTINGS_websiteAutoTimeConversion } from '../c
 import * as core from '../utils/aniwatchCore';
 import * as helper from '../utils/helpers';
 
+const __alteredNodes = [];
+
 export function init() {
     getGlobalConfiguration().getProperty(SETTINGS_websiteAutoTimeConversion, value => {
         if (value) {
@@ -22,11 +24,15 @@ export function init() {
 }
 
 function getSpaceDateTimeFormat(use24Format) {
+    return `${getSpaceDateFormat()} ${getSpaceTimeFormat(use24Format)}`;
+}
+
+function getSpaceTimeFormat(use24Format) {
     if (use24Format) {
-        return '{date}. {month-short} {year} {time-24}';
+        return '{time-24}';
     }
 
-    return '{date}. {month-short} {year} {time}';
+    return '{time}';
 }
 
 function getSpaceDateFormat() {
@@ -99,15 +105,78 @@ function updateDate(node) {
     return true;
 }
 
+function updateTime(node) {
+    const REG_TIME = /\d?\d:\d{2}( (AM|PM))?/g;
+    const REG_AMPM = /\s(am|pm)/i;
+
+    let hits = Array.from(node.textContent.matchAll(REG_TIME), match => match[0]);
+
+    if (hits.length === 0) {
+        return false;
+    }
+
+    hits.forEach(hit => {
+        let use24Format = false;
+        let processedStr = hit
+
+        // string must be converted into 12h format
+        if (processedStr.search(REG_AMPM) < 0) {
+            let timeStr = processedStr.match(REG_TIME)[0];
+            let hm = timeStr.split(':');
+            let hour = parseInt(hm[0]);
+
+            if (hour >= 12) {
+                timeStr = timeStr.replace(`${hour}:`, `${hour - 12}:`);
+                timeStr += 'pm';
+            }
+            else {
+                timeStr += 'am';
+            }
+
+            processedStr = processedStr.replace(REG_TIME, timeStr);
+            use24Format = true;
+        }
+
+        // if time has a space before am/pm, this has to be removed for spacetime
+        processedStr = processedStr.replace(REG_AMPM, '$1');
+
+        let datetime = spacetime();
+        datetime = datetime.goto('UTC+1');
+        datetime = datetime.time(processedStr);
+        datetime = datetime.goto(spacetime().tz);
+        let replaceText = datetime.format(getSpaceTimeFormat(use24Format));
+
+        console.log(node.textContent);
+        console.log(processedStr);
+        console.log(replaceText);
+        console.log('----------')
+        node.textContent = node.textContent.replace(hit, replaceText);
+    });
+
+    return true;
+}
+
 function updateTimestamps(node) {
     let nodes = helper.findTextNodes(node);
 
     nodes.forEach(node => {
+        // avoid double updates
+        if (__alteredNodes.indexOf(node) >= 0) {
+            return;
+        }
+
         if (updateDateTime(node)) {
+            __alteredNodes.push(node);
             return;
         }
 
         if (updateDate(node)) {
+            __alteredNodes.push(node);
+            return;
+        }
+
+        if (updateTime(node)) {
+            __alteredNodes.push(node);
             return;
         }
     });
