@@ -7,11 +7,15 @@ export function init() {
     getGlobalConfiguration().getProperty(SETTINGS_websiteAutoTimeConversion, value => {
         if (value) {
             core.runAfterLoad(() => {
-                updateTimestamps();
+                updateTimestamps(document.documentElement);
             }, ".*");
 
             core.runAfterLocationChange(() => {
-                updateTimestamps();
+                updateTimestamps(document.documentElement);
+            }, ".*");
+
+            core.registerScript(node => {
+                updateTimestamps(node);
             }, ".*");
         }
     });
@@ -25,8 +29,8 @@ function getSpaceTimeFormat(use24Format) {
     return '{date}. {month-short} {year} {time}';
 }
 
-function updateTimestamps() {
-    let nodes = helper.findTextNodes();
+function updateTimestamps(node) {
+    let nodes = helper.findTextNodes(node);
 
     nodes.forEach(node => {
         const REG_DATETIME = /(\d{2}(\/|\.)){2}\d{4} *\d?\d:\d{2}( (AM|PM))?/g;
@@ -53,8 +57,6 @@ function updateTimestamps() {
                     timeStr += 'am';
                 }
 
-                console.log(timeStr)
-
                 processedStr = processedStr.replace(REG_TIME, timeStr);
                 use24Format = true;
             }
@@ -62,13 +64,10 @@ function updateTimestamps() {
             // if time has a space before am/pm, this has to be removed for spacetime
             processedStr = processedStr.replace(REG_AMPM, '$1');
 
-            console.log(processedStr);
             let datetime = spacetime(processedStr, 'UTC+1', { dmy: true });
             datetime = datetime.goto(spacetime().tz);
             let replaceText = datetime.format(getSpaceTimeFormat(use24Format));
-            console.log(replaceText);
-
-            console.log('-------')
+            
             node.textContent = node.textContent.replace(hit, replaceText);
         })
     });
