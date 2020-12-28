@@ -146,10 +146,6 @@ function tryUpdateTime(node) {
         datetime = datetime.goto(spacetime().tz);
         let replaceText = datetime.format(getSpaceTimeFormat(use24Format));
 
-        console.log(node.textContent);
-        console.log(processedStr);
-        console.log(replaceText);
-        console.log('----------')
         node.textContent = node.textContent.replace(hit, replaceText);
     });
 
@@ -160,7 +156,6 @@ function tryUpdateTimeZone(node) {
     const HINT_UTC = 'UTC+1';
     if (node.textContent === HINT_UTC) {
         let tzMeta = spacetime().timezone();
-        console.log(tzMeta);
 
         node.textContent = `${tzMeta.name} (UTC${tzMeta.current.offset >= 0 ? '+' : ''}${tzMeta.current.offset})`;
     }
