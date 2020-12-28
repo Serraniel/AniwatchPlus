@@ -5,25 +5,28 @@ const OPTION_SELECTOR = 'input[type="checkbox"';
 
 function storeOptions() {
     document.querySelectorAll(OPTION_SELECTOR).forEach(optionElement => {
-        getGlobalStorageProvider().setDataAsBoolean(optionElement.id, optionElement.checked);
+        let optionInputElement = optionElement as HTMLInputElement;
+        getGlobalStorageProvider().setDataAsBoolean(optionInputElement.id, optionInputElement.checked);
     });
 }
 
 function restoreOptions() {
-    document.querySelectorAll(OPTION_SELECTOR).forEach(optionElement => {
-        let defaultValue = optionElement.dataset.defaultValue === 'true' ? true : false;
+    document.querySelectorAll(OPTION_SELECTOR).forEach(optionElement => {        
+        let optionInputElement = optionElement as HTMLInputElement;
+        let defaultValue = optionInputElement.dataset.defaultValue === 'true' ? true : false;
 
-        getGlobalStorageProvider().getDataAsBoolean(optionElement.id, defaultValue, value => {
-            optionElement.checked = value;
+        getGlobalStorageProvider().getDataAsBoolean(optionInputElement.id, defaultValue, value => {
+            optionInputElement.checked = value;
         });
     });
 }
 
 function resetOptions() {
     document.querySelectorAll(OPTION_SELECTOR).forEach(optionElement => {
-        let defaultValue = optionElement.dataset.defaultValue === 'true' ? true : false;
+        let optionInputElement = optionElement as HTMLInputElement;
+        let defaultValue = optionInputElement.dataset.defaultValue === 'true' ? true : false;
 
-        optionElement.checked = defaultValue;
+        optionInputElement.checked = defaultValue;
     });
 }
 
