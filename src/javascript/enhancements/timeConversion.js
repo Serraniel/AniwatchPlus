@@ -39,7 +39,7 @@ function getSpaceDateFormat() {
     return '{date}. {month-short} {year}';
 }
 
-function updateDateTime(node) {
+function tryUpdateDateTime(node) {
     const REG_DATETIME = /(\d{2}(\/|\.)){2}\d{4} *\d?\d:\d{2}( (AM|PM))?/g;
     const REG_TIME = /\d?\d:\d{2}/;
     const REG_AMPM = /\s(am|pm)/i;
@@ -85,7 +85,7 @@ function updateDateTime(node) {
     return true;
 }
 
-function updateDate(node) {
+function tryUpdateDate(node) {
     const REG_DATE = /(\d{2}(\/|\.)){2}\d{4}/g;
 
     let hits = Array.from(node.textContent.matchAll(REG_DATE), match => match[0]);
@@ -105,7 +105,7 @@ function updateDate(node) {
     return true;
 }
 
-function updateTime(node) {
+function tryUpdateTime(node) {
     const REG_TIME = /\d?\d:\d{2}( (AM|PM))?/g;
     const REG_AMPM = /\s(am|pm)/i;
 
@@ -156,7 +156,7 @@ function updateTime(node) {
     return true;
 }
 
-function updateTimeZone(node) {
+function tryUpdateTimeZone(node) {
     const HINT_UTC = 'UTC+1';
     if (node.textContent === HINT_UTC) {
         let tzMeta = spacetime().timezone();
@@ -175,21 +175,24 @@ function updateTimestamps(node) {
             return;
         }
 
-        if (updateDateTime(node)) {
+        if (tryUpdateDateTime(node)) {
             __alteredNodes.push(node);
             return;
         }
 
-        if (updateDate(node)) {
+        if (tryUpdateDate(node)) {
             __alteredNodes.push(node);
             return;
         }
 
-        if (updateTime(node)) {
+        if (tryUpdateTime(node)) {
             __alteredNodes.push(node);
             return;
         }
 
-        updateTimeZone(node);
+        if (tryUpdateTimeZone(node)) {
+            __alteredNodes.push(node);
+            return;
+        }
     });
 }
