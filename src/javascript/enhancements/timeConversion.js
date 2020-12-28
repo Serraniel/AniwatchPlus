@@ -11,15 +11,15 @@ export function init() {
         if (value) {
             core.runAfterLoad(() => {
                 updateTimestamps(document.documentElement);
-            }, ".*");
+            }, "^/(?!airing).*$");
 
             core.runAfterLocationChange(() => {
                 updateTimestamps(document.documentElement);
-            }, ".*");
+            }, "^/(?!airing).*$");
 
             core.registerScript(node => {
                 updateTimestamps(node);
-            }, ".*");
+            }, "^/(?!airing).*$");
         }
     });
 }
