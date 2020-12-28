@@ -4,6 +4,7 @@ import * as core from '../utils/aniwatchCore';
 import * as helper from '../utils/helpers';
 
 const __alteredNodes = [];
+const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 export function init() {
     getGlobalConfiguration().getProperty(SETTINGS_websiteAutoTimeConversion, value => {
@@ -147,6 +148,33 @@ function tryUpdateTime(node) {
         let replaceText = datetime.format(getSpaceTimeFormat(use24Format));
 
         node.textContent = node.textContent.replace(hit, replaceText);
+
+        // SPECIAL CASE: Anime has the day written in broadcast bade. This may be different in another timezone
+        let tzMeta = spacetime().timezone();
+        let originalH = datetime.hour() - tzMeta.current.offset + 1;
+
+        let dOffset = 0;
+        // we moved to next day
+        if (originalH < 0) {
+            dOffset = 1;
+        }
+        // we moved to previous day
+        else if (originalH > 24) {
+            dOffset = -1;
+        }
+
+        // if day changed
+        if (dOffset != 0) {
+            let dayNode = node.parentNode.previousElementSibling;
+            if (helper.assigned(dayNode)) {
+                for (let i = 0; i < DAYS.length; i++) {
+                    if (dayNode.textContent.indexOf(DAYS[i]) >= 0) {
+                        dayNode.textContent = dayNode.textContent.replace(DAYS[i], DAYS[(i + DAYS.length + dOffset) % DAYS.length]); // add DAYS.length to avoid negative numbers in the modulo operation
+                        break;
+                    }
+                }
+            }
+        }
     });
 
     return true;
