@@ -9,6 +9,9 @@ const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
 export function init() {
     getGlobalConfiguration().getProperty(SETTINGS_websiteAutoTimeConversion, value => {
         if (value) {
+            // The regexp pattern matches anything except the airing page. 
+            // This is because we would have to restructure the complete site to update time data.
+            // Additionally, there is a big hint that all data would be UTC+1
             core.runAfterLoad(() => {
                 updateTimestamps(document.documentElement);
             }, "^/(?!airing).*$");
