@@ -21,7 +21,7 @@ export function init() {
     });
 }
 
-function getSpaceTimeFormat(use24Format) {
+function getSpaceDateTimeFormat(use24Format) {
     if (use24Format) {
         return '{date}. {month-short} {year} {time-24}';
     }
@@ -29,46 +29,86 @@ function getSpaceTimeFormat(use24Format) {
     return '{date}. {month-short} {year} {time}';
 }
 
+function getSpaceDateFormat() {
+    return '{date}. {month-short} {year}';
+}
+
+function updateDateTime(node) {
+    const REG_DATETIME = /(\d{2}(\/|\.)){2}\d{4} *\d?\d:\d{2}( (AM|PM))?/g;
+    const REG_TIME = /\d?\d:\d{2}/;
+    const REG_AMPM = /\s(am|pm)/i;
+
+    let hits = Array.from(node.textContent.matchAll(REG_DATETIME), match => match[0]);
+
+    if (hits.length === 0) {
+        return false;
+    }
+
+    hits.forEach(hit => {
+        let use24Format = false;
+        let processedStr = hit
+
+        // string must be converted into 12h format
+        if (processedStr.search(REG_AMPM) < 0) {
+            let timeStr = processedStr.match(REG_TIME)[0];
+            let hm = timeStr.split(':');
+            let hour = parseInt(hm[0]);
+
+            if (hour >= 12) {
+                timeStr = timeStr.replace(`${hour}:`, `${hour - 12}:`);
+                timeStr += 'pm';
+            }
+            else {
+                timeStr += 'am';
+            }
+
+            processedStr = processedStr.replace(REG_TIME, timeStr);
+            use24Format = true;
+        }
+
+        // if time has a space before am/pm, this has to be removed for spacetime
+        processedStr = processedStr.replace(REG_AMPM, '$1');
+
+        let datetime = spacetime(processedStr, 'UTC+1', { dmy: true });
+        datetime = datetime.goto(spacetime().tz);
+        let replaceText = datetime.format(getSpaceDateTimeFormat(use24Format));
+
+        node.textContent = node.textContent.replace(hit, replaceText);
+    });
+
+    return true;
+}
+
+function updateDate(node) {
+    const REG_DATE = /(\d{2}(\/|\.)){2}\d{4}/g;
+
+    let hits = Array.from(node.textContent.matchAll(REG_DATE), match => match[0]);
+
+    if (hits.length === 0) {
+        return false;
+    }
+
+    hits.forEach(hit => {
+        let datetime = spacetime(hit, 'UTC+1', { dmy: true });
+        datetime = datetime.goto(spacetime().tz);
+        let replaceText = datetime.format(getSpaceDateFormat());
+
+        node.textContent = node.textContent.replace(hit, replaceText);
+    });
+
+    return true;
+}
+
 function updateTimestamps(node) {
     let nodes = helper.findTextNodes(node);
 
     nodes.forEach(node => {
-        const REG_DATETIME = /(\d{2}(\/|\.)){2}\d{4} *\d?\d:\d{2}( (AM|PM))?/g;
-        const REG_TIME = /\d?\d:\d{2}/;
-        const REG_AMPM = /\s(am|pm)/i;
+        if (updateDateTime(node)) {
+            return;
+        }
 
-        let hits = Array.from(node.textContent.matchAll(REG_DATETIME), match => match[0]);
-
-        hits.forEach(hit => {
-            let use24Format = false;
-            let processedStr = hit
-
-            // string must be converted into 12h format
-            if (processedStr.search(REG_AMPM) < 0) {
-                let timeStr = processedStr.match(REG_TIME)[0];
-                let hm = timeStr.split(':');
-                let hour = parseInt(hm[0]);
-
-                if (hour >= 12) {
-                    timeStr = timeStr.replace(`${hour}:`, `${hour - 12}:`);
-                    timeStr += 'pm';
-                }
-                else {
-                    timeStr += 'am';
-                }
-
-                processedStr = processedStr.replace(REG_TIME, timeStr);
-                use24Format = true;
-            }
-
-            // if time has a space before am/pm, this has to be removed for spacetime
-            processedStr = processedStr.replace(REG_AMPM, '$1');
-
-            let datetime = spacetime(processedStr, 'UTC+1', { dmy: true });
-            datetime = datetime.goto(spacetime().tz);
-            let replaceText = datetime.format(getSpaceTimeFormat(use24Format));
-            
-            node.textContent = node.textContent.replace(hit, replaceText);
-        })
+        if (updateDate(node)) {
+            return;
+        }
     });
 }
