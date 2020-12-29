@@ -38,7 +38,7 @@ function handleKeyToggle(event: KeyboardEvent, isPressed: boolean) {
     }
 }
 
-export function findTextNodes(baseNode) {
+export function findTextNodes(baseNode: Node): Array<Node> {
     if (!assigned(baseNode)) {
         baseNode = document.documentElement;
     }
