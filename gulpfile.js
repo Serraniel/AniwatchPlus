@@ -208,7 +208,7 @@ Watchers
 gulp.task('watch', (done) => {
     gulp.watch(`${src.styles}/**/*.scss`, gulp.series('clean:build', 'styles', 'dist:copy', 'dist:zip'))
 
-    gulp.watch(`${src.scripts}/**/*.js`, gulp.series('clean:build', 'scripts', 'dist:copy', 'dist:zip'))
+    gulp.watch(`${src.scripts}/**/*.ts`, gulp.series('clean:build', 'scripts', 'dist:copy', 'dist:zip'))
 
     gulp.watch(`${src.images}/**/*`, gulp.series('clean:build', 'images', 'dist:copy', 'dist:zip'))
 
