@@ -37,3 +37,18 @@ function handleKeyToggle(event: KeyboardEvent, isPressed: boolean) {
         isCtrlPressed = isPressed;
     }
 }
+
+export function findTextNodes(baseNode) {
+    if (!assigned(baseNode)) {
+        baseNode = document.documentElement;
+    }
+
+    let walker = document.createTreeWalker(baseNode, NodeFilter.SHOW_TEXT, null, false);
+    let node;
+    let results = [];
+    while (node = walker.nextNode()) {
+        results.push(node);
+    }
+
+    return results;
+}
