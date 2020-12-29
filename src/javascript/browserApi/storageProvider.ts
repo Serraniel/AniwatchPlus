@@ -1,5 +1,11 @@
 const { assigned } = require("../utils/helpers")
 
+enum BrowserApi {
+    Unknown,
+    Chromium,
+    Firefox,
+}
+
 export type ConfigurationStorageBooleanCallback = (value: boolean) => void;
 
 export interface ICustomBrowserStorageProvider {
@@ -70,18 +76,36 @@ class StorageProviderFirefox implements ICustomBrowserStorageProvider {
 
 let __storageProvieder: ICustomBrowserStorageProvider;
 
+function getBrowserApi(): BrowserApi {
+    if (assigned(chrome)) {
+        if (assigned(browser)) {
+            return BrowserApi.Firefox;
+        }
+
+        return BrowserApi.Chromium;
+    }
+    else if (assigned(browser)) {
+        return BrowserApi.Firefox;
+    }
+
+    return BrowserApi.Unknown;
+}
+
 function createStorageProvider() {
-    // chrome based browser
-    // TODO: chrome.app?
-    // if (assigned(chrome?.app)) {        
-    if (true) {
+
+    let api = getBrowserApi();
+
+    // chromium
+    if (api === BrowserApi.Chromium) {
         __storageProvieder = new StorageProviderChromium();
     }
     // firefox
-    else {
+    else if (api === BrowserApi.Firefox) {
         __storageProvieder = new StorageProviderFirefox();
     }
-
+    else {
+        throw "Unknown browser API. Cannot create storage provider.";
+    }
 }
 
 export function getGlobalStorageProvider(): ICustomBrowserStorageProvider {
