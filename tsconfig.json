@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+      "esModuleInterop": true,
       // You have to explicitly set @types to get DefinitelyTyped type definitions
       "typeRoots": ["node_modules/@types", "node_modules/web-ext-types"],
       // Default would be DOM,ES6,DOM.Iterable,ScriptHost (see https://www.typescriptlang.org/docs/handbook/compiler-options.html). However the ES 2020 is required for string.prototype.matchAll (see https://stackoverflow.com/a/57298833).
