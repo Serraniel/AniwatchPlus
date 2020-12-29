@@ -3,6 +3,7 @@ import { assigned } from "../utils/helpers";
 
 // website
 export const SETTINGS_websiteDisplayQuickSearch = 'websiteDisplayQuickSearch';
+export const SETTINGS_websiteAutoTimeConversion = 'websiteAutoTimeConversion';
 export const SETTINGS_websiteShowNotificationsCountInTab = 'websiteShowNotificationsCountInTab';
 export const SETTINGS_websiteHideUnusedTabs = 'websiteHideUnusedTabs';
 export const SETTINGS_websiteOptimizeListAppearance = 'websiteOptimizeListAppearance';
