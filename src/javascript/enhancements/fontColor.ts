@@ -54,8 +54,7 @@ function tryRegisterObserverForBadge(badge: Node): void {
         mutations.forEach(mutation => {
             // prevent recursive calls when our class is added / removed     
             if (mutation.target instanceof Element) {
-                // TODO: Validate if that still works
-                if ((mutation.oldValue?.indexOf(DARKCOLOR_CLASS) ?? -1 ^ (mutation.target?.classList?.contains(DARKCOLOR_CLASS) ?? false ? 0 : -1)) === 0) {
+                if ((mutation.oldValue?.indexOf(DARKCOLOR_CLASS) >= 0 ?? false) !== (mutation.target?.classList?.contains(DARKCOLOR_CLASS) ?? false)) {
                     return;
                 }
                 else {
