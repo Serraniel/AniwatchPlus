@@ -1,4 +1,4 @@
-const { assigned } = require("../utils/helpers")
+import { assigned } from '../utils/helpers';
 
 enum BrowserApi {
     Unknown,
@@ -77,14 +77,14 @@ class StorageProviderFirefox implements ICustomBrowserStorageProvider {
 let __storageProvieder: ICustomBrowserStorageProvider;
 
 function getBrowserApi(): BrowserApi {
-    if (assigned(chrome)) {
-        if (assigned(browser)) {
+    if (typeof chrome !== 'undefined') {
+        if (typeof browser !== 'undefined') {
             return BrowserApi.Firefox;
         }
 
         return BrowserApi.Chromium;
     }
-    else if (assigned(browser)) {
+    else if (typeof browser !== 'undefined') {
         return BrowserApi.Firefox;
     }
 
