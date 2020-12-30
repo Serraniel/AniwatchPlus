@@ -5,26 +5,27 @@ import * as helper from '../utils/helpers';
 const SCREENSHOT_TOOLTIP_ID = 'anilyr-screenshots-tooltip';
 const PLAYER_ID = 'player';
 
-export function init() {
+export function init(): void {
     getGlobalConfiguration().getProperty(SETTINGS_playerAutoplayAfterScreenshot, value => {
         if (value) {
-            core.registerScript(node => {
-                if (helper.isHtmlElement(node) && node.id === SCREENSHOT_TOOLTIP_ID) {
-                    observeScreenshotTooltip(node);
+            core.registerScript((node: Node) => {
+                let element = node as HTMLElement;
+                if (helper.assigned(element) && element.id === SCREENSHOT_TOOLTIP_ID) {
+                    observeScreenshotTooltip(element);
                 }
             }, "^/anime/[0-9]*/[0-9]*$");
         }
     });
 }
 
-function observeScreenshotTooltip(tooltip) {
+function observeScreenshotTooltip(tooltip: HTMLElement): void {
     let observer = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
             // Switched to invisible
-            if (!mutation.oldValue.includes('display: none') && mutation.target.style.display == 'none') {
-                let player = findPlayer();
-                if (helper.assigned(player)) {
-                    resumePlayer(player);
+            if (!mutation.oldValue.includes('display: none') && helper.isHtmlElement(mutation.target) && (mutation.target as HTMLElement).style.display == 'none') {
+                let playerElement = findPlayerElement();
+                if (helper.assigned(playerElement)) {
+                    resumePlayer(playerElement);
                 }
             }
         });
@@ -37,17 +38,15 @@ function observeScreenshotTooltip(tooltip) {
     });
 }
 
-function findPlayer() {
-    const PLAYER_TAG_NAME = 'VIDEO'; // tagName gives UpperCase
-
+function findPlayerElement(): HTMLVideoElement {
     let playerCandidate = document.getElementById(PLAYER_ID);
-    if (playerCandidate.tagName === PLAYER_TAG_NAME) {
+    if (playerCandidate instanceof HTMLVideoElement) {
         return playerCandidate;
     }
 
     return undefined;
 }
 
-function resumePlayer(player) {
+function resumePlayer(player: HTMLVideoElement) {
     player.play();
 }

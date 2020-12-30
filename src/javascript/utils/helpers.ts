@@ -1,16 +1,16 @@
-export var isShiftPressed = false;
-export var isCtrlPressed = false;
+export var isShiftPressed: boolean = false;
+export var isCtrlPressed: boolean = false;
 
-export function isHtmlElement(object) {
+export function isHtmlElement(object: any) {
     return object instanceof HTMLElement;
 }
 
-export function initHelpers() {
+export function initHelpers(): void {
     document.addEventListener('keydown', event => handleKeyDown(event));
     document.addEventListener('keyup', event => handleKeyUp(event));
 }
 
-export function onReady(fn) {
+export function onReady(fn: () => void) {
     if (document.readyState != 'loading') {
         fn();
     } else {
@@ -18,19 +18,19 @@ export function onReady(fn) {
     }
 }
 
-export function assigned(obj) {
+export function assigned(obj: any): boolean {
     return !(typeof obj === 'undefined' || obj === null);
 }
 
-function handleKeyDown(event) {
+function handleKeyDown(event: KeyboardEvent) {
     handleKeyToggle(event, true);
 }
 
-function handleKeyUp(event) {
+function handleKeyUp(event: KeyboardEvent) {
     handleKeyToggle(event, false);
 }
 
-function handleKeyToggle(event, isPressed) {
+function handleKeyToggle(event: KeyboardEvent, isPressed: boolean) {
     if (event.key === 'Shift') {
         isShiftPressed = isPressed;
     } else if (event.key === 'Control') {
@@ -38,7 +38,7 @@ function handleKeyToggle(event, isPressed) {
     }
 }
 
-export function findTextNodes(baseNode) {
+export function findTextNodes(baseNode: Node): Array<Node> {
     if (!assigned(baseNode)) {
         baseNode = document.documentElement;
     }

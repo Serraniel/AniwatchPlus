@@ -5,7 +5,7 @@ import * as helper from '../utils/helpers';
 const quickSearchID = 'ea-quickSearch';
 const quickSearchLink = 'ea-quickSearchLink';
 
-export function init() {
+export function init(): void {
     getGlobalConfiguration().getProperty(SETTINGS_websiteDisplayQuickSearch, value => {
         if (value) {
             core.runAfterLoad(() => {
@@ -15,7 +15,7 @@ export function init() {
     });
 }
 
-function initSearch() {
+function initSearch(): void {
     let entry = document.createElement('li');
     entry.setAttribute('ng-repeat', 'item in navbar');
     entry.setAttribute('ng-class', '{\'anime-indicator\': item[\'@attributes\'].title==\'Anime\'}');
@@ -45,13 +45,13 @@ function initSearch() {
     document.addEventListener('keypress', event => handleSearchForShiftF(event));
 
     // additionally, the last dropdown ul has a "right: 0px" style, which has to be fixed with auto, otherwhise it will pop up in the wrong position
-    Array.from(menu.querySelectorAll('ul.dropdown')).slice(-1)[0].style.right = 'auto';
+    (Array.from(menu.querySelectorAll('ul.dropdown')).slice(-1)[0] as HTMLElement).style.right = 'auto';
 }
 
-function handleQuickSearch(event) {
+function handleQuickSearch(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
-        let quickSearchElement = document.getElementById(quickSearchID);
-        let linkElement = document.getElementById(quickSearchLink);
+        let quickSearchElement = document.getElementById(quickSearchID) as HTMLInputElement;
+        let linkElement = document.getElementById(quickSearchLink) as HTMLAnchorElement;
 
         let url = new URL(window.location.origin)
         url.pathname = '/search';
@@ -67,10 +67,10 @@ function handleQuickSearch(event) {
     }
 }
 
-function handleSearchForShiftF(event) {
+function handleSearchForShiftF(event: KeyboardEvent): void {
     if (helper.isShiftPressed) {
         // check if some kind of input is focused already; we then prevent our hotkey
-        if (document.activeElement instanceof HTMLInputElement || document.activeElement instanceof HTMLTextAreaElement || document.activeElement.isContentEditable) {
+        if (document.activeElement instanceof HTMLInputElement || document.activeElement instanceof HTMLTextAreaElement || ((document.activeElement as HTMLElement)?.isContentEditable ?? false)) {
             return;
         }
 

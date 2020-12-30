@@ -6,7 +6,7 @@ import * as helper from '../utils/helpers';
 const __alteredNodes = [];
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-export function init() {
+export function init(): void {
     getGlobalConfiguration().getProperty(SETTINGS_websiteAutoTimeConversion, value => {
         if (value) {
             // The regexp pattern matches anything except the airing page. 
@@ -20,18 +20,18 @@ export function init() {
                 updateTimestamps(document.documentElement);
             }, "^/(?!airing).*$");
 
-            core.registerScript(node => {
+            core.registerScript((node: Node) => {
                 updateTimestamps(node);
             }, "^/(?!airing).*$");
         }
     });
 }
 
-function getSpaceDateTimeFormat(use24Format) {
+function getSpaceDateTimeFormat(use24Format: boolean): string {
     return `${getSpaceDateFormat()} ${getSpaceTimeFormat(use24Format)}`;
 }
 
-function getSpaceTimeFormat(use24Format) {
+function getSpaceTimeFormat(use24Format: boolean): string {
     if (use24Format) {
         return '{time-24}';
     }
@@ -39,11 +39,11 @@ function getSpaceTimeFormat(use24Format) {
     return '{time}';
 }
 
-function getSpaceDateFormat() {
+function getSpaceDateFormat(): string {
     return '{date}. {month-short} {year}';
 }
 
-function tryUpdateDateTime(node) {
+function tryUpdateDateTime(node: Node): boolean {
     const REG_DATETIME = /(\d{2}(\/|\.)){2}\d{4} *\d?\d:\d{2}( (AM|PM))?/g;
     const REG_TIME = /\d?\d:\d{2}/;
     const REG_AMPM = /\s(am|pm)/i;
@@ -81,7 +81,7 @@ function tryUpdateDateTime(node) {
 
         let datetime = spacetime(processedStr, 'UTC+1', { dmy: true });
         datetime = datetime.goto(spacetime().tz);
-        let replaceText = datetime.format(getSpaceDateTimeFormat(use24Format));
+        let replaceText = String(datetime.format(getSpaceDateTimeFormat(use24Format)));
 
         node.textContent = node.textContent.replace(hit, replaceText);
     });
@@ -89,7 +89,7 @@ function tryUpdateDateTime(node) {
     return true;
 }
 
-function tryUpdateDate(node) {
+function tryUpdateDate(node: Node): boolean {
     const REG_DATE = /(\d{2}(\/|\.)){2}\d{4}/g;
 
     let hits = Array.from(node.textContent.matchAll(REG_DATE), match => match[0]);
@@ -101,7 +101,7 @@ function tryUpdateDate(node) {
     hits.forEach(hit => {
         let datetime = spacetime(hit, 'UTC+1', { dmy: true });
         datetime = datetime.goto(spacetime().tz);
-        let replaceText = datetime.format(getSpaceDateFormat());
+        let replaceText = String(datetime.format(getSpaceDateFormat()));
 
         node.textContent = node.textContent.replace(hit, replaceText);
     });
@@ -109,7 +109,7 @@ function tryUpdateDate(node) {
     return true;
 }
 
-function tryUpdateTime(node) {
+function tryUpdateTime(node: Node): boolean {
     const REG_TIME = /\d?\d:\d{2}( (AM|PM))?/g;
     const REG_AMPM = /\s(am|pm)/i;
 
@@ -148,7 +148,7 @@ function tryUpdateTime(node) {
         datetime = datetime.goto('UTC+1');
         datetime = datetime.time(processedStr);
         datetime = datetime.goto(spacetime().tz);
-        let replaceText = datetime.format(getSpaceTimeFormat(use24Format));
+        let replaceText = String(datetime.format(getSpaceTimeFormat(use24Format)));
 
         node.textContent = node.textContent.replace(hit, replaceText);
 
@@ -168,7 +168,7 @@ function tryUpdateTime(node) {
 
         // if day changed
         if (dOffset != 0) {
-            let dayNode = node.parentNode.previousElementSibling;
+            let dayNode = (node.parentNode as Element)?.previousElementSibling;
             if (helper.assigned(dayNode)) {
                 for (let i = 0; i < DAYS.length; i++) {
                     if (dayNode.textContent.indexOf(DAYS[i]) >= 0) {
@@ -183,13 +183,17 @@ function tryUpdateTime(node) {
     return true;
 }
 
-function tryUpdateTimeZone(node) {
+function tryUpdateTimeZone(node: Node): boolean {
     const HINT_UTC = 'UTC+1';
     if (node.textContent === HINT_UTC) {
         let tzMeta = spacetime().timezone();
 
         node.textContent = `${tzMeta.name} (UTC${tzMeta.current.offset >= 0 ? '+' : ''}${tzMeta.current.offset})`;
+
+        return true;
     }
+
+    return false;
 }
 
 function updateTimestamps(node) {

@@ -7,7 +7,7 @@ const BADGE_CLASS = 'label';
 const DARKCOLOR_CLASS = 'awp-fontColor-dark';
 const __observedBadges = [];
 
-export function init() {
+export function init(): void {
     getGlobalConfiguration().getProperty(SETTINGS_websiteOptimizeFontColors, value => {
         if (value) {
             core.runAfterLoad(() => {
@@ -18,30 +18,30 @@ export function init() {
                 checkRunColorOptimization(document.documentElement);
             }, ".*");
 
-            core.registerScript(node => {
-                checkRunColorOptimization(node);
+            core.registerScript((node: Node) => {
+                if (node instanceof Element) {
+                    checkRunColorOptimization(node);
+                }
             }, ".*");
         }
     });
 }
 
-function checkRunColorOptimization(node) {
+function checkRunColorOptimization(node: Element): void {
     // run the scripts
-    if (helper.isHtmlElement(node)) {
-        if (node.classList.contains(BADGE_CLASS)) {
-            tryRegisterObserverForBadge(node);
-            optimizeFontColorsBadges(node);
-        }
-        else {
-            node.querySelectorAll(`.${BADGE_CLASS}`).forEach(element => {
-                tryRegisterObserverForBadge(element);
-                optimizeFontColorsBadges(element);
-            });
-        }
+    if (node.classList.contains(BADGE_CLASS)) {
+        tryRegisterObserverForBadge(node);
+        optimizeFontColorsBadges(node);
+    }
+    else {
+        node.querySelectorAll(`.${BADGE_CLASS}`).forEach(element => {
+            tryRegisterObserverForBadge(element);
+            optimizeFontColorsBadges(element);
+        });
     }
 }
 
-function tryRegisterObserverForBadge(badge) {
+function tryRegisterObserverForBadge(badge: Node): void {
     // some badges change there color via late loading so we also have to observe the classlist
     // example: Navigating from a list to an anime -> "Currently Airing" late loads the color badge
     // this only happens when navigating from a list, direct loading works
@@ -52,12 +52,14 @@ function tryRegisterObserverForBadge(badge) {
 
     let obsever = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
-            // prevent recursive calls when our class is added / removed            
-            if ((mutation.oldValue?.indexOf(DARKCOLOR_CLASS) ?? -1 ^ mutation.target?.classList?.indexOf(DARKCOLOR_CLASS) ?? -1) === 0) {
-                return;
-            }
-            else {
-                optimizeFontColorsBadges(mutation.target);
+            // prevent recursive calls when our class is added / removed     
+            if (mutation.target instanceof Element) {
+                if ((mutation.oldValue?.indexOf(DARKCOLOR_CLASS) >= 0 ?? false) !== (mutation.target?.classList?.contains(DARKCOLOR_CLASS) ?? false)) {
+                    return;
+                }
+                else {
+                    optimizeFontColorsBadges(mutation.target);
+                }
             }
         });
     });
@@ -71,7 +73,7 @@ function tryRegisterObserverForBadge(badge) {
     __observedBadges.push(badge);
 }
 
-function optimizeFontColorsBadges(badge) {
+function optimizeFontColorsBadges(badge: Element): void {
     let colorStr = window.getComputedStyle(badge, null).getPropertyValue('background-color');
 
     // some elements do not have a computed background color

@@ -4,6 +4,7 @@ const gulpLoadPlugins = require('gulp-load-plugins')
 const terser = require('terser');
 const del = require('del');
 const browserify = require('browserify');
+const tsify = require('tsify')
 const babelify = require('babelify');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
@@ -124,13 +125,14 @@ gulp.task('scripts', () => {
     const streams = [];
 
     modules.forEach(module => {
-        inputs.push(`${src.scripts}/${module}.js`);
+        inputs.push(`${src.scripts}/${module}.ts`);
         streams.push(source(`${module}.js`));
     });
 
     const b = browserify(inputs, { debug: isDev });
 
     let outstream = b
+        .plugin(tsify)
         .transform('babelify')
         .plugin(factor, { outputs: streams })
         .bundle()
@@ -206,7 +208,7 @@ Watchers
 gulp.task('watch', (done) => {
     gulp.watch(`${src.styles}/**/*.scss`, gulp.series('clean:build', 'styles', 'dist:copy', 'dist:zip'))
 
-    gulp.watch(`${src.scripts}/**/*.js`, gulp.series('clean:build', 'scripts', 'dist:copy', 'dist:zip'))
+    gulp.watch(`${src.scripts}/**/*.ts`, gulp.series('clean:build', 'scripts', 'dist:copy', 'dist:zip'))
 
     gulp.watch(`${src.images}/**/*`, gulp.series('clean:build', 'images', 'dist:copy', 'dist:zip'))
 

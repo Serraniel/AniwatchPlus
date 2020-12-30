@@ -1,11 +1,24 @@
 import * as helper from './helpers';
 
-/* SCRIPT LOGICS */
-let __scripts = [];
-let __afterLoadScripts = [];
-let __afterLocationChangeScripts = [];
+type ScriptCallback = () => void;
+type NodeScriptCallback = (node: Node) => void;
 
-export function initCore() {
+type ScriptObj = {
+    function: ScriptCallback,
+    pattern: string
+}
+
+type NodeScriptObj = {
+    function: NodeScriptCallback,
+    pattern: string
+}
+
+/* SCRIPT LOGICS */
+let __scripts: Array<NodeScriptObj> = [];
+let __afterLoadScripts: Array<ScriptObj> = [];
+let __afterLocationChangeScripts: Array<ScriptObj> = [];
+
+export function initCore(): void {
     let observer = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
             for (let i = 0; i < mutation.addedNodes.length; i++) {
@@ -46,11 +59,11 @@ export function initCore() {
     helper.onReady(() => awaitPageLoaded());
 }
 
-export function registerScript(func, pattern = '.*') {
-    __scripts.push({ "function": func, "pattern": pattern });
+export function registerScript(func: NodeScriptCallback, pattern: string = '.*'): void {
+    __scripts.push({ function: func, pattern: pattern });
 }
 
-export function runScripts(node) {
+export function runScripts(node: Node): void {
     __scripts.forEach(script => {
         if (window.location.pathname.match(script.pattern)) {
             script.function(node);
@@ -58,20 +71,20 @@ export function runScripts(node) {
     });
 }
 
-function findPreloader() {
+function findPreloader(): HTMLElement {
     return document.getElementById('preloader');
 }
 
-export function runAfterLoad(func, pattern = '.*') {
+export function runAfterLoad(func: ScriptCallback, pattern: string = '.*'): void {
     let preloader = findPreloader();
     if (typeof preloader !== undefined && preloader.style.display !== "none") {
-        __afterLoadScripts.push({ "function": func, "pattern": pattern });
+        __afterLoadScripts.push({ function: func, pattern: pattern });
     } else {
         func();
     }
 }
 
-function awaitPageLoaded() {
+function awaitPageLoaded(): void {
     let preLoader = findPreloader();
 
     let runScripts = () => {
@@ -87,9 +100,9 @@ function awaitPageLoaded() {
         return;
     }
 
-    let loop = setInterval(() => {
+    let loop = window.setInterval(() => {
         if (preLoader.style.display === "none" && document.readyState === 'complete') {
-            clearInterval(loop);
+            window.clearInterval(loop);
 
             runScripts();
         }
@@ -97,12 +110,12 @@ function awaitPageLoaded() {
 }
 
 /* PATHNAME LOGIC */
-export function runAfterLocationChange(func, pattern = '.*') {
-    __afterLocationChangeScripts.push({ "function": func, "pattern": pattern });
+export function runAfterLocationChange(func: ScriptCallback, pattern: string = '.*'): void {
+    __afterLocationChangeScripts.push({ function: func, pattern: pattern });
 }
 
 /* LOGIN LOGIC */
-export function isLoggedIn() {
+export function isLoggedIn(): boolean {
     let menu = document.getElementById('materialize-menu-dropdown');
     let result = true;
 
