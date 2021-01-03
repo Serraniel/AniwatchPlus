@@ -12,6 +12,7 @@
 
 ## Features
 * Adds quick search
+* Time conversion into localtime
 * Cleaner list presentation
 * Improved presentation of available audio and subtitles
 * Better display of anime requests
