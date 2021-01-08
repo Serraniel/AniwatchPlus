@@ -45,7 +45,7 @@
         "@babel/plugin-proposal-private-methods": "^7.12.1",
         "@babel/preset-env": "^7.12.11",
         "@babel/register": "^7.12.10",
-        "@types/chrome": "0.0.127",
+        "@types/chrome": "0.0.128",
         "babelify": "^10.0.0",
         "browserify": "^17.0.0",
         "cross-env": "^7.0.3",
