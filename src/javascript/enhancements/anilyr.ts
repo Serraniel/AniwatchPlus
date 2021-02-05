@@ -1,9 +1,13 @@
-import { getGlobalConfiguration, SETTINGS_playerAutoplayAfterScreenshot } from '../configuration/configuration';
+import { getGlobalConfiguration,
+    SETTINGS_playerAutoplayAfterScreenshot,
+    SETTINGS_playerAutopauseAfterFocusLost,
+    SETTINGS_playerAutoplayAfterFocusGain } from '../configuration/configuration';
 import * as core from '../utils/aniwatchCore';
 import * as helper from '../utils/helpers';
 
 const SCREENSHOT_TOOLTIP_ID = 'anilyr-screenshots-tooltip';
 const PLAYER_ID = 'player';
+let onVisible: boolean;
 
 export function init(): void {
     getGlobalConfiguration().getProperty(SETTINGS_playerAutoplayAfterScreenshot, value => {
@@ -15,6 +19,18 @@ export function init(): void {
                 }
             }, "^/anime/[0-9]*/[0-9]*$");
         }
+    });
+
+    getGlobalConfiguration().getProperty(SETTINGS_playerAutopauseAfterFocusLost, value => {
+        if (value) {
+            core.registerScript((node: Node) => {
+                addVisibilityChangeListener();
+            }, "^/anime/[0-9]*/[0-9]*$");
+        }
+    });
+
+    getGlobalConfiguration().getProperty(SETTINGS_playerAutoplayAfterFocusGain, value => {
+        onVisible = value;
     });
 }
 
@@ -38,6 +54,25 @@ function observeScreenshotTooltip(tooltip: HTMLElement): void {
     });
 }
 
+function addVisibilityChangeListener(): void{
+    window.addEventListener('visibilitychange', observeTabFocus, false);
+}
+
+function observeTabFocus(): void {
+    let docState = document.visibilityState;
+    let playerElement = findPlayerElement();
+    if (docState === 'hidden') {
+        if (helper.assigned(playerElement)) {
+            pausePlayer(playerElement);
+        }
+    }
+    else if (docState === 'visible' && onVisible) {
+        if (helper.assigned(playerElement)) {
+            resumePlayer(playerElement);
+        }
+    }
+}
+
 function findPlayerElement(): HTMLVideoElement {
     let playerCandidate = document.getElementById(PLAYER_ID);
     if (playerCandidate instanceof HTMLVideoElement) {
@@ -49,4 +84,8 @@ function findPlayerElement(): HTMLVideoElement {
 
 function resumePlayer(player: HTMLVideoElement) {
     player.play();
+}
+
+function pausePlayer(player: HTMLVideoElement) {
+    player.pause()
 }
