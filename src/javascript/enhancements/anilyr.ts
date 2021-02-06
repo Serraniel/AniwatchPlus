@@ -24,7 +24,7 @@ export function init(): void {
     getGlobalConfiguration().getProperty(SETTINGS_playerAutopauseAfterFocusLost, value => {
         if (value) {
             core.registerScript((node: Node) => {
-                addVisibilityChangeListener();
+                window.addEventListener('visibilitychange', observeTabFocus, false);
             }, "^/anime/[0-9]*/[0-9]*$");
         }
     });
@@ -52,10 +52,6 @@ function observeScreenshotTooltip(tooltip: HTMLElement): void {
         attributeOldValue: true,
         attributeFilter: ['style'],
     });
-}
-
-function addVisibilityChangeListener(): void{
-    window.addEventListener('visibilitychange', observeTabFocus, false);
 }
 
 function observeTabFocus(): void {
