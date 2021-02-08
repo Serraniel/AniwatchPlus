@@ -17,23 +17,20 @@ export function init(): void {
 
 function observeSearchResults(searchRes: Element): void {
     let observer = new MutationObserver(mutations => {
-        mutations.forEach(mutation => {
-            let scrollTarget = searchRes.querySelector('.ep-view md-list-item:not(.animelist-completed)');
-            if (assigned(scrollTarget)) {
-                scrollTarget.scrollIntoView();
-            }
-        });
+        let scrollTarget = searchRes.querySelector('.ep-view md-list-item:not(.animelist-completed)') as HTMLElement;
+        if (assigned(scrollTarget)) {
+            // scroll container to episode first
+            searchRes.scrollTop = scrollTarget.offsetTop;
+
+            // then scroll page to episode if neccessarry
+            scrollTarget.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
     });
 
     observer.observe(searchRes, {
         childList: true,
         subtree: true,
     });
-}
-
-function scrollTo(el: Element, pos: number): void {
-    let offset: number = 24;
-    el.scrollTo(0, pos * 72 + offset)
 }
 
 function findSearchResults(): Element {
