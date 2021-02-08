@@ -18,8 +18,10 @@ export function init(): void {
 function observeSearchResults(searchRes: Element): void {
     let observer = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
-            let num = searchRes.getElementsByClassName('md-2-line border _md-button-wrap _md md-clickable animelist-completed').length;
-            scrollTo(searchRes, num);
+            let scrollTarget = searchRes.querySelector('.ep-view md-list-item:not(.animelist-completed)');
+            if (assigned(scrollTarget)) {
+                scrollTarget.scrollIntoView();
+            }
         });
     });
 
