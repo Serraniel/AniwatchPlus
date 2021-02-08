@@ -11,6 +11,7 @@ import { init as notifications } from './enhancements/notifications';
 import { init as quickSearch } from './enhancements/quickSearch';
 import { init as timeConversion } from './enhancements/timeConversion';
 import { init as watch2getherChat } from './enhancements/watch2getherChat';
+import { init as watch2getherAutotoggleHide } from './enhancements/watch2getherHide';
 // css
 import { init as cssEnhancements } from './enhancements/cssEnhancements';
 
@@ -29,6 +30,7 @@ notifications();
 quickSearch();
 timeConversion();
 watch2getherChat();
+watch2getherAutotoggleHide();
 
 // css
 cssEnhancements();

@@ -16,6 +16,7 @@ export const SETTINGS_requestBeautifyPage = 'requestBeautifyPage';
 export const SETTINGS_playerAutoplayAfterScreenshot = 'playerAutoplayAfterScreenshot';
 // w2g
 export const SETTINGS_w2gDisplayCharacterCounter = 'w2gDisplayCharacterCounter';
+export const SETTINGS_w2gAutotoggleHide = 'w2gAutotoggleHide';
 class Configuration {
     settingsCache: Map<string, boolean>;
 

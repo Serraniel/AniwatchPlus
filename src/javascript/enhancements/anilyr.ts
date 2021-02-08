@@ -23,7 +23,7 @@ function observeScreenshotTooltip(tooltip: HTMLElement): void {
         mutations.forEach(mutation => {
             // Switched to invisible
             if (!mutation.oldValue.includes('display: none') && helper.isHtmlElement(mutation.target) && (mutation.target as HTMLElement).style.display == 'none') {
-                let playerElement = findPlayerElement();
+                let playerElement = findPlayerElement(PLAYER_ID);
                 if (helper.assigned(playerElement)) {
                     resumePlayer(playerElement);
                 }
@@ -38,8 +38,8 @@ function observeScreenshotTooltip(tooltip: HTMLElement): void {
     });
 }
 
-function findPlayerElement(): HTMLVideoElement {
-    let playerCandidate = document.getElementById(PLAYER_ID);
+export function findPlayerElement(id: string): HTMLVideoElement {
+    let playerCandidate = document.getElementById(id);
     if (playerCandidate instanceof HTMLVideoElement) {
         return playerCandidate;
     }
