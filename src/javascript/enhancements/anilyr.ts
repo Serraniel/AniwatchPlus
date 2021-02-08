@@ -7,7 +7,7 @@ import * as helper from '../utils/helpers';
 
 const SCREENSHOT_TOOLTIP_ID = 'anilyr-screenshots-tooltip';
 const PLAYER_ID = 'player';
-let onVisible: boolean;
+let resumePlayerOnVisible: boolean;
 
 export function init(): void {
     getGlobalConfiguration().getProperty(SETTINGS_playerAutoplayAfterScreenshot, value => {
@@ -30,7 +30,7 @@ export function init(): void {
     });
 
     getGlobalConfiguration().getProperty(SETTINGS_playerAutoplayAfterFocusGain, value => {
-        onVisible = value;
+        resumePlayerOnVisible = value;
     });
 }
 
@@ -62,7 +62,7 @@ function observeTabFocus(): void {
             pausePlayer(playerElement);
         }
     }
-    else if (docState === 'visible' && onVisible) {
+    else if (docState === 'visible' && resumePlayerOnVisible) {
         if (helper.assigned(playerElement)) {
             resumePlayer(playerElement);
         }
