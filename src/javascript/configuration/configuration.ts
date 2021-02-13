@@ -19,6 +19,8 @@ export const SETTINGS_playerAutoplayAfterFocusGain = 'playerAutoplayAfterFocusGa
 // w2g
 export const SETTINGS_w2gDisplayCharacterCounter = 'w2gDisplayCharacterCounter';
 export const SETTINGS_w2gAutotoggleHide = 'w2gAutotoggleHide';
+export const SETTINGS_w2gAutoscrollToUnseen = 'w2gAutoscrollToUnseen';
+
 class Configuration {
     settingsCache: Map<string, boolean>;
 

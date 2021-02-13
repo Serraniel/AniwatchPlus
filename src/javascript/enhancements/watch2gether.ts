@@ -1,6 +1,6 @@
 import * as core from '../utils/aniwatchCore';
 import { v4 as uuidv4 } from 'uuid';
-import { getGlobalConfiguration, SETTINGS_w2gDisplayCharacterCounter, SETTINGS_w2gAutotoggleHide } from '../configuration/configuration';
+import { getGlobalConfiguration, SETTINGS_w2gDisplayCharacterCounter, SETTINGS_w2gAutotoggleHide, SETTINGS_w2gAutoscrollToUnseen } from '../configuration/configuration';
 import { assigned } from '../utils/helpers';
 import { findPlayerElement } from "../enhancements/anilyr";
 
@@ -13,18 +13,39 @@ export function init(): void {
             core.runAfterLoad(() => {
                 manipulateChatInput();
             }, "^/watch2gether/.*$");
+
             core.runAfterLocationChange(() => {
                 manipulateChatInput();
             }, "^/watch2gether/.*$");
         }
     });
+
     getGlobalConfiguration().getProperty(SETTINGS_w2gAutotoggleHide, value => {
         if (value) {
             core.runAfterLoad(() => {
                 addAutohideListener();
             }, "^/watch2gether/.*$");
+
             core.runAfterLocationChange(() => {
                 addAutohideListener();
+            }, "^/watch2gether/.*$");
+        }
+    });
+
+    getGlobalConfiguration().getProperty(SETTINGS_w2gAutoscrollToUnseen, value => {
+        if (value) {
+            core.runAfterLoad(() => {
+                let element = findSearchResults();
+                if (assigned(element)) {
+                    scrollSearchResults(element);
+                }
+            }, "^/watch2gether/.*$");
+
+            core.runAfterLocationChange(() => {
+                let element = findSearchResults();
+                if (assigned(element)) {
+                    scrollSearchResults(element);
+                }
             }, "^/watch2gether/.*$");
         }
     });
@@ -103,4 +124,30 @@ function addAutohideListener(): void {
             }
         })
     }
+}
+
+function scrollSearchResults(searchRes: Element): void {
+    let observer = new MutationObserver(mutations => {
+        let scrollTarget = searchRes.querySelector('md-list-item:not(.animelist-completed):not(.animelist-completed-add)') as HTMLElement;
+
+        if (assigned(scrollTarget)) {
+            // The node isn´t in its correct position directly when it´s added so we wait a small bit of time before we start scrolling.
+            // Also works for long loading lists which need more time to load than we wait (for example One Piece).
+            window.setTimeout(() => {
+                // scroll container to episode first
+                searchRes.scrollTop = scrollTarget.offsetTop;
+
+                // then scroll page to episode if neccessarry
+                scrollTarget.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            }, 500);
+        }
+    });
+
+    observer.observe(searchRes, {
+        childList: true,
+    });
+}
+
+function findSearchResults(): Element {
+    return document.querySelector('.search-results .ep-view');
 }
