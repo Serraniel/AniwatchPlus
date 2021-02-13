@@ -19,7 +19,7 @@ export function init(): void {
     });
 }
 
-function addAutohideListener() {
+function addAutohideListener(): void {
     let playerElement = findPlayerElement(PLAYER_ID);
     let hideButton: HTMLButtonElement = document.getElementsByClassName('no-margin md-button md-ink-ripple layout-align-center-center layout-row')[0] as HTMLButtonElement;
     if (helper.assigned(playerElement) && helper.assigned(hideButton)) {
