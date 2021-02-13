@@ -7,6 +7,7 @@ export function init(): void {
         if (value) {
             core.runAfterLocationChange(() => {
                 let element = findSearchResults();
+                console.log(element);
                 if (assigned(element)) {
                     observeSearchResults(element);
                 }
@@ -17,26 +18,26 @@ export function init(): void {
 
 function observeSearchResults(searchRes: Element): void {
     let observer = new MutationObserver(mutations => {
-        let scrollTarget = searchRes.querySelector('.ep-view md-list-item:not(.animelist-completed)') as HTMLElement;
-        if (assigned(scrollTarget)) {
-            // scroll container to episode first
-            searchRes.scrollTop = scrollTarget.offsetTop;
+        let scrollTarget = searchRes.querySelector('md-list-item:not(.animelist-completed):not(.animelist-completed-add)') as HTMLElement;
 
-            // then scroll page to episode if neccessarry
-            scrollTarget.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        if (assigned(scrollTarget)) {
+            // The node isn´t in its correct position directly when it´s added so we wait a small bit of time before we start scrolling.
+            // Also works for long loading lists which need more time to load than we wait (for example One Piece).
+            window.setTimeout(() => {
+                // scroll container to episode first
+                searchRes.scrollTop = scrollTarget.offsetTop;
+
+                // then scroll page to episode if neccessarry
+                scrollTarget.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            }, 500);
         }
     });
 
     observer.observe(searchRes, {
         childList: true,
-        subtree: true,
     });
 }
 
 function findSearchResults(): Element {
-    let searchResults = document.getElementsByClassName('search-results');
-    if (searchResults[0] instanceof Element) {
-        return searchResults[0];
-    }
-    return undefined;
+    return document.querySelector('.search-results .ep-view');
 }
