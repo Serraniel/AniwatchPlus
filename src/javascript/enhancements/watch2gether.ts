@@ -1,13 +1,30 @@
 import * as core from '../utils/aniwatchCore';
 import { v4 as uuidv4 } from 'uuid';
-import { getGlobalConfiguration, SETTINGS_w2gDisplayCharacterCounter } from '../configuration/configuration';
+import { getGlobalConfiguration, SETTINGS_w2gDisplayCharacterCounter, SETTINGS_w2gAutotoggleHide } from '../configuration/configuration';
 import { assigned } from '../utils/helpers';
+import { findPlayerElement } from "../enhancements/anilyr";
+
+const PLAYER_ID = 'wPlayer';
+let hidden: boolean;
 
 export function init(): void {
     getGlobalConfiguration().getProperty(SETTINGS_w2gDisplayCharacterCounter, value => {
         if (value) {
+            core.runAfterLoad(() => {
+                manipulateChatInput();
+            }, "^/watch2gether/.*$");
             core.runAfterLocationChange(() => {
                 manipulateChatInput();
+            }, "^/watch2gether/.*$");
+        }
+    });
+    getGlobalConfiguration().getProperty(SETTINGS_w2gAutotoggleHide, value => {
+        if (value) {
+            core.runAfterLoad(() => {
+                addAutohideListener();
+            }, "^/watch2gether/.*$");
+            core.runAfterLocationChange(() => {
+                addAutohideListener();
             }, "^/watch2gether/.*$");
         }
     });
@@ -61,5 +78,29 @@ function updateCharCounter(textarea: HTMLTextAreaElement, charCounterSpan: HTMLS
         setTimeout(() => {
             charCounterSpan.classList.remove(SHAKE_CLASS);
         }, 200);
+    }
+}
+
+function addAutohideListener(): void {
+    let playerElement = findPlayerElement(PLAYER_ID);
+    let hideButton: HTMLButtonElement = document.getElementsByClassName('no-margin md-button md-ink-ripple layout-align-center-center layout-row')[0] as HTMLButtonElement;
+    if (assigned(playerElement) && assigned(hideButton)) {
+        if (hideButton.textContent.includes('HIDE')) {
+            hidden = false;
+        } else if (hideButton.textContent.includes('SHOW')) {
+            hidden = true;
+        }
+        playerElement.addEventListener('play', fn => {
+            if (!hidden) {
+                hideButton.click();
+                hidden = !hidden;
+            }
+        })
+        playerElement.addEventListener('pause', fn => {
+            if (hidden) {
+                hideButton.click();
+                hidden = !hidden;
+            }
+        })
     }
 }

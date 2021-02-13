@@ -10,8 +10,7 @@ import { init as languageDisplay } from './enhancements/languageDisplay';
 import { init as notifications } from './enhancements/notifications';
 import { init as quickSearch } from './enhancements/quickSearch';
 import { init as timeConversion } from './enhancements/timeConversion';
-import { init as watch2getherChat } from './enhancements/watch2getherChat';
-import { init as watch2getherAutoscroll } from './enhancements/watch2getherAutoscroll';
+import { init as watch2gether } from './enhancements/watch2gether';
 // css
 import { init as cssEnhancements } from './enhancements/cssEnhancements';
 
@@ -29,8 +28,7 @@ languageDisplay();
 notifications();
 quickSearch();
 timeConversion();
-watch2getherChat();
-watch2getherAutoscroll();
+watch2gether();
 
 // css
 cssEnhancements();
