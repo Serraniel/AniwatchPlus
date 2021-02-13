@@ -6,6 +6,9 @@ import { assigned } from '../utils/helpers';
 export function init(): void {
     getGlobalConfiguration().getProperty(SETTINGS_w2gDisplayCharacterCounter, value => {
         if (value) {
+            core.runAfterLoad(() => {
+                manipulateChatInput();
+            }, "^/watch2gether/.*$");
             core.runAfterLocationChange(() => {
                 manipulateChatInput();
             }, "^/watch2gether/.*$");
