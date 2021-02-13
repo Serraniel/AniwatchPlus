@@ -14,6 +14,8 @@ export const SETTINGS_animeLanguageDisplay = 'animeLanguageDisplay';
 export const SETTINGS_requestBeautifyPage = 'requestBeautifyPage';
 // player
 export const SETTINGS_playerAutoplayAfterScreenshot = 'playerAutoplayAfterScreenshot';
+export const SETTINGS_playerAutopauseAfterFocusLost = 'playerAutopauseAfterFocusLost';
+export const SETTINGS_playerAutoplayAfterFocusGain = 'playerAutoplayAfterFocusGain';
 // w2g
 export const SETTINGS_w2gDisplayCharacterCounter = 'w2gDisplayCharacterCounter';
 export const SETTINGS_w2gAutotoggleHide = 'w2gAutotoggleHide';
