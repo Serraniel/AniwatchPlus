@@ -43,7 +43,7 @@
         "@babel/helper-module-imports": "^7.12.13",
         "@babel/plugin-proposal-class-properties": "^7.12.13",
         "@babel/plugin-proposal-private-methods": "^7.12.13",
-        "@babel/preset-env": "^7.12.16",
+        "@babel/preset-env": "^7.12.17",
         "@babel/register": "^7.12.13",
         "@types/chrome": "0.0.130",
         "babelify": "^10.0.0",
