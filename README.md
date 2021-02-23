@@ -22,7 +22,7 @@
 ## Download
 Click the badge for your browser to get to the download page:
 
-[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/hgniihpjiioldkafogebpkbaiflmpimb?label=Google%20Chrome&logo=Google%20Chrome&style=flat-square)](https://chrome.google.com/webstore/detail/aniwatch-plus/hgniihpjiioldkafogebpkbaiflmpimb?hl=de)
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/hgniihpjiioldkafogebpkbaiflmpimb?label=Google%20Chrome&logo=Google%20Chrome&style=flat-square)](https://chrome.google.com/webstore/detail/aniwatch-plus/hgniihpjiioldkafogebpkbaiflmpimb)
 [![Mozilla Add-on](https://img.shields.io/amo/v/aniwatch-plus?label=Mozilla%20Firefox&logo=Firefox&style=flat-square)](https://addons.mozilla.org/de/firefox/addon/aniwatch-plus/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search)
 [![GitHub release tag for opera (latest by date including pre-releases)](https://img.shields.io/github/v/release/serraniel/aniwatchplus?include_prereleases&label=Opera&logo=Opera&logoColor=red&style=flat-square)](https://addons.opera.com/de/extensions/details/aniwatch-plus/)
 [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/serraniel/aniwatchplus?include_prereleases&label=Download%20manually&logo=Github&style=flat-square)](https://github.com/Serraniel/AniwatchPlus/releases)
