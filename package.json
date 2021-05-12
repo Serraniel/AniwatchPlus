@@ -73,7 +73,7 @@
         "postcss": "^8.2.15",
         "sass": "^1.32.12",
         "terser": "^5.7.0",
-        "tsify": "^5.0.3",
+        "tsify": "^5.0.4",
         "typescript": "^4.2.4",
         "vinyl-buffer": "^1.0.1",
         "vinyl-source-stream": "^2.0.0",
