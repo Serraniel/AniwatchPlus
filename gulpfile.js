@@ -15,7 +15,7 @@ const { debug } = require('console');
 
 const $ = gulpLoadPlugins()
 
-$.sass.compiler = require('sass');
+const sass = require('gulp-sass')(require('sass'));
 
 /* ============================================================================
 Base consts
@@ -82,11 +82,11 @@ gulp.task('styles', () => {
         // sourcemap initialization
         .pipe($.if(isDev, $.sourcemaps.init()))
         // sass compilation
-        .pipe($.sass.sync({
+        .pipe(sass.sync({
             outputStyle: 'expanded',
             precision: 7,
             includePaths: ['.'],
-        }).on('error', $.sass.logError))
+        }).on('error', sass.logError))
         // autoprefix
         .pipe($.autoprefixer())
         // out stream size
