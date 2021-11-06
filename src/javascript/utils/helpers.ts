@@ -43,7 +43,7 @@ export function findTextNodes(baseNode: Node): Array<Node> {
         baseNode = document.documentElement;
     }
 
-    let walker = document.createTreeWalker(baseNode, NodeFilter.SHOW_TEXT, null, false);
+    let walker = document.createTreeWalker(baseNode, NodeFilter.SHOW_TEXT, null);
     let node;
     let results = [];
     while (node = walker.nextNode()) {
