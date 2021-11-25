@@ -70,7 +70,7 @@
         "gulp-typescript": "^6.0.0-alpha.1",
         "gulp-zip": "^5.1.0",
         "merge-stream": "^2.0.0",
-        "postcss": "^8.3.11",
+        "postcss": "^8.4.1",
         "sass": "^1.43.4",
         "terser": "^5.10.0",
         "tsify": "^5.0.4",
