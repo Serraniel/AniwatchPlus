@@ -34,7 +34,7 @@
     "homepage": "https://github.com/Serraniel/AniwatchPlus#readme",
     "dependencies": {
         "color": "^3.2.1",
-        "spacetime": "github:Serraniel/spacetime#bugfix/#255-typescript-constructor-options-missing",
+        "spacetime": "https://github.com/Serraniel/spacetime#bugfix/#255-typescript-constructor-options-missing",
         "uuid": "^8.3.2"
     },
     "devDependencies": {
