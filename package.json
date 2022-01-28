@@ -44,7 +44,7 @@
         "@babel/plugin-proposal-class-properties": "^7.16.5",
         "@babel/plugin-proposal-private-methods": "^7.16.11",
         "@babel/preset-env": "^7.16.5",
-        "@babel/register": "^7.16.5",
+        "@babel/register": "^7.16.9",
         "@types/chrome": "0.0.177",
         "babelify": "^10.0.0",
         "browserify": "^17.0.0",
