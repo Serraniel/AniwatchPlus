@@ -35,7 +35,7 @@
     "dependencies": {
         "color": "^3.2.1",
         "spacetime": "https://github.com/Serraniel/spacetime#bugfix/#255-typescript-constructor-options-missing",
-        "uuid": "^8.3.2"
+        "uuid": "^9.0.0"
     },
     "devDependencies": {
         "@babel/compat-data": "^7.21.0",
