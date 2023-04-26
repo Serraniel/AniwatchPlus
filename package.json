@@ -71,7 +71,7 @@
         "gulp-zip": "^5.1.0",
         "merge-stream": "^2.0.0",
         "postcss": "^8.4.23",
-        "sass": "^1.62.0",
+        "sass": "^1.62.1",
         "terser": "^5.17.1",
         "tsify": "^5.0.4",
         "typescript": "^4.9.5",
